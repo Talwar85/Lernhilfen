@@ -2,11 +2,22 @@
 
 Ein Paket aus vier interaktiven Web-Tools, mit denen Eltern und Lehrkräfte in Sekundenschnelle individuelle Übungsblätter (sogenannte "Teppiche") erstellen können. 
 
-**Der Fokus liegt auf dem händischen Üben:** Die Generatoren sind dafür optimiert, ausgedruckt zu werden, damit Kinder das Schreiben und Rechnen manuell trainieren können – für einen nachweisbaren Lernerfolg in der flüssigen Schrift und beim Rechnen.
+**Der Fokus liegt auf dem händischen Üben:** Die Generatoren sind dafür optimiert, ausgedruckt zu werden. Das manuelle Schreiben und Rechnen auf Papier ist essenziell für die Feinmotorik und den Lernerfolg.
+
+> **Erfolgsbericht:** Durch das regelmäßige Üben mit diesen Blättern konnte meine Tochter ihre Schreib- und Rechenflüssigkeit bereits deutlich verbessern!
+
+---
+
+## 🚀 Live-Generatoren (Direkt im Browser starten)
+
+* 📖 [Lese-Abenteuer](https://Talwar85.github.io/Lernhilfen/leseteppich.html)
+* ✏️ [Schreiblernwerkstatt](https://Talwar85.github.io/Lernhilfen/schreibteppich.html)
+* 🔢 [Mathe-Abenteuer](https://Talwar85.github.io/Lernhilfen/matheteppich.html)
+* 🧩 [Logikwerkstatt](https://Talwar85.github.io/Lernhilfen/logikteppich.html)
+
+---
 
 ## 📸 Einblicke in die Übungsblätter
-
-Hier sehen Sie Beispiele der generierten "Teppiche":
 
 | Lese-Abenteuer | Schreiblernwerkstatt |
 | :---: | :---: |
@@ -20,42 +31,27 @@ Hier sehen Sie Beispiele der generierten "Teppiche":
 
 ---
 
-## 🚀 Die Tools im Überblick
+## 🛠 Die Tools im Überblick
 
 ### 📖 Lese-Abenteuer (`leseteppich.html`)
-Erstellt "Leseteppiche" zur Förderung der Leseflüssigkeit.
-* **Features:** Auswahl spezifischer Buchstaben und Silben, Themenwelten und Lese-Tracker.
-* **Belohnung:** Enthält ein "Malen-nach-Zahlen"-Bild für motiviertes Üben.
+Hilft bei der Leseflüssigkeit durch gezielte Auswahl von Buchstaben und Silben. Inklusive Motivations-Ausmalbild.
 
 ### ✏️ Schreiblernwerkstatt (`schreibteppich.html`)
-Generiert Arbeitsblätter zum Schönschreiben und Nachspuren.
-* **Manueller Fokus:** Optimiert für das handschriftliche Training zur Verbesserung der Schreibflüssigkeit.
-* **Stile:** Auswahl zwischen grauen Nachspur-Buchstaben, gepunkteten Linien oder leeren Zeilen.
+Generiert Blätter zum Nachspuren oder Abschreiben. Verschiedene Lineaturen unterstützen Kinder beim Schönschreiben.
 
 ### 🔢 Mathe-Abenteuer (`matheteppich.html`)
-Erzeugt Rechenaufgaben für den Zahlenraum bis 1000.
-* **Pädagogisches Ziel:** Festigung der Grundrechenarten durch manuelles Rechnen auf Papier.
-* **Sicherheit:** Keine negativen Ergebnisse und einstellbare Maxima.
+Erzeugt Aufgaben für alle Grundrechenarten. Ergebnisse können limitiert werden, um Überforderung zu vermeiden.
 
-### 🧩 Kreativ- & Logikwerkstatt (`logikteppich.html`)
-Fördert das logische Denken und die visuelle Wahrnehmung.
-* **Vielfalt:** Über 20 Aufgabentypen wie Sudokus, Labyrinthe, Muster fortsetzen und Schattenrätsel.
+### 🧩 Logikwerkstatt (`logikteppich.html`)
+Bietet knifflige Rätsel wie Sudokus, Labyrinthe und Schattenbilder zur Förderung der Konzentration.
 
 ---
 
-## ✨ Besondere Funktionen
-
-* **Druckoptimiert:** Alle Tools sind für das **A4-Format** optimiert.
-* **Offline-Nutzung:** Alles läuft lokal im Browser – keine Installation, keine Datenübertragung.
-* **Individualisierbar:** Unterstützung für eigene SVG-Ausmalbilder.
-
 ## 📖 Anleitung für den Einsatz
-
-1.  Öffne die gewünschte HTML-Datei in deinem Browser.
-2.  Konfiguriere die Lerninhalte (z. B. Zahlenraum oder Buchstaben).
-3.  Klicke auf **"Erstellen"**.
-4.  Nutze den Button **"Drucken / PDF speichern"**.
-    * *Wichtig:* Aktiviere im Druckdialog die Option "Hintergrundgrafiken", damit Linien und Farben korrekt gedruckt werden.
+1. Eines der Tools oben anklicken oder die HTML-Datei lokal im Browser öffnen.
+2. Lerninhalte konfigurieren und auf **"Erstellen"** klicken.
+3. **"Drucken / PDF speichern"** wählen.
+4. *Wichtig:* In den Druckeinstellungen **"Hintergrundgrafiken" aktivieren**, damit alle Linien und Farben gedruckt werden.
 
 ## 📄 Lizenz
-Dieses Projekt ist unter der MIT-Lizenz veröffentlicht. Ideal für Schulen, Nachhilfe oder das Lernen zu Hause!"# Lernhilfen" 
+Dieses Projekt steht unter der MIT-Lizenz.

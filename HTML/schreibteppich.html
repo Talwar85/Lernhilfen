@@ -334,25 +334,26 @@
             color: #888;
         }
 
-        /* Schreiblinien */
+        /* Schreiblinien - 3 Größenstufen */
         .writing-line-container {
             margin-bottom: 20px;
         }
 
+        /* NORMAL - Schreiblinien */
         .writing-line {
             position: relative;
-            height: 60px;
-            border-bottom: 3px solid #333;
+            height: 50px;
+            border-bottom: 2px solid #333;
             margin-bottom: 5px;
             display: flex;
             align-items: flex-end;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
 
         .writing-line::before {
             content: '';
             position: absolute;
-            bottom: 20px;
+            bottom: 16px;
             left: 0;
             right: 0;
             border-bottom: 1px dashed #AAA;
@@ -361,34 +362,58 @@
         .writing-line::after {
             content: '';
             position: absolute;
-            bottom: 40px;
+            bottom: 32px;
             left: 0;
             right: 0;
             border-bottom: 1px solid #CCC;
         }
 
-        .writing-line.tall {
-            height: 80px;
+        /* GROSS - Schreiblinien */
+        .writing-line.large {
+            height: 70px;
         }
 
-        .writing-line.tall::before {
-            bottom: 27px;
+        .writing-line.large::before {
+            bottom: 23px;
         }
 
-        .writing-line.tall::after {
-            bottom: 54px;
+        .writing-line.large::after {
+            bottom: 46px;
         }
 
-        /* Vorgeschriebener Text (zum Nachspuren) */
+        /* SEHR GROSS - Schreiblinien */
+        .writing-line.xlarge {
+            height: 90px;
+        }
+
+        .writing-line.xlarge::before {
+            bottom: 30px;
+        }
+
+        .writing-line.xlarge::after {
+            bottom: 60px;
+        }
+
+        /* Vorgeschriebener Text (zum Nachspuren) - 3 Größen */
         .trace-text {
             font-family: 'Comic Neue', cursive;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #DDD;
-            letter-spacing: 15px;
+            letter-spacing: 10px;
             position: absolute;
-            bottom: 5px;
+            bottom: 3px;
             left: 10px;
+        }
+
+        .trace-text.large {
+            font-size: 2.5rem;
+            letter-spacing: 12px;
+        }
+
+        .trace-text.xlarge {
+            font-size: 3.2rem;
+            letter-spacing: 15px;
         }
 
         .trace-text.dotted {
@@ -397,14 +422,20 @@
             text-stroke: 2px #CCC;
         }
 
-        /* Abschreibübung */
+        .trace-text.dotted.xlarge {
+            -webkit-text-stroke: 3px #CCC;
+            text-stroke: 3px #CCC;
+        }
+
+        /* Abschreibübung - 3 Größen */
         .copy-section {
             margin-bottom: 25px;
         }
 
+        /* NORMAL - Wort-Vorlage */
         .copy-word {
             background: linear-gradient(135deg, #F5F5FF, #FFF5F5);
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 15px;
             margin-bottom: 10px;
             display: inline-block;
@@ -413,14 +444,34 @@
 
         .copy-word-text {
             font-family: 'Comic Neue', cursive;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--text);
         }
 
+        /* GROSS - Wort-Vorlage */
+        .copy-word.large {
+            padding: 15px 25px;
+        }
+
+        .copy-word.large .copy-word-text {
+            font-size: 2.4rem;
+        }
+
+        /* SEHR GROSS - Wort-Vorlage */
+        .copy-word.xlarge {
+            padding: 18px 30px;
+            border-width: 4px;
+        }
+
+        .copy-word.xlarge .copy-word-text {
+            font-size: 3.2rem;
+        }
+
+        /* NORMAL - Satz-Vorlage */
         .copy-sentence {
             background: linear-gradient(135deg, #E8F5E9, #FFF8E1);
-            padding: 15px 20px;
+            padding: 12px 18px;
             border-radius: 15px;
             margin-bottom: 10px;
             border-left: 5px solid var(--green);
@@ -428,17 +479,46 @@
 
         .copy-sentence-text {
             font-family: 'Comic Neue', cursive;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--text);
         }
 
-        /* Buchstaben-Übung */
+        /* GROSS - Satz-Vorlage */
+        .copy-sentence.large {
+            padding: 15px 22px;
+        }
+
+        .copy-sentence.large .copy-sentence-text {
+            font-size: 1.8rem;
+        }
+
+        /* SEHR GROSS - Satz-Vorlage */
+        .copy-sentence.xlarge {
+            padding: 18px 25px;
+            border-left-width: 6px;
+        }
+
+        .copy-sentence.xlarge .copy-sentence-text {
+            font-size: 2.4rem;
+        }
+
+        /* Buchstaben-Übung - 3 Größen */
         .letter-practice {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
+        }
+
+        .letter-practice.large {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 25px;
+        }
+
+        .letter-practice.xlarge {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
         }
 
         .letter-box {
@@ -449,6 +529,16 @@
             border: 3px solid var(--blue);
         }
 
+        .letter-box.large {
+            padding: 20px;
+        }
+
+        .letter-box.xlarge {
+            padding: 25px;
+            border-width: 4px;
+        }
+
+        /* NORMAL - Buchstaben */
         .letter-large {
             font-family: 'Comic Neue', cursive;
             font-size: 3rem;
@@ -465,24 +555,54 @@
             margin-top: 5px;
         }
 
+        /* GROSS - Buchstaben */
+        .letter-box.large .letter-large {
+            font-size: 4rem;
+        }
+
+        .letter-box.large .letter-small {
+            font-size: 2.8rem;
+            margin-top: 8px;
+        }
+
+        /* SEHR GROSS - Buchstaben */
+        .letter-box.xlarge .letter-large {
+            font-size: 5.5rem;
+        }
+
+        .letter-box.xlarge .letter-small {
+            font-size: 3.8rem;
+            margin-top: 10px;
+        }
+
         .letter-practice-lines {
             margin-top: 10px;
         }
 
+        /* NORMAL - Mini-Linien */
         .mini-line {
-            height: 25px;
+            height: 28px;
             border-bottom: 2px solid #333;
             position: relative;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
         .mini-line::before {
             content: '';
             position: absolute;
-            bottom: 8px;
+            bottom: 9px;
             left: 0;
             right: 0;
             border-bottom: 1px dashed #AAA;
+        }
+
+        .mini-line::after {
+            content: '';
+            position: absolute;
+            bottom: 18px;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid #DDD;
         }
 
         .mini-line .trace-letter {
@@ -491,11 +611,70 @@
             font-weight: 700;
             color: #DDD;
             position: absolute;
-            bottom: 2px;
+            bottom: 1px;
             left: 5px;
+            letter-spacing: 3px;
         }
 
-        /* Silben */
+        /* GROSS - Mini-Linien */
+        .mini-line.large {
+            height: 55px;
+            margin-bottom: 8px;
+        }
+
+        .mini-line.large::before {
+            bottom: 18px;
+        }
+
+        .mini-line.large::after {
+            bottom: 36px;
+        }
+
+        .mini-line.large .trace-letter {
+            font-size: 2.5rem;
+            letter-spacing: 10px;
+            bottom: 3px;
+        }
+
+        /* SEHR GROSS - Mini-Linien */
+        .mini-line.xlarge {
+            height: 85px;
+            margin-bottom: 10px;
+            border-bottom-width: 3px;
+        }
+
+        .mini-line.xlarge::before {
+            bottom: 28px;
+        }
+
+        .mini-line.xlarge::after {
+            bottom: 56px;
+        }
+
+        .mini-line.xlarge .trace-letter {
+            font-size: 4rem;
+            letter-spacing: 15px;
+            bottom: 5px;
+        }
+
+        /* Dotted Style für alle Größen */
+        .mini-line .trace-letter.dotted {
+            color: transparent;
+            -webkit-text-stroke: 1px #CCC;
+            text-stroke: 1px #CCC;
+        }
+
+        .mini-line.large .trace-letter.dotted {
+            -webkit-text-stroke: 2px #CCC;
+            text-stroke: 2px #CCC;
+        }
+
+        .mini-line.xlarge .trace-letter.dotted {
+            -webkit-text-stroke: 2px #CCC;
+            text-stroke: 2px #CCC;
+        }
+
+        /* Silben - 3 Größen */
         .syllable-section {
             margin-bottom: 25px;
         }
@@ -503,22 +682,50 @@
         .syllable-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 15px;
         }
 
+        .syllable-row.large {
+            gap: 15px;
+        }
+
+        .syllable-row.xlarge {
+            gap: 18px;
+        }
+
+        /* NORMAL - Silbenbox */
         .syllable-box {
             background: linear-gradient(135deg, #FFF9E6, #FFF0F5);
-            padding: 12px 20px;
+            padding: 10px 16px;
             border-radius: 12px;
             border: 3px solid var(--orange);
         }
 
         .syllable-text {
             font-family: 'Comic Neue', cursive;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--text);
+        }
+
+        /* GROSS - Silbenbox */
+        .syllable-box.large {
+            padding: 14px 22px;
+        }
+
+        .syllable-box.large .syllable-text {
+            font-size: 2.2rem;
+        }
+
+        /* SEHR GROSS - Silbenbox */
+        .syllable-box.xlarge {
+            padding: 18px 28px;
+            border-width: 4px;
+        }
+
+        .syllable-box.xlarge .syllable-text {
+            font-size: 3rem;
         }
 
         /* Tracker */
@@ -857,7 +1064,8 @@
                         <label>Schreiblinien:</label>
                         <select id="lineStyle">
                             <option value="normal">Normal</option>
-                            <option value="tall">Groß (Klasse 1)</option>
+                            <option value="large">Groß</option>
+                            <option value="xlarge" selected>Sehr groß (Klasse 1)</option>
                         </select>
                     </div>
                     <div class="option-group">
@@ -1346,8 +1554,20 @@
             const includeColoring = document.getElementById('includeColoring').checked;
             const coloringType = document.getElementById('coloringType').value;
 
-            const lineClass = lineStyle === 'tall' ? 'writing-line tall' : 'writing-line';
-            const traceClass = traceStyle === 'dotted' ? 'trace-text dotted' : 'trace-text';
+            // 3 Größen: normal, large, xlarge
+            let lineClass = 'writing-line';
+            let sizeClass = '';
+            if (lineStyle === 'large') {
+                lineClass = 'writing-line large';
+                sizeClass = 'large';
+            } else if (lineStyle === 'xlarge') {
+                lineClass = 'writing-line xlarge';
+                sizeClass = 'xlarge';
+            }
+            
+            let traceClass = 'trace-text';
+            if (traceStyle === 'dotted') traceClass += ' dotted';
+            if (sizeClass) traceClass += ' ' + sizeClass;
 
             let html = `
                 <div class="teppich-header">
@@ -1366,13 +1586,13 @@
 
             // Je nach Modus unterschiedliche Inhalte generieren
             if (currentMode === 'letters') {
-                html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+                html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
             } else if (currentMode === 'syllables') {
-                html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+                html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
             } else if (currentMode === 'words') {
-                html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+                html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
             } else if (currentMode === 'sentences') {
-                html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+                html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
             }
 
             // Mutmacher-Satz
@@ -1404,18 +1624,23 @@
             }
         }
 
-        function generateLetterPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+        function generateLetterPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             const selected = [...selectedLetters];
             if (selected.length === 0) {
                 return '<p style="color:red;">Bitte wähle mindestens einen Buchstaben aus!</p>';
             }
 
             const shuffled = selected.sort(() => Math.random() - 0.5).slice(0, count);
-            let html = '<div class="letter-practice">';
+            const practiceClass = sizeClass ? `letter-practice ${sizeClass}` : 'letter-practice';
+            let html = `<div class="${practiceClass}">`;
 
             shuffled.forEach(letter => {
+                const boxClass = sizeClass ? `letter-box ${sizeClass}` : 'letter-box';
+                const miniLineClass = sizeClass ? `mini-line ${sizeClass}` : 'mini-line';
+                const traceLetterClass = style === 'dotted' ? 'trace-letter dotted' : 'trace-letter';
+                
                 html += `
-                    <div class="letter-box">
+                    <div class="${boxClass}">
                         <div class="letter-large">${letter}</div>
                         <div class="letter-small">${letter.toLowerCase()}</div>
                         <div class="letter-practice-lines">
@@ -1423,8 +1648,8 @@
 
                 for (let i = 0; i < linesPerItem; i++) {
                     const traceContent = style !== 'empty' ? 
-                        `<span class="${traceClass.replace('trace-text', 'trace-letter')}">${letter} ${letter.toLowerCase()}</span>` : '';
-                    html += `<div class="mini-line">${traceContent}</div>`;
+                        `<span class="${traceLetterClass}">${letter} ${letter.toLowerCase()}</span>` : '';
+                    html += `<div class="${miniLineClass}">${traceContent}</div>`;
                 }
 
                 if (tracker) {
@@ -1438,7 +1663,7 @@
             return html;
         }
 
-        function generateSyllablePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+        function generateSyllablePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             // Filter Silben nach ausgewählten Buchstaben
             const filtered = syllables.filter(syl => {
                 return [...syl.toUpperCase()].some(c => selectedLetters.has(c));
@@ -1449,11 +1674,14 @@
             }
 
             const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, count);
+            const rowClass = sizeClass ? `syllable-row ${sizeClass}` : 'syllable-row';
+            const boxClass = sizeClass ? `syllable-box ${sizeClass}` : 'syllable-box';
+            
             let html = '<div class="syllable-section">';
-            html += '<div class="syllable-row">';
+            html += `<div class="${rowClass}">`;
             
             shuffled.forEach(syl => {
-                html += `<div class="syllable-box"><span class="syllable-text">${syl}</span></div>`;
+                html += `<div class="${boxClass}"><span class="syllable-text">${syl}</span></div>`;
             });
             
             html += '</div>';
@@ -1476,15 +1704,16 @@
             return html;
         }
 
-        function generateWordPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+        function generateWordPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             const words = wordLists[selectedTheme] || wordLists.animals;
             const shuffled = words.sort(() => Math.random() - 0.5).slice(0, count);
+            const wordClass = sizeClass ? `copy-word ${sizeClass}` : 'copy-word';
 
             let html = '<div class="copy-section">';
 
             shuffled.forEach(word => {
                 html += `
-                    <div class="copy-word"><span class="copy-word-text">${word}</span></div>
+                    <div class="${wordClass}"><span class="copy-word-text">${word}</span></div>
                     <div class="writing-line-container">
                 `;
 
@@ -1505,21 +1734,33 @@
             return html;
         }
 
-        function generateSentencePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+        function generateSentencePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             const sentences = sentenceLists[selectedTheme] || sentenceLists.animals;
             const shuffled = sentences.sort(() => Math.random() - 0.5).slice(0, Math.min(count, 6));
+            const sentenceClass = sizeClass ? `copy-sentence ${sizeClass}` : 'copy-sentence';
+            
+            // Dynamische Schriftgröße für Trace-Text bei Sätzen
+            let traceFontSize = '1.5rem';
+            let traceLetterSpacing = '5px';
+            if (sizeClass === 'large') {
+                traceFontSize = '2rem';
+                traceLetterSpacing = '8px';
+            } else if (sizeClass === 'xlarge') {
+                traceFontSize = '2.5rem';
+                traceLetterSpacing = '10px';
+            }
 
             let html = '<div class="copy-section">';
 
             shuffled.forEach(sentence => {
                 html += `
-                    <div class="copy-sentence"><span class="copy-sentence-text">${sentence}</span></div>
+                    <div class="${sentenceClass}"><span class="copy-sentence-text">${sentence}</span></div>
                     <div class="writing-line-container">
                 `;
 
                 for (let i = 0; i < linesPerItem; i++) {
                     const traceContent = style !== 'empty' ? 
-                        `<span class="${traceClass}" style="font-size:1.5rem; letter-spacing:5px;">${sentence}</span>` : '';
+                        `<span class="${traceClass}" style="font-size:${traceFontSize}; letter-spacing:${traceLetterSpacing};">${sentence}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
 
