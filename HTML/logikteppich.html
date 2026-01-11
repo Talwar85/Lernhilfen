@@ -1,0 +1,2839 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧩 Kreativ- & Logikwerkstatt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --purple: #A06CD5;
+            --blue: #45B7D1;
+            --green: #7BC74D;
+            --orange: #FF9F43;
+            --bg: #FFF9F0;
+            --text: #2D3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(160, 108, 213, 0.3);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .control-card h3 {
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-card h3 span {
+            font-size: 1.5rem;
+        }
+
+        /* Task Type Selection */
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .task-btn {
+            padding: 15px 10px;
+            border: 3px solid #E0E0E0;
+            border-radius: 15px;
+            background: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .task-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .task-btn.selected {
+            border-color: var(--purple);
+            background: linear-gradient(135deg, #F3E5F5, #E8EAF6);
+        }
+
+        .task-btn .emoji {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .task-btn .desc {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Difficulty */
+        .difficulty-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .diff-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px;
+            border: 3px solid #E0E0E0;
+            border-radius: 12px;
+            background: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .diff-btn:hover {
+            border-color: var(--secondary);
+        }
+
+        .diff-btn.selected {
+            border-color: var(--green);
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+        }
+
+        .options-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-group label {
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        select, input[type="number"] {
+            padding: 10px 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            background: white;
+        }
+
+        input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(160, 108, 213, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(160, 108, 213, 0.5);
+        }
+
+        /* Output Container */
+        .output-container {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .print-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .print-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .print-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .print-btn.secondary {
+            background: var(--blue);
+            color: white;
+        }
+
+        .print-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .print-hint {
+            font-size: 0.9rem;
+            color: #888;
+            padding: 10px 15px;
+            background: #FFF9E6;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 20px;
+        }
+
+        #worksheet {
+            background: white;
+            padding: 30px;
+            border: 4px dashed var(--purple);
+            border-radius: 20px;
+        }
+
+        .worksheet-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px dotted var(--accent);
+        }
+
+        .worksheet-title {
+            font-size: 2rem;
+            color: var(--purple);
+            margin-bottom: 5px;
+        }
+
+        .worksheet-subtitle {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        /* Task Sections */
+        .task-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #FAFAFA, #F5F5F5);
+            border-radius: 15px;
+        }
+
+        .task-title {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-instruction {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        /* Pattern Sequence */
+        .pattern-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pattern-item {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #DDD;
+        }
+
+        .pattern-item.empty {
+            border: 3px dashed var(--purple);
+            background: #FAFAFA;
+        }
+
+        .pattern-item.shape {
+            font-size: 1.5rem;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #AAA;
+        }
+
+        /* Odd One Out */
+        .odd-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        .odd-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: white;
+            border-radius: 15px;
+            border: 3px solid #DDD;
+        }
+
+        /* Sudoku */
+        .sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 50px);
+            gap: 2px;
+            background: #333;
+            padding: 2px;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .sudoku-cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: white;
+        }
+
+        .sudoku-cell.given {
+            background: #E8F5E9;
+            color: var(--green);
+        }
+
+        .sudoku-cell.empty {
+            background: #FAFAFA;
+            color: #CCC;
+        }
+
+        .sudoku-cell.border-right {
+            border-right: 3px solid #333;
+        }
+
+        .sudoku-cell.border-bottom {
+            border-bottom: 3px solid #333;
+        }
+
+        /* Maze */
+        .maze-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .maze-grid {
+            display: grid;
+            gap: 0;
+            border: 3px solid #333;
+        }
+
+        .maze-cell {
+            width: 30px;
+            height: 30px;
+            background: white;
+        }
+
+        .maze-cell.wall {
+            background: #333;
+        }
+
+        .maze-cell.start {
+            background: #E8F5E9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .maze-cell.end {
+            background: #FFEBEE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Symmetry */
+        .symmetry-container {
+            display: flex;
+            gap: 0;
+            justify-content: center;
+        }
+
+        .symmetry-grid {
+            display: grid;
+            gap: 1px;
+            background: #DDD;
+            padding: 1px;
+        }
+
+        .symmetry-cell {
+            width: 30px;
+            height: 30px;
+            background: white;
+        }
+
+        .symmetry-cell.filled {
+            background: var(--purple);
+        }
+
+        .symmetry-cell.mirror {
+            background: #FAFAFA;
+            border: 2px dashed #CCC;
+        }
+
+        .symmetry-line {
+            width: 4px;
+            background: var(--primary);
+            margin: 0 5px;
+        }
+
+        /* Shadow Match */
+        .shadow-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .shadow-original {
+            font-size: 4rem;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            border: 3px solid var(--blue);
+        }
+
+        .shadow-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .shadow-option {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: #333;
+            color: #333;
+            border-radius: 10px;
+            border: 3px solid #DDD;
+            text-shadow: none;
+            -webkit-text-stroke: 0;
+        }
+
+        .shadow-option.silhouette {
+            color: #333;
+            text-shadow: none;
+        }
+
+        /* Counting */
+        .counting-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .counting-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            border: 3px solid var(--orange);
+        }
+
+        .counting-item {
+            font-size: 2rem;
+        }
+
+        .counting-answer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+
+        .counting-box {
+            width: 60px;
+            height: 60px;
+            border: 3px dashed var(--purple);
+            border-radius: 10px;
+            background: #FAFAFA;
+        }
+
+        /* Sorting */
+        .sorting-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sorting-items {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sorting-item {
+            padding: 15px 25px;
+            font-size: 1.8rem;
+            background: white;
+            border-radius: 12px;
+            border: 3px solid var(--blue);
+        }
+
+        .sorting-boxes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sorting-box {
+            width: 70px;
+            height: 70px;
+            border: 3px dashed #AAA;
+            border-radius: 12px;
+            background: #FAFAFA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #AAA;
+        }
+
+        /* Connect Dots */
+        .dots-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background: white;
+            border: 3px solid #DDD;
+            border-radius: 15px;
+        }
+
+        .dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Creative Drawing */
+        .drawing-prompt {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .drawing-start {
+            font-size: 5rem;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            border: 3px solid var(--green);
+        }
+
+        .drawing-space {
+            width: 250px;
+            height: 200px;
+            border: 3px dashed var(--secondary);
+            border-radius: 15px;
+            background: #FAFAFA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #AAA;
+            font-size: 1rem;
+        }
+
+        /* Comparison */
+        .compare-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .compare-item {
+            font-size: 2rem;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 12px;
+            border: 3px solid var(--blue);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .compare-box {
+            width: 50px;
+            height: 50px;
+            border: 3px dashed var(--purple);
+            border-radius: 10px;
+            background: #FAFAFA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #CCC;
+        }
+
+        /* Tracker */
+        .tracker-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #E8F5E9, #E3F2FD);
+            border-radius: 10px;
+        }
+
+        .tracker-header p {
+            margin: 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .task-tracker {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .check-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #888;
+            border-radius: 50%;
+        }
+
+        /* Motivation */
+        .motivation-box {
+            background: linear-gradient(135deg, #FFF9E6, #FFF0F5);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #FFD700;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .motivation-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Coloring Section */
+        .coloring-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            border: 3px dashed var(--accent);
+            text-align: center;
+        }
+
+        .coloring-section h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .coloring-image {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .coloring-image svg {
+            max-width: 200px;
+        }
+
+        .color-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .color-swatch {
+            width: 25px;
+            height: 25px;
+            border-radius: 6px;
+            border: 2px solid #333;
+        }
+
+        /* Quiz */
+        .quiz-container {
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            border: 3px solid var(--blue);
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 12px 15px;
+            background: #FAFAFA;
+            border: 2px solid #DDD;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-option .letter {
+            width: 28px;
+            height: 28px;
+            background: var(--purple);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Rhyme */
+        .rhyme-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .rhyme-word {
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #E8F5E9, #FFF8E1);
+            border-radius: 15px;
+            border: 3px solid var(--green);
+        }
+
+        .rhyme-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .rhyme-option {
+            padding: 12px 20px;
+            background: white;
+            border: 3px solid #DDD;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Opposite */
+        .opposite-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .opposite-word {
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 12px 20px;
+            background: var(--orange);
+            color: white;
+            border-radius: 12px;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .opposite-arrow {
+            font-size: 1.5rem;
+            color: #AAA;
+        }
+
+        .opposite-box {
+            width: 120px;
+            height: 50px;
+            border: 3px dashed var(--purple);
+            border-radius: 12px;
+            background: #FAFAFA;
+        }
+
+        .opposite-hints {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #FFF9E6;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .opposite-hint {
+            padding: 8px 15px;
+            background: white;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            border: 2px solid #EEE;
+        }
+
+        /* Sequence */
+        .sequence-items {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .sequence-item {
+            padding: 12px;
+            background: white;
+            border: 3px solid var(--blue);
+            border-radius: 12px;
+            font-size: 1rem;
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .sequence-item .emoji {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .sequence-boxes {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .sequence-box {
+            width: 45px;
+            height: 45px;
+            border: 3px dashed #AAA;
+            border-radius: 10px;
+            background: #FAFAFA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #AAA;
+        }
+
+        .sequence-arrow {
+            font-size: 1.2rem;
+            color: var(--green);
+        }
+
+        /* Animal Sounds */
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .animal-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .animal-emoji {
+            font-size: 2.2rem;
+            padding: 8px;
+            background: white;
+            border-radius: 12px;
+            border: 3px solid var(--orange);
+        }
+
+        .animal-sound-box {
+            flex: 1;
+            height: 40px;
+            border: 3px dashed var(--purple);
+            border-radius: 10px;
+            background: #FAFAFA;
+        }
+
+        .sound-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 12px;
+            background: #FFF9E6;
+            border-radius: 12px;
+        }
+
+        .sound-option {
+            padding: 8px 15px;
+            background: white;
+            border: 2px solid #DDD;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        /* Categories */
+        .category-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .category-item {
+            font-size: 1.8rem;
+            padding: 8px 12px;
+            background: white;
+            border: 3px solid #DDD;
+            border-radius: 12px;
+        }
+
+        .category-boxes {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .category-box {
+            flex: 1;
+            min-width: 120px;
+            min-height: 80px;
+            border: 3px dashed var(--purple);
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .category-label {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            background: var(--purple);
+            color: white;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Shapes */
+        .shapes-container {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .shapes-image {
+            padding: 15px;
+            background: white;
+            border: 3px solid var(--blue);
+            border-radius: 15px;
+        }
+
+        .shapes-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .shape-question {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .shape-icon {
+            font-size: 1.3rem;
+        }
+
+        .shape-box {
+            width: 45px;
+            height: 35px;
+            border: 3px dashed var(--purple);
+            border-radius: 8px;
+            background: #FAFAFA;
+        }
+
+        /* Analogies */
+        .analogy-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .analogy-item {
+            font-size: 1.8rem;
+            padding: 8px 12px;
+            background: #F5F5F5;
+            border-radius: 10px;
+        }
+
+        .analogy-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .analogy-box {
+            width: 55px;
+            height: 55px;
+            border: 3px dashed var(--orange);
+            border-radius: 10px;
+            background: #FAFAFA;
+        }
+
+        .analogy-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .analogy-option {
+            font-size: 1.6rem;
+            padding: 8px 12px;
+            background: white;
+            border: 3px solid #DDD;
+            border-radius: 10px;
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                font-size: 11px;
+            }
+
+            .app-container > *:not(.output-container) {
+                display: none !important;
+            }
+
+            .output-container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-controls, .print-hint {
+                display: none !important;
+            }
+
+            #worksheet {
+                border: 1px dashed #999;
+                padding: 8px;
+                border-radius: 10px;
+            }
+
+            .worksheet-header {
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+            }
+
+            .worksheet-title {
+                font-size: 1.3rem !important;
+                margin-bottom: 2px;
+            }
+
+            .worksheet-subtitle {
+                font-size: 0.9rem !important;
+            }
+
+            .tracker-header {
+                padding: 5px;
+                margin-bottom: 8px;
+            }
+
+            .tracker-header p {
+                font-size: 0.85rem !important;
+            }
+
+            /* Task Sections kompakter */
+            .task-section {
+                margin-bottom: 12px !important;
+                padding: 10px !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .task-title {
+                font-size: 1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .task-instruction {
+                font-size: 0.85rem !important;
+                margin-bottom: 8px !important;
+            }
+
+            .task-tracker {
+                margin-top: 5px !important;
+            }
+
+            .check-circle {
+                width: 14px !important;
+                height: 14px !important;
+            }
+
+            /* Pattern */
+            .pattern-row {
+                gap: 5px !important;
+                margin-bottom: 8px !important;
+            }
+
+            .pattern-item {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 1.2rem !important;
+                border-radius: 6px !important;
+            }
+
+            /* Odd One Out */
+            .odd-grid {
+                gap: 8px !important;
+            }
+
+            .odd-item {
+                font-size: 1.8rem !important;
+                border-radius: 10px !important;
+                padding: 5px !important;
+            }
+
+            /* Sudoku */
+            .sudoku-grid {
+                grid-template-columns: repeat(4, 35px) !important;
+            }
+
+            .sudoku-cell {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 1.1rem !important;
+            }
+
+            /* Maze */
+            .maze-cell {
+                width: 18px !important;
+                height: 18px !important;
+            }
+
+            .maze-cell.start, .maze-cell.end {
+                font-size: 0.8rem !important;
+            }
+
+            /* Symmetry */
+            .symmetry-cell {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            .symmetry-line {
+                width: 3px !important;
+                margin: 0 3px !important;
+            }
+
+            /* Shadow */
+            .shadow-container {
+                gap: 15px !important;
+            }
+
+            .shadow-original {
+                font-size: 2.5rem !important;
+                padding: 10px !important;
+            }
+
+            .shadow-options {
+                gap: 8px !important;
+            }
+
+            .shadow-option {
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 1.6rem !important;
+            }
+
+            /* Counting */
+            .counting-container {
+                gap: 15px !important;
+            }
+
+            .counting-items {
+                padding: 10px !important;
+                gap: 4px !important;
+            }
+
+            .counting-item {
+                font-size: 1.3rem !important;
+            }
+
+            .counting-box {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            .counting-answer {
+                font-size: 1.1rem !important;
+            }
+
+            /* Sorting */
+            .sorting-items {
+                gap: 8px !important;
+            }
+
+            .sorting-item {
+                padding: 8px 15px !important;
+                font-size: 1.2rem !important;
+            }
+
+            .sorting-boxes {
+                gap: 6px !important;
+            }
+
+            .sorting-box {
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 0.9rem !important;
+            }
+
+            /* Dots */
+            .dots-container {
+                width: 200px !important;
+                height: 200px !important;
+            }
+
+            .dot {
+                width: 22px !important;
+                height: 22px !important;
+                font-size: 0.7rem !important;
+            }
+
+            /* Creative */
+            .drawing-prompt {
+                gap: 10px !important;
+            }
+
+            .drawing-start {
+                font-size: 3rem !important;
+                padding: 10px !important;
+            }
+
+            .drawing-space {
+                width: 150px !important;
+                height: 100px !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* Compare */
+            .compare-row {
+                gap: 8px !important;
+                margin-bottom: 8px !important;
+            }
+
+            .compare-item {
+                font-size: 1.3rem !important;
+                padding: 8px 15px !important;
+                min-width: 50px !important;
+            }
+
+            .compare-box {
+                width: 35px !important;
+                height: 35px !important;
+            }
+
+            /* Quiz */
+            .quiz-container {
+                padding: 10px !important;
+            }
+
+            .quiz-question {
+                font-size: 1rem !important;
+                margin-bottom: 8px !important;
+            }
+
+            .quiz-options {
+                gap: 6px !important;
+            }
+
+            .quiz-option {
+                padding: 6px 10px !important;
+                font-size: 0.9rem !important;
+            }
+
+            .quiz-option .letter {
+                width: 20px !important;
+                height: 20px !important;
+                font-size: 0.75rem !important;
+            }
+
+            /* Rhyme */
+            .rhyme-container {
+                gap: 12px !important;
+            }
+
+            .rhyme-word {
+                font-size: 1.3rem !important;
+                padding: 10px 15px !important;
+            }
+
+            .rhyme-options {
+                gap: 8px !important;
+            }
+
+            .rhyme-option {
+                padding: 8px 12px !important;
+                font-size: 1rem !important;
+            }
+
+            /* Opposite */
+            .opposite-row {
+                gap: 8px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .opposite-word {
+                font-size: 1rem !important;
+                padding: 6px 12px !important;
+                min-width: 70px !important;
+            }
+
+            .opposite-box {
+                width: 80px !important;
+                height: 35px !important;
+            }
+
+            .opposite-hints {
+                gap: 6px !important;
+                padding: 6px !important;
+                margin-top: 8px !important;
+            }
+
+            .opposite-hint {
+                padding: 4px 10px !important;
+                font-size: 0.9rem !important;
+            }
+
+            /* Sequence */
+            .sequence-items {
+                gap: 8px !important;
+                margin-bottom: 8px !important;
+            }
+
+            .sequence-item {
+                padding: 6px !important;
+                min-width: 50px !important;
+                font-size: 0.8rem !important;
+            }
+
+            .sequence-item .emoji {
+                font-size: 1.3rem !important;
+            }
+
+            .sequence-boxes {
+                gap: 4px !important;
+            }
+
+            .sequence-box {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* Animals */
+            .animals-grid {
+                gap: 8px !important;
+            }
+
+            .animal-row {
+                gap: 6px !important;
+            }
+
+            .animal-emoji {
+                font-size: 1.6rem !important;
+                padding: 5px !important;
+            }
+
+            .animal-sound-box {
+                height: 28px !important;
+            }
+
+            .sound-options {
+                gap: 6px !important;
+                padding: 8px !important;
+                margin-top: 8px !important;
+            }
+
+            .sound-option {
+                padding: 4px 10px !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* Categories */
+            .category-items {
+                gap: 6px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .category-item {
+                font-size: 1.4rem !important;
+                padding: 5px 8px !important;
+            }
+
+            .category-boxes {
+                gap: 10px !important;
+            }
+
+            .category-box {
+                min-width: 100px !important;
+                min-height: 60px !important;
+                padding: 6px !important;
+            }
+
+            .category-label {
+                font-size: 0.8rem !important;
+                padding: 3px 8px !important;
+            }
+
+            /* Shapes */
+            .shapes-container {
+                gap: 15px !important;
+            }
+
+            .shapes-image {
+                padding: 8px !important;
+            }
+
+            .shapes-image svg {
+                width: 140px !important;
+                height: 120px !important;
+            }
+
+            .shape-question {
+                font-size: 0.95rem !important;
+                gap: 6px !important;
+            }
+
+            .shape-icon {
+                font-size: 1rem !important;
+            }
+
+            .shape-box {
+                width: 35px !important;
+                height: 28px !important;
+            }
+
+            /* Analogies */
+            .analogy-row {
+                gap: 6px !important;
+                margin-bottom: 8px !important;
+            }
+
+            .analogy-item {
+                font-size: 1.3rem !important;
+                padding: 5px 8px !important;
+            }
+
+            .analogy-text {
+                font-size: 0.9rem !important;
+            }
+
+            .analogy-box {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            .analogy-options {
+                gap: 6px !important;
+                margin-top: 6px !important;
+            }
+
+            .analogy-option {
+                font-size: 1.2rem !important;
+                padding: 5px 8px !important;
+            }
+
+            /* Pairs */
+            .odd-grid[style*="grid-template-columns"] .odd-item {
+                font-size: 1.6rem !important;
+            }
+
+            /* Motivation */
+            .motivation-box {
+                padding: 10px !important;
+                margin-top: 12px !important;
+            }
+
+            .motivation-text {
+                font-size: 1.1rem !important;
+            }
+
+            /* Coloring */
+            .coloring-section {
+                margin-top: 15px !important;
+                padding: 12px !important;
+            }
+
+            .coloring-section h4 {
+                font-size: 1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .coloring-section p {
+                display: none;
+            }
+
+            .coloring-image {
+                margin: 8px 0 !important;
+            }
+
+            .coloring-image svg {
+                max-width: 140px !important;
+            }
+
+            .color-legend {
+                gap: 8px !important;
+            }
+
+            .color-item {
+                font-size: 0.85rem !important;
+            }
+
+            .color-swatch {
+                width: 18px !important;
+                height: 18px !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .task-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pattern-item, .odd-item {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🧩 Kreativ- & Logikwerkstatt 🧩</h1>
+            <p>Knifflige Rätsel und kreative Aufgaben für clevere Köpfe!</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-card">
+                <h3><span>🎯</span> Aufgabentypen wählen</h3>
+                <div class="task-grid">
+                    <button class="task-btn selected" data-type="pattern" onclick="toggleTask('pattern', this)">
+                        <span class="emoji">🔢</span>
+                        Muster fortsetzen
+                        <div class="desc">Reihen ergänzen</div>
+                    </button>
+                    <button class="task-btn selected" data-type="oddone" onclick="toggleTask('oddone', this)">
+                        <span class="emoji">🔍</span>
+                        Was passt nicht?
+                        <div class="desc">Unterschiede finden</div>
+                    </button>
+                    <button class="task-btn" data-type="sudoku" onclick="toggleTask('sudoku', this)">
+                        <span class="emoji">🔲</span>
+                        Mini-Sudoku
+                        <div class="desc">4×4 Zahlenrätsel</div>
+                    </button>
+                    <button class="task-btn" data-type="maze" onclick="toggleTask('maze', this)">
+                        <span class="emoji">🌀</span>
+                        Labyrinth
+                        <div class="desc">Weg finden</div>
+                    </button>
+                    <button class="task-btn" data-type="symmetry" onclick="toggleTask('symmetry', this)">
+                        <span class="emoji">🪞</span>
+                        Spiegelbild
+                        <div class="desc">Symmetrie ergänzen</div>
+                    </button>
+                    <button class="task-btn" data-type="shadow" onclick="toggleTask('shadow', this)">
+                        <span class="emoji">👤</span>
+                        Schattenrätsel
+                        <div class="desc">Schatten zuordnen</div>
+                    </button>
+                    <button class="task-btn" data-type="counting" onclick="toggleTask('counting', this)">
+                        <span class="emoji">🔢</span>
+                        Zählen
+                        <div class="desc">Wie viele?</div>
+                    </button>
+                    <button class="task-btn" data-type="sorting" onclick="toggleTask('sorting', this)">
+                        <span class="emoji">📊</span>
+                        Sortieren
+                        <div class="desc">Größe ordnen</div>
+                    </button>
+                    <button class="task-btn" data-type="dots" onclick="toggleTask('dots', this)">
+                        <span class="emoji">✏️</span>
+                        Punktebild
+                        <div class="desc">Verbinden</div>
+                    </button>
+                    <button class="task-btn" data-type="creative" onclick="toggleTask('creative', this)">
+                        <span class="emoji">🎨</span>
+                        Kreativ-Zeichnen
+                        <div class="desc">Weitermalen</div>
+                    </button>
+                    <button class="task-btn" data-type="compare" onclick="toggleTask('compare', this)">
+                        <span class="emoji">⚖️</span>
+                        Vergleichen
+                        <div class="desc">Größer/Kleiner</div>
+                    </button>
+                    <button class="task-btn" data-type="pairs" onclick="toggleTask('pairs', this)">
+                        <span class="emoji">🎴</span>
+                        Paare finden
+                        <div class="desc">Zusammengehöriges</div>
+                    </button>
+                    <button class="task-btn" data-type="quiz" onclick="toggleTask('quiz', this)">
+                        <span class="emoji">❓</span>
+                        Quiz
+                        <div class="desc">Wissensfragen</div>
+                    </button>
+                    <button class="task-btn" data-type="rhyme" onclick="toggleTask('rhyme', this)">
+                        <span class="emoji">🎵</span>
+                        Reimwörter
+                        <div class="desc">Was reimt sich?</div>
+                    </button>
+                    <button class="task-btn" data-type="opposite" onclick="toggleTask('opposite', this)">
+                        <span class="emoji">↔️</span>
+                        Gegenteil
+                        <div class="desc">Das Gegenteil finden</div>
+                    </button>
+                    <button class="task-btn" data-type="sequence" onclick="toggleTask('sequence', this)">
+                        <span class="emoji">📅</span>
+                        Reihenfolge
+                        <div class="desc">Was kommt zuerst?</div>
+                    </button>
+                    <button class="task-btn" data-type="animals" onclick="toggleTask('animals', this)">
+                        <span class="emoji">🐾</span>
+                        Tierlaute
+                        <div class="desc">Wer macht welches Geräusch?</div>
+                    </button>
+                    <button class="task-btn" data-type="categories" onclick="toggleTask('categories', this)">
+                        <span class="emoji">📦</span>
+                        Kategorien
+                        <div class="desc">Was gehört wohin?</div>
+                    </button>
+                    <button class="task-btn" data-type="shapes" onclick="toggleTask('shapes', this)">
+                        <span class="emoji">🔷</span>
+                        Formen zählen
+                        <div class="desc">Wie viele Dreiecke?</div>
+                    </button>
+                    <button class="task-btn" data-type="analogies" onclick="toggleTask('analogies', this)">
+                        <span class="emoji">🧠</span>
+                        Analogien
+                        <div class="desc">A ist zu B wie C ist zu ?</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-card">
+                <h3><span>⚙️</span> Einstellungen</h3>
+                <div class="options-row">
+                    <div class="option-group">
+                        <label>Schwierigkeit:</label>
+                    </div>
+                </div>
+                <div class="difficulty-row">
+                    <button class="diff-btn selected" onclick="setDifficulty('easy', this)">🌱 Leicht</button>
+                    <button class="diff-btn" onclick="setDifficulty('medium', this)">⭐ Mittel</button>
+                    <button class="diff-btn" onclick="setDifficulty('hard', this)">🚀 Schwer</button>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <label>Aufgaben pro Typ:</label>
+                        <input type="number" id="tasksPerType" value="2" min="1" max="4">
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <input type="checkbox" id="includeTracker" checked>
+                        <label for="includeTracker">Übungs-Tracker</label>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <input type="checkbox" id="includeMotivation" checked>
+                        <label for="includeMotivation">💪 Mutmacher-Satz</label>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <input type="checkbox" id="includeColoring" checked>
+                        <label for="includeColoring">Malen-nach-Zahlen</label>
+                    </div>
+                    <div class="option-group">
+                        <label>Motiv:</label>
+                        <select id="coloringType">
+                            <option value="random">🎲 Zufällig</option>
+                            <option value="star">⭐ Stern</option>
+                            <option value="heart">❤️ Herz</option>
+                            <option value="rocket">🚀 Rakete</option>
+                            <option value="butterfly">🦋 Schmetterling</option>
+                            <option value="cat">🐱 Katze</option>
+                            <option value="fish">🐟 Fisch</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="generate-btn" onclick="generateWorksheet()">
+            ✨ Rätselblatt erstellen! ✨
+        </button>
+
+        <div class="output-container" id="outputContainer" style="display: none;">
+            <div class="print-controls">
+                <button class="print-btn primary" onclick="window.print()">
+                    🖨️ Drucken / PDF
+                </button>
+                <button class="print-btn secondary" onclick="generateWorksheet()">
+                    🔄 Neu generieren
+                </button>
+            </div>
+            <p class="print-hint">💡 <strong>Tipp:</strong> 3-4 Aufgabentypen mit je 1-2 Aufgaben passen optimal auf A4.</p>
+            <div id="worksheet"></div>
+        </div>
+    </div>
+
+    <script>
+        // Ausgewählte Aufgabentypen
+        let selectedTasks = new Set(['pattern', 'oddone']);
+        let difficulty = 'easy';
+
+        // Tracking für Deduplizierung
+        let usedPatternTypes = [];
+        let usedOddSets = [];
+        let usedMazeSeeds = [];
+        let usedCreativePrompts = [];
+        let usedShadowEmojis = [];
+        let usedCountingEmojis = [];
+
+        // Emojis für verschiedene Aufgaben
+        const emojiSets = {
+            animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵'],
+            fruits: ['🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍒', '🍑', '🥝', '🍍', '🥭', '🍈'],
+            vehicles: ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐', '🛻', '🚚', '✈️', '🚀', '🚁'],
+            shapes: ['🔴', '🟠', '🟡', '🟢', '🔵', '🟣', '⬛', '⬜', '🔶', '🔷', '🔺', '🔻', '⭐', '💎'],
+            nature: ['🌸', '🌺', '🌻', '🌹', '🌷', '🌼', '🌳', '🌴', '🍀', '🌵', '🍄', '🌈', '⭐', '🌙', '☀️'],
+            food: ['🍕', '🍔', '🍟', '🌭', '🥪', '🌮', '🍦', '🍩', '🍪', '🎂', '🍫', '🍬', '🧁', '🥧']
+        };
+
+        const motivationSentences = [
+            'Du bist ein Rätselprofi!', 'Super Gehirnarbeit!', 'Du bist richtig clever!',
+            'Toll gemacht!', 'Du denkst super logisch!', 'Weiter so, Schlaukopf!',
+            'Fantastisch gelöst!', 'Du bist ein Denker!', 'Knifflig, aber du schaffst das!',
+            'Dein Gehirn ist fit!', 'Prima geknobelt!', 'Du bist kreativ!'
+        ];
+
+        const coloringTemplates = {
+            star: {
+                svg: `<svg viewBox="0 0 200 200" width="180"><polygon points="100,10 120,75 190,75 135,115 155,180 100,145 45,180 65,115 10,75 80,75" fill="white" stroke="#333" stroke-width="2"/><text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text></svg>`,
+                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}]
+            },
+            heart: {
+                svg: `<svg viewBox="0 0 200 200" width="180"><path d="M100,180 C60,140 10,100 10,60 C10,30 40,10 70,10 C85,10 100,25 100,25 C100,25 115,10 130,10 C160,10 190,30 190,60 C190,100 140,140 100,180 Z" fill="white" stroke="#333" stroke-width="2"/><text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text></svg>`,
+                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}]
+            },
+            rocket: {
+                svg: `<svg viewBox="0 0 120 200" width="100"><path d="M60,10 L90,70 L90,140 L60,160 L30,140 L30,70 Z" fill="white" stroke="#333" stroke-width="2"/><polygon points="45,160 60,200 75,160" fill="white" stroke="#333" stroke-width="2"/><text x="60" y="100" text-anchor="middle" font-size="20" font-weight="bold">1</text><text x="60" y="180" text-anchor="middle" font-size="14" font-weight="bold">2</text></svg>`,
+                colors: [{num: 1, color: '#E0E0E0', name: 'Silber'}, {num: 2, color: '#FF6B6B', name: 'Rot'}]
+            },
+            butterfly: {
+                svg: `<svg viewBox="0 0 200 150" width="180"><ellipse cx="100" cy="75" rx="6" ry="40" fill="white" stroke="#333" stroke-width="2"/><ellipse cx="55" cy="55" rx="40" ry="30" fill="white" stroke="#333" stroke-width="2"/><ellipse cx="145" cy="55" rx="40" ry="30" fill="white" stroke="#333" stroke-width="2"/><ellipse cx="50" cy="105" rx="30" ry="25" fill="white" stroke="#333" stroke-width="2"/><ellipse cx="150" cy="105" rx="30" ry="25" fill="white" stroke="#333" stroke-width="2"/><text x="55" y="60" text-anchor="middle" font-size="16" font-weight="bold">1</text><text x="145" y="60" text-anchor="middle" font-size="16" font-weight="bold">1</text><text x="50" y="110" text-anchor="middle" font-size="14" font-weight="bold">2</text><text x="150" y="110" text-anchor="middle" font-size="14" font-weight="bold">2</text></svg>`,
+                colors: [{num: 1, color: '#A06CD5', name: 'Lila'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
+            },
+            cat: {
+                svg: `<svg viewBox="0 0 160 180" width="140"><ellipse cx="80" cy="120" rx="45" ry="50" fill="white" stroke="#333" stroke-width="2"/><ellipse cx="80" cy="55" rx="35" ry="30" fill="white" stroke="#333" stroke-width="2"/><polygon points="50,35 35,5 55,25" fill="white" stroke="#333" stroke-width="2"/><polygon points="110,35 125,5 105,25" fill="white" stroke="#333" stroke-width="2"/><text x="80" y="65" text-anchor="middle" font-size="16" font-weight="bold">1</text><text x="80" y="130" text-anchor="middle" font-size="18" font-weight="bold">2</text></svg>`,
+                colors: [{num: 1, color: '#FF9F43', name: 'Orange'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
+            },
+            fish: {
+                svg: `<svg viewBox="0 0 220 140" width="180"><ellipse cx="100" cy="70" rx="60" ry="40" fill="white" stroke="#333" stroke-width="2"/><polygon points="160,70 200,40 200,100" fill="white" stroke="#333" stroke-width="2"/><circle cx="60" cy="60" r="8" fill="white" stroke="#333" stroke-width="2"/><text x="100" y="80" text-anchor="middle" font-size="20" font-weight="bold">1</text><text x="180" y="75" text-anchor="middle" font-size="16" font-weight="bold">2</text></svg>`,
+                colors: [{num: 1, color: '#45B7D1', name: 'Blau'}, {num: 2, color: '#FF9F43', name: 'Orange'}]
+            }
+        };
+
+        function toggleTask(type, btn) {
+            if (selectedTasks.has(type)) {
+                if (selectedTasks.size > 1) {
+                    selectedTasks.delete(type);
+                    btn.classList.remove('selected');
+                }
+            } else {
+                selectedTasks.add(type);
+                btn.classList.add('selected');
+            }
+        }
+
+        function setDifficulty(diff, btn) {
+            difficulty = diff;
+            document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function getRandomItems(arr, count) {
+            const shuffled = [...arr].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count);
+        }
+
+        function getRandomEmojis(count, excludeSet = null) {
+            const allSets = Object.values(emojiSets);
+            const randomSet = allSets[Math.floor(Math.random() * allSets.length)];
+            let available = excludeSet ? randomSet.filter(e => e !== excludeSet) : randomSet;
+            return getRandomItems(available, count);
+        }
+
+        function generateTrackerCircles(count) {
+            return Array(count).fill('<span class="check-circle"></span>').join('');
+        }
+
+        // Pattern Generator
+        function generatePattern() {
+            // Wähle einen noch nicht verwendeten Typ
+            const allTypes = ['emoji', 'number', 'shape', 'emoji2', 'number2', 'shape2'];
+            const availableTypes = allTypes.filter(t => !usedPatternTypes.includes(t));
+            if (availableTypes.length === 0) usedPatternTypes = [];
+            const type = availableTypes.length > 0 ? 
+                availableTypes[Math.floor(Math.random() * availableTypes.length)] : 
+                allTypes[Math.floor(Math.random() * allTypes.length)];
+            usedPatternTypes.push(type);
+            
+            const baseType = type.replace('2', '');
+            const patternLength = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 3 : 4;
+            const repeatCount = difficulty === 'easy' ? 2 : 3;
+            const emptyCount = difficulty === 'easy' ? 2 : 3;
+
+            let pattern = [];
+            
+            if (baseType === 'emoji') {
+                const setKeys = Object.keys(emojiSets);
+                const setKey = setKeys[Math.floor(Math.random() * setKeys.length)];
+                pattern = getRandomItems(emojiSets[setKey], patternLength);
+            } else if (baseType === 'number') {
+                const start = Math.floor(Math.random() * 5) + 1;
+                const step = difficulty === 'easy' ? 1 : Math.floor(Math.random() * 3) + 1;
+                for (let i = 0; i < patternLength; i++) {
+                    pattern.push(start + i * step);
+                }
+            } else {
+                const shapes = ['🔴', '🔵', '🟡', '🟢', '🟣', '🔶', '🔷', '⬛', '⬜'];
+                pattern = getRandomItems(shapes, patternLength);
+            }
+
+            // Repeat pattern and add empty spaces
+            let fullSequence = [];
+            for (let i = 0; i < repeatCount; i++) {
+                fullSequence = fullSequence.concat(pattern);
+            }
+            fullSequence = fullSequence.concat(pattern.slice(0, emptyCount));
+
+            // Mark last items as empty
+            const result = fullSequence.map((item, idx) => ({
+                value: item,
+                isEmpty: idx >= fullSequence.length - emptyCount
+            }));
+
+            return result;
+        }
+
+        // Odd One Out Generator
+        function generateOddOneOut() {
+            const setKeys = Object.keys(emojiSets);
+            // Wähle noch nicht verwendete Kombination
+            let mainSet, otherSet;
+            let attempts = 0;
+            do {
+                mainSet = setKeys[Math.floor(Math.random() * setKeys.length)];
+                otherSet = setKeys.filter(s => s !== mainSet)[Math.floor(Math.random() * (setKeys.length - 1))];
+                attempts++;
+            } while (usedOddSets.includes(mainSet + otherSet) && attempts < 10);
+            usedOddSets.push(mainSet + otherSet);
+            
+            const mainItems = getRandomItems(emojiSets[mainSet], 3);
+            const oddItem = getRandomItems(emojiSets[otherSet], 1)[0];
+            
+            const allItems = [...mainItems, oddItem].sort(() => Math.random() - 0.5);
+            return { items: allItems, oddOne: oddItem };
+        }
+
+        // Mini Sudoku Generator (4x4)
+        function generateSudoku() {
+            // Simple 4x4 sudoku
+            const solution = [
+                [1, 2, 3, 4],
+                [3, 4, 1, 2],
+                [2, 1, 4, 3],
+                [4, 3, 2, 1]
+            ];
+            
+            // Shuffle rows within blocks and columns
+            const shuffled = solution.map(row => [...row]);
+            
+            // Remove some numbers based on difficulty
+            const removeCount = difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10;
+            const grid = shuffled.map(row => row.map(cell => ({ value: cell, given: true })));
+            
+            let removed = 0;
+            while (removed < removeCount) {
+                const r = Math.floor(Math.random() * 4);
+                const c = Math.floor(Math.random() * 4);
+                if (grid[r][c].given) {
+                    grid[r][c].given = false;
+                    removed++;
+                }
+            }
+            
+            return grid;
+        }
+
+        // Maze Generator
+        function generateMaze() {
+            const size = difficulty === 'easy' ? 7 : difficulty === 'medium' ? 9 : 11;
+            const maze = Array(size).fill(null).map(() => Array(size).fill('wall'));
+            
+            // Simple maze using recursive backtracking (simplified)
+            function carve(x, y) {
+                maze[y][x] = 'path';
+                const dirs = [[0, -2], [2, 0], [0, 2], [-2, 0]].sort(() => Math.random() - 0.5);
+                
+                for (const [dx, dy] of dirs) {
+                    const nx = x + dx;
+                    const ny = y + dy;
+                    if (nx > 0 && nx < size - 1 && ny > 0 && ny < size - 1 && maze[ny][nx] === 'wall') {
+                        maze[y + dy/2][x + dx/2] = 'path';
+                        carve(nx, ny);
+                    }
+                }
+            }
+            
+            carve(1, 1);
+            maze[1][0] = 'start';
+            maze[size - 2][size - 1] = 'end';
+            
+            return maze;
+        }
+
+        // Symmetry Generator
+        function generateSymmetry() {
+            const gridSize = difficulty === 'easy' ? 4 : difficulty === 'medium' ? 5 : 6;
+            const leftHalf = [];
+            
+            for (let y = 0; y < gridSize; y++) {
+                const row = [];
+                for (let x = 0; x < gridSize / 2; x++) {
+                    row.push(Math.random() > 0.5);
+                }
+                leftHalf.push(row);
+            }
+            
+            return { grid: leftHalf, size: gridSize };
+        }
+
+        // Shadow Match Generator
+        function generateShadow() {
+            // Verwende noch nicht benutzte Emojis
+            const setKeys = Object.keys(emojiSets);
+            let attempts = 0;
+            let emojis;
+            do {
+                const setKey = setKeys[Math.floor(Math.random() * setKeys.length)];
+                emojis = getRandomItems(emojiSets[setKey], 4);
+                attempts++;
+            } while (usedShadowEmojis.includes(emojis[0]) && attempts < 10);
+            usedShadowEmojis.push(emojis[0]);
+            
+            const correct = emojis[0];
+            return { original: correct, options: emojis.sort(() => Math.random() - 0.5) };
+        }
+
+        // Counting Generator
+        function generateCounting() {
+            // Verwende noch nicht benutzte Emojis
+            const setKeys = Object.keys(emojiSets);
+            let emoji;
+            let attempts = 0;
+            do {
+                const setKey = setKeys[Math.floor(Math.random() * setKeys.length)];
+                emoji = emojiSets[setKey][Math.floor(Math.random() * emojiSets[setKey].length)];
+                attempts++;
+            } while (usedCountingEmojis.includes(emoji) && attempts < 10);
+            usedCountingEmojis.push(emoji);
+            
+            const count = difficulty === 'easy' ? 
+                Math.floor(Math.random() * 6) + 3 :
+                difficulty === 'medium' ? 
+                    Math.floor(Math.random() * 8) + 5 :
+                    Math.floor(Math.random() * 10) + 8;
+            return { emoji, count };
+        }
+
+        // Sorting Generator
+        function generateSorting() {
+            const count = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
+            const items = [];
+            for (let i = 0; i < count; i++) {
+                items.push(Math.floor(Math.random() * 20) + 1);
+            }
+            return items.sort(() => Math.random() - 0.5);
+        }
+
+        // Connect Dots Generator
+        function generateDots() {
+            const count = difficulty === 'easy' ? 8 : difficulty === 'medium' ? 12 : 16;
+            const points = [];
+            const shapes = [
+                // Star shape
+                [[150, 30], [180, 100], [250, 100], [200, 150], [220, 220], [150, 180], [80, 220], [100, 150], [50, 100], [120, 100]],
+                // Heart shape
+                [[150, 250], [80, 180], [50, 120], [60, 70], [100, 50], [150, 80], [200, 50], [240, 70], [250, 120], [220, 180]],
+                // House shape
+                [[50, 250], [50, 150], [150, 50], [250, 150], [250, 250], [180, 250], [180, 180], [120, 180], [120, 250]]
+            ];
+            
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const selectedPoints = shape.slice(0, Math.min(count, shape.length));
+            
+            return selectedPoints.map((p, i) => ({ x: p[0], y: p[1], num: i + 1 }));
+        }
+
+        // Creative Drawing Generator
+        function generateCreative() {
+            const prompts = [
+                { emoji: '🌳', instruction: 'Male einen Wald drum herum!' },
+                { emoji: '🏠', instruction: 'Male eine Familie davor!' },
+                { emoji: '☀️', instruction: 'Male einen schönen Tag!' },
+                { emoji: '🚗', instruction: 'Male eine Straße!' },
+                { emoji: '🐱', instruction: 'Male Freunde dazu!' },
+                { emoji: '🌸', instruction: 'Male einen Garten!' },
+                { emoji: '⭐', instruction: 'Male den Nachthimmel!' },
+                { emoji: '🎈', instruction: 'Male eine Party!' },
+                { emoji: '🐶', instruction: 'Male ein Zuhause für den Hund!' },
+                { emoji: '🌈', instruction: 'Male die Sonne und Wolken!' },
+                { emoji: '🦋', instruction: 'Male eine Blumenwiese!' },
+                { emoji: '🚀', instruction: 'Male das Weltall!' }
+            ];
+            
+            // Noch nicht verwendetes Prompt wählen
+            const available = prompts.filter(p => !usedCreativePrompts.includes(p.emoji));
+            if (available.length === 0) {
+                usedCreativePrompts = [];
+                return prompts[Math.floor(Math.random() * prompts.length)];
+            }
+            const selected = available[Math.floor(Math.random() * available.length)];
+            usedCreativePrompts.push(selected.emoji);
+            return selected;
+        }
+
+        // Comparison Generator
+        function generateCompare() {
+            const pairs = [];
+            const count = difficulty === 'easy' ? 3 : 4;
+            
+            for (let i = 0; i < count; i++) {
+                const a = Math.floor(Math.random() * 20) + 1;
+                let b;
+                do {
+                    b = Math.floor(Math.random() * 20) + 1;
+                } while (a === b);
+                pairs.push({ a, b });
+            }
+            
+            return pairs;
+        }
+
+        // Pairs Generator
+        function generatePairs() {
+            const pairTypes = [
+                [['🐶', '🦴'], ['🐱', '🐟'], ['🐭', '🧀'], ['🐰', '🥕']],
+                [['☀️', '🌙'], ['🔥', '❄️'], ['⬆️', '⬇️'], ['😊', '😢']],
+                [['👶', '👴'], ['🐛', '🦋'], ['🌱', '🌳'], ['🥚', '🐣']]
+            ];
+            
+            const selectedType = pairTypes[Math.floor(Math.random() * pairTypes.length)];
+            const count = difficulty === 'easy' ? 2 : 3;
+            const pairs = getRandomItems(selectedType, count);
+            
+            // Shuffle all items
+            const allItems = pairs.flat().sort(() => Math.random() - 0.5);
+            return { items: allItems, pairs };
+        }
+
+        // Quiz Generator
+        const quizQuestions = [
+            { q: 'Wie viele Beine hat ein Hund?', options: ['2', '4', '6', '8'], correct: '4' },
+            { q: 'Welche Farbe hat die Sonne?', options: ['Blau', 'Grün', 'Gelb', 'Rot'], correct: 'Gelb' },
+            { q: 'Wie viele Tage hat eine Woche?', options: ['5', '6', '7', '8'], correct: '7' },
+            { q: 'Was trinkt eine Kuh?', options: ['Saft', 'Wasser', 'Milch', 'Tee'], correct: 'Wasser' },
+            { q: 'Welches Tier kann fliegen?', options: ['Hund', 'Fisch', 'Vogel', 'Katze'], correct: 'Vogel' },
+            { q: 'Wie viele Finger hast du an einer Hand?', options: ['3', '4', '5', '10'], correct: '5' },
+            { q: 'Was ist größer: Elefant oder Maus?', options: ['Maus', 'Elefant', 'Gleich', 'Keine'], correct: 'Elefant' },
+            { q: 'Welche Jahreszeit kommt nach dem Sommer?', options: ['Frühling', 'Winter', 'Herbst', 'Sommer'], correct: 'Herbst' },
+            { q: 'Wie viele Räder hat ein Fahrrad?', options: ['1', '2', '3', '4'], correct: '2' },
+            { q: 'Was leuchtet am Himmel in der Nacht?', options: ['Sonne', 'Wolke', 'Mond', 'Regen'], correct: 'Mond' },
+            { q: 'Welches Tier lebt im Wasser?', options: ['Vogel', 'Fisch', 'Hund', 'Katze'], correct: 'Fisch' },
+            { q: 'Wie viele Augen hast du?', options: ['1', '2', '3', '4'], correct: '2' },
+            { q: 'Was fällt vom Himmel wenn es regnet?', options: ['Schnee', 'Wasser', 'Blätter', 'Steine'], correct: 'Wasser' },
+            { q: 'Welche Farbe hat Gras?', options: ['Rot', 'Blau', 'Grün', 'Gelb'], correct: 'Grün' },
+            { q: 'Was macht die Biene?', options: ['Bellt', 'Summt', 'Miaut', 'Quakt'], correct: 'Summt' },
+            { q: 'Wie viele Monate hat ein Jahr?', options: ['10', '11', '12', '13'], correct: '12' },
+            { q: 'Welches Tier hat einen Rüssel?', options: ['Hund', 'Elefant', 'Katze', 'Vogel'], correct: 'Elefant' },
+            { q: 'Was kommt nach Dienstag?', options: ['Montag', 'Mittwoch', 'Donnerstag', 'Freitag'], correct: 'Mittwoch' },
+            { q: 'Welches Obst ist gelb und krumm?', options: ['Apfel', 'Banane', 'Orange', 'Kirsche'], correct: 'Banane' },
+            { q: 'Wo wohnt der Fisch?', options: ['Im Baum', 'Im Wasser', 'In der Luft', 'Im Sand'], correct: 'Im Wasser' }
+        ];
+        let usedQuizQuestions = [];
+
+        function generateQuiz() {
+            const available = quizQuestions.filter(q => !usedQuizQuestions.includes(q.q));
+            if (available.length === 0) {
+                usedQuizQuestions = [];
+                return generateQuiz();
+            }
+            const question = available[Math.floor(Math.random() * available.length)];
+            usedQuizQuestions.push(question.q);
+            return question;
+        }
+
+        // Rhyme Generator
+        const rhymePairs = [
+            { word: 'Haus', rhymes: ['Maus', 'Laus', 'Raus'], wrong: ['Hund', 'Baum'] },
+            { word: 'Hund', rhymes: ['Mund', 'Rund', 'Bund'], wrong: ['Katze', 'Maus'] },
+            { word: 'Katze', rhymes: ['Tatze', 'Matze', 'Fratze'], wrong: ['Hund', 'Maus'] },
+            { word: 'Baum', rhymes: ['Traum', 'Raum', 'Schaum'], wrong: ['Haus', 'Blatt'] },
+            { word: 'Maus', rhymes: ['Haus', 'Laus', 'Klaus'], wrong: ['Katze', 'Hund'] },
+            { word: 'Nacht', rhymes: ['Macht', 'Wacht', 'Acht'], wrong: ['Tag', 'Sonne'] },
+            { word: 'Sonne', rhymes: ['Wonne', 'Tonne', 'Nonne'], wrong: ['Mond', 'Stern'] },
+            { word: 'Regen', rhymes: ['Segen', 'Wegen', 'Legen'], wrong: ['Sonne', 'Wind'] },
+            { word: 'Fisch', rhymes: ['Tisch', 'Wisch', 'Frisch'], wrong: ['Vogel', 'Hund'] },
+            { word: 'Ball', rhymes: ['Fall', 'Stall', 'Knall'], wrong: ['Spiel', 'Puppe'] },
+            { word: 'Bein', rhymes: ['Stein', 'Fein', 'Klein'], wrong: ['Arm', 'Kopf'] },
+            { word: 'Hose', rhymes: ['Rose', 'Dose', 'Lose'], wrong: ['Hemd', 'Schuh'] }
+        ];
+        let usedRhymes = [];
+
+        function generateRhyme() {
+            const available = rhymePairs.filter(r => !usedRhymes.includes(r.word));
+            if (available.length === 0) {
+                usedRhymes = [];
+                return generateRhyme();
+            }
+            const pair = available[Math.floor(Math.random() * available.length)];
+            usedRhymes.push(pair.word);
+            const correctRhyme = pair.rhymes[Math.floor(Math.random() * pair.rhymes.length)];
+            const wrongWord = pair.wrong[Math.floor(Math.random() * pair.wrong.length)];
+            const options = [correctRhyme, wrongWord, pair.wrong[1] || 'Auto'].sort(() => Math.random() - 0.5);
+            return { word: pair.word, options, correct: correctRhyme };
+        }
+
+        // Opposite Generator
+        const opposites = [
+            ['groß', 'klein'], ['heiß', 'kalt'], ['schnell', 'langsam'], ['hell', 'dunkel'],
+            ['laut', 'leise'], ['alt', 'neu'], ['voll', 'leer'], ['schwer', 'leicht'],
+            ['oben', 'unten'], ['nass', 'trocken'], ['Tag', 'Nacht'], ['Sommer', 'Winter'],
+            ['dick', 'dünn'], ['lang', 'kurz'], ['glücklich', 'traurig'], ['reich', 'arm']
+        ];
+        let usedOpposites = [];
+
+        function generateOpposite() {
+            const available = opposites.filter(o => !usedOpposites.includes(o[0]));
+            if (available.length === 0) {
+                usedOpposites = [];
+                return generateOpposite();
+            }
+            const count = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 3 : 4;
+            const selected = getRandomItems(available, count);
+            selected.forEach(o => usedOpposites.push(o[0]));
+            const hints = selected.map(o => o[1]).sort(() => Math.random() - 0.5);
+            return { pairs: selected, hints };
+        }
+
+        // Sequence Generator
+        const sequences = [
+            { items: [['🥚', 'Ei'], ['🐣', 'Küken'], ['🐔', 'Huhn']], title: 'Vom Ei zum Huhn' },
+            { items: [['🌱', 'Samen'], ['🌿', 'Pflanze'], ['🌳', 'Baum']], title: 'Wie wächst ein Baum?' },
+            { items: [['☀️', 'Morgen'], ['🌤️', 'Mittag'], ['🌙', 'Nacht']], title: 'Der Tag' },
+            { items: [['🛒', 'Einkaufen'], ['🍳', 'Kochen'], ['🍽️', 'Essen']], title: 'Was kommt zuerst?' },
+            { items: [['😴', 'Schlafen'], ['⏰', 'Aufwachen'], ['🧹', 'Anziehen']], title: 'Der Morgen' },
+            { items: [['❄️', 'Winter'], ['🌸', 'Frühling'], ['☀️', 'Sommer'], ['🍂', 'Herbst']], title: 'Jahreszeiten' },
+            { items: [['🐛', 'Raupe'], ['🫛', 'Kokon'], ['🦋', 'Schmetterling']], title: 'Verwandlung' },
+            { items: [['👶', 'Baby'], ['🧒', 'Kind'], ['🧑', 'Erwachsener']], title: 'Wir wachsen' }
+        ];
+        let usedSequences = [];
+
+        function generateSequence() {
+            const available = sequences.filter(s => !usedSequences.includes(s.title));
+            if (available.length === 0) {
+                usedSequences = [];
+                return generateSequence();
+            }
+            const seq = available[Math.floor(Math.random() * available.length)];
+            usedSequences.push(seq.title);
+            return seq;
+        }
+
+        // Animal Sounds Generator
+        const animalSounds = [
+            ['🐶', 'Wau Wau'], ['🐱', 'Miau'], ['🐮', 'Muh'], ['🐷', 'Oink'],
+            ['🐸', 'Quak'], ['🐔', 'Kikeriki'], ['🦁', 'Brüll'], ['🐝', 'Summ'],
+            ['🦆', 'Quak Quak'], ['🐑', 'Mäh'], ['🐴', 'Wiehern'], ['🦉', 'Uhu']
+        ];
+        let usedAnimals = [];
+
+        function generateAnimalSounds() {
+            const count = difficulty === 'easy' ? 3 : 4;
+            const available = animalSounds.filter(a => !usedAnimals.includes(a[0]));
+            if (available.length < count) {
+                usedAnimals = [];
+                return generateAnimalSounds();
+            }
+            const selected = getRandomItems(available, count);
+            selected.forEach(a => usedAnimals.push(a[0]));
+            const sounds = selected.map(a => a[1]).sort(() => Math.random() - 0.5);
+            return { animals: selected.map(a => a[0]), sounds };
+        }
+
+        // Categories Generator
+        const categoryData = [
+            { cats: ['🍎 Obst', '🥕 Gemüse'], items: [['🍎', '🍌', '🍇'], ['🥕', '🥦', '🌽']] },
+            { cats: ['🐾 Tiere', '🚗 Fahrzeuge'], items: [['🐶', '🐱', '🐰'], ['🚗', '🚌', '✈️']] },
+            { cats: ['☀️ Tag', '🌙 Nacht'], items: [['☀️', '🌤️', '⛅'], ['🌙', '⭐', '🦉']] },
+            { cats: ['🔥 Heiß', '❄️ Kalt'], items: [['🔥', '☀️', '🌶️'], ['❄️', '🧊', '⛄']] },
+            { cats: ['✈️ Fliegt', '🏊 Schwimmt'], items: [['🦅', '🦋', '✈️'], ['🐟', '🐳', '🚢']] }
+        ];
+        let usedCategories = [];
+
+        function generateCategories() {
+            const available = categoryData.filter(c => !usedCategories.includes(c.cats[0]));
+            if (available.length === 0) {
+                usedCategories = [];
+                return generateCategories();
+            }
+            const cat = available[Math.floor(Math.random() * available.length)];
+            usedCategories.push(cat.cats[0]);
+            const allItems = [...cat.items[0], ...cat.items[1]].sort(() => Math.random() - 0.5);
+            return { categories: cat.cats, items: allItems };
+        }
+
+        // Shapes Generator
+        function generateShapes() {
+            const shapeCount = {
+                triangles: Math.floor(Math.random() * 4) + 2,
+                circles: Math.floor(Math.random() * 4) + 2,
+                squares: Math.floor(Math.random() * 4) + 2
+            };
+            return shapeCount;
+        }
+
+        // Analogies Generator
+        const analogies = [
+            { a: '🐶', b: '🦴', c: '🐱', answer: '🐟', options: ['🐟', '🦴', '🌳', '🚗'] },
+            { a: '👶', b: '🧒', c: '🐣', answer: '🐔', options: ['🐔', '🥚', '🐶', '🌸'] },
+            { a: '☀️', b: '🌙', c: '🔥', answer: '❄️', options: ['❄️', '💧', '🌳', '⭐'] },
+            { a: '✈️', b: '🌤️', c: '🚢', answer: '🌊', options: ['🌊', '☁️', '🏔️', '🌳'] },
+            { a: '👁️', b: '👓', c: '🦶', answer: '👟', options: ['👟', '🧤', '🎩', '👔'] },
+            { a: '🖊️', b: '📝', c: '🔪', answer: '🍽️', options: ['🍽️', '📚', '🎨', '🔧'] },
+            { a: '🌧️', b: '☂️', c: '❄️', answer: '🧥', options: ['🧥', '👙', '🩴', '🎩'] },
+            { a: '🐝', b: '🍯', c: '🐄', answer: '🥛', options: ['🥛', '🍯', '🥩', '🧀'] }
+        ];
+        let usedAnalogies = [];
+
+        function generateAnalogy() {
+            const available = analogies.filter(a => !usedAnalogies.includes(a.a));
+            if (available.length === 0) {
+                usedAnalogies = [];
+                return generateAnalogy();
+            }
+            const analogy = available[Math.floor(Math.random() * available.length)];
+            usedAnalogies.push(analogy.a);
+            return analogy;
+        }
+
+        // Reset used items for new worksheet
+        function resetUsedItems() {
+            usedQuizQuestions = [];
+            usedRhymes = [];
+            usedOpposites = [];
+            usedSequences = [];
+            usedAnimals = [];
+            usedCategories = [];
+            usedAnalogies = [];
+            usedPatternTypes = [];
+            usedOddSets = [];
+            usedMazeSeeds = [];
+            usedCreativePrompts = [];
+            usedShadowEmojis = [];
+            usedCountingEmojis = [];
+        }
+
+        // Main Generator
+        function generateWorksheet() {
+            resetUsedItems();
+            const tasksPerType = parseInt(document.getElementById('tasksPerType').value);
+            const includeTracker = document.getElementById('includeTracker').checked;
+            const includeMotivation = document.getElementById('includeMotivation').checked;
+            const includeColoring = document.getElementById('includeColoring').checked;
+            const coloringType = document.getElementById('coloringType').value;
+
+            let html = `
+                <div class="worksheet-header">
+                    <div class="worksheet-title">🧩 Mein Rätselblatt 🧩</div>
+                    <div class="worksheet-subtitle">Löse die kniffligen Aufgaben!</div>
+                </div>
+            `;
+
+            if (includeTracker) {
+                html += `
+                    <div class="tracker-header">
+                        <p>📝 Male einen Kreis aus für jede gelöste Aufgabe!</p>
+                    </div>
+                `;
+            }
+
+            // Generate tasks for each selected type
+            for (const taskType of selectedTasks) {
+                for (let i = 0; i < tasksPerType; i++) {
+                    html += generateTaskHtml(taskType, includeTracker);
+                }
+            }
+
+            // Motivation
+            if (includeMotivation) {
+                const motivSentence = motivationSentences[Math.floor(Math.random() * motivationSentences.length)];
+                html += `
+                    <div class="motivation-box">
+                        <div class="motivation-text">💪 ${motivSentence}</div>
+                    </div>
+                `;
+            }
+
+            // Coloring
+            if (includeColoring) {
+                const template = coloringType === 'random' ? 
+                    coloringTemplates[Object.keys(coloringTemplates)[Math.floor(Math.random() * Object.keys(coloringTemplates).length)]] :
+                    coloringTemplates[coloringType];
+                
+                html += `
+                    <div class="coloring-section">
+                        <h4>🎨 Geschafft! Male das Bild aus!</h4>
+                        <div class="coloring-image">${template.svg}</div>
+                        <div class="color-legend">
+                            ${template.colors.map(c => `
+                                <div class="color-item">
+                                    <div class="color-swatch" style="background: ${c.color}"></div>
+                                    <span>${c.num} = ${c.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('worksheet').innerHTML = html;
+            document.getElementById('outputContainer').style.display = 'block';
+            document.getElementById('outputContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateTaskHtml(type, includeTracker) {
+            let html = '<div class="task-section">';
+            
+            switch(type) {
+                case 'pattern':
+                    const pattern = generatePattern();
+                    html += `
+                        <div class="task-title">🔢 Setze das Muster fort!</div>
+                        <div class="task-instruction">Welche Zeichen kommen als nächstes?</div>
+                        <div class="pattern-row">
+                            ${pattern.map((item, idx) => `
+                                <div class="pattern-item ${item.isEmpty ? 'empty' : ''}">
+                                    ${item.isEmpty ? '?' : item.value}
+                                </div>
+                                ${idx < pattern.length - 1 ? '' : ''}
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'oddone':
+                    const odd = generateOddOneOut();
+                    html += `
+                        <div class="task-title">🔍 Was passt nicht dazu?</div>
+                        <div class="task-instruction">Kreise das Bild ein, das nicht zu den anderen passt!</div>
+                        <div class="odd-grid">
+                            ${odd.items.map(item => `<div class="odd-item">${item}</div>`).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'sudoku':
+                    const sudoku = generateSudoku();
+                    html += `
+                        <div class="task-title">🔲 Mini-Sudoku</div>
+                        <div class="task-instruction">Fülle die Lücken! Jede Zahl (1-4) darf in jeder Zeile und Spalte nur einmal vorkommen.</div>
+                        <div class="sudoku-grid">
+                            ${sudoku.map((row, ri) => row.map((cell, ci) => `
+                                <div class="sudoku-cell ${cell.given ? 'given' : 'empty'} ${ci === 1 ? 'border-right' : ''} ${ri === 1 ? 'border-bottom' : ''}">
+                                    ${cell.given ? cell.value : ''}
+                                </div>
+                            `).join('')).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'maze':
+                    const maze = generateMaze();
+                    html += `
+                        <div class="task-title">🌀 Finde den Weg!</div>
+                        <div class="task-instruction">Hilf dem Pfeil zum Stern! Male den Weg nach.</div>
+                        <div class="maze-container">
+                            <div class="maze-grid" style="grid-template-columns: repeat(${maze[0].length}, 30px)">
+                                ${maze.map(row => row.map(cell => `
+                                    <div class="maze-cell ${cell}">
+                                        ${cell === 'start' ? '➡️' : cell === 'end' ? '⭐' : ''}
+                                    </div>
+                                `).join('')).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'symmetry':
+                    const sym = generateSymmetry();
+                    html += `
+                        <div class="task-title">🪞 Spiegelbild</div>
+                        <div class="task-instruction">Male die andere Hälfte spiegelverkehrt aus!</div>
+                        <div class="symmetry-container">
+                            <div class="symmetry-grid" style="grid-template-columns: repeat(${sym.size / 2}, 30px)">
+                                ${sym.grid.map(row => row.map(cell => `
+                                    <div class="symmetry-cell ${cell ? 'filled' : ''}"></div>
+                                `).join('')).join('')}
+                            </div>
+                            <div class="symmetry-line" style="height: ${sym.size * 31}px"></div>
+                            <div class="symmetry-grid" style="grid-template-columns: repeat(${sym.size / 2}, 30px)">
+                                ${sym.grid.map(row => row.map(() => `
+                                    <div class="symmetry-cell mirror"></div>
+                                `).join('')).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'shadow':
+                    const shadow = generateShadow();
+                    html += `
+                        <div class="task-title">👤 Schattenrätsel</div>
+                        <div class="task-instruction">Welcher Schatten gehört zum Bild? Kreise ihn ein!</div>
+                        <div class="shadow-container">
+                            <div class="shadow-original">${shadow.original}</div>
+                            <div class="shadow-options">
+                                ${shadow.options.map(opt => `
+                                    <div class="shadow-option silhouette">${opt}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'counting':
+                    const count = generateCounting();
+                    html += `
+                        <div class="task-title">🔢 Wie viele sind es?</div>
+                        <div class="task-instruction">Zähle und schreibe die Zahl in das Kästchen!</div>
+                        <div class="counting-container">
+                            <div class="counting-items">
+                                ${Array(count.count).fill(count.emoji).map(e => `<span class="counting-item">${e}</span>`).join('')}
+                            </div>
+                            <div class="counting-answer">
+                                = <div class="counting-box"></div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'sorting':
+                    const sort = generateSorting();
+                    html += `
+                        <div class="task-title">📊 Sortiere nach Größe!</div>
+                        <div class="task-instruction">Schreibe die Zahlen von klein nach groß in die Kästchen!</div>
+                        <div class="sorting-container">
+                            <div class="sorting-items">
+                                ${sort.map(n => `<div class="sorting-item">${n}</div>`).join('')}
+                            </div>
+                            <div class="sorting-boxes">
+                                ${sort.map((_, i) => `<div class="sorting-box">${i + 1}.</div>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'dots':
+                    const dots = generateDots();
+                    html += `
+                        <div class="task-title">✏️ Verbinde die Punkte!</div>
+                        <div class="task-instruction">Verbinde die Zahlen der Reihe nach (1, 2, 3...)!</div>
+                        <div class="dots-container">
+                            ${dots.map(d => `
+                                <div class="dot" style="left: ${d.x - 15}px; top: ${d.y - 15}px">${d.num}</div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'creative':
+                    const creative = generateCreative();
+                    html += `
+                        <div class="task-title">🎨 Werde kreativ!</div>
+                        <div class="task-instruction">${creative.instruction}</div>
+                        <div class="drawing-prompt">
+                            <div class="drawing-start">${creative.emoji}</div>
+                            <div class="drawing-space">Hier malen!</div>
+                        </div>
+                    `;
+                    break;
+
+                case 'compare':
+                    const compare = generateCompare();
+                    html += `
+                        <div class="task-title">⚖️ Größer oder kleiner?</div>
+                        <div class="task-instruction">Schreibe &lt; oder &gt; in das Kästchen!</div>
+                        ${compare.map(pair => `
+                            <div class="compare-row">
+                                <div class="compare-item">${pair.a}</div>
+                                <div class="compare-box"></div>
+                                <div class="compare-item">${pair.b}</div>
+                            </div>
+                        `).join('')}
+                    `;
+                    break;
+
+                case 'pairs':
+                    const pairs = generatePairs();
+                    html += `
+                        <div class="task-title">🎴 Finde die Paare!</div>
+                        <div class="task-instruction">Verbinde mit Linien, was zusammengehört!</div>
+                        <div class="odd-grid" style="grid-template-columns: repeat(${pairs.items.length}, 1fr);">
+                            ${pairs.items.map(item => `<div class="odd-item">${item}</div>`).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'quiz':
+                    const quiz = generateQuiz();
+                    const letters = ['A', 'B', 'C', 'D'];
+                    html += `
+                        <div class="task-title">❓ Quiz-Frage</div>
+                        <div class="task-instruction">Kreise die richtige Antwort ein!</div>
+                        <div class="quiz-container">
+                            <div class="quiz-question">${quiz.q}</div>
+                            <div class="quiz-options">
+                                ${quiz.options.map((opt, i) => `
+                                    <div class="quiz-option">
+                                        <span class="letter">${letters[i]}</span>
+                                        ${opt}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'rhyme':
+                    const rhyme = generateRhyme();
+                    html += `
+                        <div class="task-title">🎵 Was reimt sich?</div>
+                        <div class="task-instruction">Kreise das Wort ein, das sich auf "${rhyme.word}" reimt!</div>
+                        <div class="rhyme-container">
+                            <div class="rhyme-word">${rhyme.word}</div>
+                            <div class="rhyme-options">
+                                ${rhyme.options.map(opt => `<div class="rhyme-option">${opt}</div>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'opposite':
+                    const opposite = generateOpposite();
+                    html += `
+                        <div class="task-title">↔️ Finde das Gegenteil!</div>
+                        <div class="task-instruction">Schreibe das Gegenteil in das Kästchen!</div>
+                        ${opposite.pairs.map(p => `
+                            <div class="opposite-row">
+                                <div class="opposite-word">${p[0]}</div>
+                                <div class="opposite-arrow">→</div>
+                                <div class="opposite-box"></div>
+                            </div>
+                        `).join('')}
+                        <div class="opposite-hints">
+                            <strong>Wörter:</strong>
+                            ${opposite.hints.map(h => `<span class="opposite-hint">${h}</span>`).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'sequence':
+                    const seq = generateSequence();
+                    html += `
+                        <div class="task-title">📅 ${seq.title}</div>
+                        <div class="task-instruction">Schreibe die Zahlen in die Kästchen: Was kommt zuerst, dann, zuletzt?</div>
+                        <div class="sequence-items">
+                            ${seq.items.map(item => `
+                                <div class="sequence-item">
+                                    <span class="emoji">${item[0]}</span>
+                                    ${item[1]}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="sequence-boxes">
+                            ${seq.items.map((_, i) => `
+                                <div class="sequence-box">${i + 1}.</div>
+                                ${i < seq.items.length - 1 ? '<span class="sequence-arrow">→</span>' : ''}
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'animals':
+                    const animalData = generateAnimalSounds();
+                    html += `
+                        <div class="task-title">🐾 Welches Tier macht welches Geräusch?</div>
+                        <div class="task-instruction">Verbinde die Tiere mit ihren Lauten!</div>
+                        <div class="animals-grid">
+                            ${animalData.animals.map(a => `
+                                <div class="animal-row">
+                                    <div class="animal-emoji">${a}</div>
+                                    <div class="animal-sound-box"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="sound-options">
+                            <strong>Laute:</strong>
+                            ${animalData.sounds.map(s => `<span class="sound-option">${s}</span>`).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'categories':
+                    const catData = generateCategories();
+                    html += `
+                        <div class="task-title">📦 Sortiere in Gruppen!</div>
+                        <div class="task-instruction">Male jedes Bild in die richtige Gruppe!</div>
+                        <div class="category-items">
+                            ${catData.items.map(item => `<div class="category-item">${item}</div>`).join('')}
+                        </div>
+                        <div class="category-boxes">
+                            ${catData.categories.map(cat => `
+                                <div class="category-box">
+                                    <span class="category-label">${cat}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'shapes':
+                    const shapes = generateShapes();
+                    html += `
+                        <div class="task-title">🔷 Zähle die Formen!</div>
+                        <div class="task-instruction">Wie viele von jeder Form siehst du?</div>
+                        <div class="shapes-container">
+                            <div class="shapes-image">
+                                <svg width="180" height="150" viewBox="0 0 180 150">
+                                    ${Array(shapes.triangles).fill(0).map((_, i) => `
+                                        <polygon points="${20 + (i * 40) % 160},${30 + Math.floor(i/4) * 50} ${35 + (i * 40) % 160},${10 + Math.floor(i/4) * 50} ${50 + (i * 40) % 160},${30 + Math.floor(i/4) * 50}" fill="none" stroke="#FF6B6B" stroke-width="2"/>
+                                    `).join('')}
+                                    ${Array(shapes.circles).fill(0).map((_, i) => `
+                                        <circle cx="${30 + (i * 45) % 150}" cy="${70 + Math.floor(i/3) * 40}" r="12" fill="none" stroke="#45B7D1" stroke-width="2"/>
+                                    `).join('')}
+                                    ${Array(shapes.squares).fill(0).map((_, i) => `
+                                        <rect x="${15 + (i * 42) % 145}" y="${100 + Math.floor(i/4) * 35}" width="20" height="20" fill="none" stroke="#7BC74D" stroke-width="2"/>
+                                    `).join('')}
+                                </svg>
+                            </div>
+                            <div class="shapes-questions">
+                                <div class="shape-question">
+                                    <span class="shape-icon" style="color: #FF6B6B">△</span> Dreiecke: 
+                                    <div class="shape-box"></div>
+                                </div>
+                                <div class="shape-question">
+                                    <span class="shape-icon" style="color: #45B7D1">○</span> Kreise: 
+                                    <div class="shape-box"></div>
+                                </div>
+                                <div class="shape-question">
+                                    <span class="shape-icon" style="color: #7BC74D">□</span> Quadrate: 
+                                    <div class="shape-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'analogies':
+                    const analogy = generateAnalogy();
+                    html += `
+                        <div class="task-title">🧠 Was passt?</div>
+                        <div class="task-instruction">${analogy.a} gehört zu ${analogy.b}, wie ${analogy.c} gehört zu ...?</div>
+                        <div class="analogy-row">
+                            <div class="analogy-item">${analogy.a}</div>
+                            <div class="analogy-text">→</div>
+                            <div class="analogy-item">${analogy.b}</div>
+                            <div class="analogy-text" style="margin: 0 15px;">wie</div>
+                            <div class="analogy-item">${analogy.c}</div>
+                            <div class="analogy-text">→</div>
+                            <div class="analogy-box"></div>
+                        </div>
+                        <div class="analogy-options">
+                            ${analogy.options.sort(() => Math.random() - 0.5).map(o => `<div class="analogy-option">${o}</div>`).join('')}
+                        </div>
+                    `;
+                    break;
+            }
+
+            if (includeTracker) {
+                html += `<div class="task-tracker">${generateTrackerCircles(3)}</div>`;
+            }
+
+            html += '</div>';
+            return html;
+        }
+    </script>
+</body>
+</html>

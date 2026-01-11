@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✏️ Schreiblernwerkstatt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --purple: #A06CD5;
+            --blue: #45B7D1;
+            --green: #7BC74D;
+            --orange: #FF9F43;
+            --bg: #FFF9F0;
+            --text: #2D3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--green), var(--secondary));
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(123, 199, 77, 0.3);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .control-card h3 {
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-card h3 span {
+            font-size: 1.5rem;
+        }
+
+        /* Mode Selection */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mode-btn {
+            padding: 15px 10px;
+            border: 3px solid #E0E0E0;
+            border-radius: 15px;
+            background: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .mode-btn.selected {
+            border-color: var(--green);
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+        }
+
+        .mode-btn .emoji {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Letter Selection */
+        .letter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .letter-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            background: white;
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .letter-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--secondary);
+        }
+
+        .letter-btn.selected {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+        }
+
+        .quick-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .quick-btn {
+            padding: 8px 15px;
+            border: 2px solid var(--blue);
+            border-radius: 20px;
+            background: white;
+            color: var(--blue);
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: var(--blue);
+            color: white;
+        }
+
+        /* Theme Selection */
+        .theme-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .theme-btn {
+            padding: 10px 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 15px;
+            background: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--secondary);
+        }
+
+        .theme-btn.selected {
+            border-color: var(--purple);
+            background: linear-gradient(135deg, #F3E5F5, #E8EAF6);
+        }
+
+        .options-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-group label {
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        select, input[type="number"] {
+            padding: 10px 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            background: white;
+        }
+
+        input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, var(--green), var(--secondary));
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(123, 199, 77, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(123, 199, 77, 0.5);
+        }
+
+        /* Schreibteppich Output */
+        .schreibteppich-container {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .print-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .print-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .print-btn.secondary {
+            background: var(--blue);
+            color: white;
+        }
+
+        .print-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .print-hint {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #FFF9E6;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        #schreibteppich {
+            background: white;
+            padding: 30px;
+            border: 4px dashed var(--green);
+            border-radius: 20px;
+        }
+
+        .teppich-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px dotted var(--accent);
+        }
+
+        .teppich-title {
+            font-size: 2rem;
+            color: var(--green);
+            margin-bottom: 5px;
+        }
+
+        .teppich-subtitle {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        /* Schreiblinien */
+        .writing-line-container {
+            margin-bottom: 20px;
+        }
+
+        .writing-line {
+            position: relative;
+            height: 60px;
+            border-bottom: 3px solid #333;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 5px;
+        }
+
+        .writing-line::before {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            border-bottom: 1px dashed #AAA;
+        }
+
+        .writing-line::after {
+            content: '';
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid #CCC;
+        }
+
+        .writing-line.tall {
+            height: 80px;
+        }
+
+        .writing-line.tall::before {
+            bottom: 27px;
+        }
+
+        .writing-line.tall::after {
+            bottom: 54px;
+        }
+
+        /* Vorgeschriebener Text (zum Nachspuren) */
+        .trace-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #DDD;
+            letter-spacing: 15px;
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+        }
+
+        .trace-text.dotted {
+            color: transparent;
+            -webkit-text-stroke: 2px #CCC;
+            text-stroke: 2px #CCC;
+        }
+
+        /* Abschreibübung */
+        .copy-section {
+            margin-bottom: 25px;
+        }
+
+        .copy-word {
+            background: linear-gradient(135deg, #F5F5FF, #FFF5F5);
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            display: inline-block;
+            border: 3px solid var(--purple);
+        }
+
+        .copy-word-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .copy-sentence {
+            background: linear-gradient(135deg, #E8F5E9, #FFF8E1);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--green);
+        }
+
+        .copy-sentence-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Buchstaben-Übung */
+        .letter-practice {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .letter-box {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #FFF5F5, #F5FFFA);
+            border-radius: 15px;
+            border: 3px solid var(--blue);
+        }
+
+        .letter-large {
+            font-family: 'Comic Neue', cursive;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--blue);
+            line-height: 1;
+        }
+
+        .letter-small {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin-top: 5px;
+        }
+
+        .letter-practice-lines {
+            margin-top: 10px;
+        }
+
+        .mini-line {
+            height: 25px;
+            border-bottom: 2px solid #333;
+            position: relative;
+            margin-bottom: 3px;
+        }
+
+        .mini-line::before {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            border-bottom: 1px dashed #AAA;
+        }
+
+        .mini-line .trace-letter {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #DDD;
+            position: absolute;
+            bottom: 2px;
+            left: 5px;
+        }
+
+        /* Silben */
+        .syllable-section {
+            margin-bottom: 25px;
+        }
+
+        .syllable-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .syllable-box {
+            background: linear-gradient(135deg, #FFF9E6, #FFF0F5);
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 3px solid var(--orange);
+        }
+
+        .syllable-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Tracker */
+        .tracker-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #E8F5E9, #E3F2FD);
+            border-radius: 10px;
+        }
+
+        .tracker-header p {
+            margin: 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .item-tracker {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-end;
+            margin-top: 5px;
+        }
+
+        .check-circle {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #888;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Motivation */
+        .motivation-box {
+            background: linear-gradient(135deg, #FFF9E6, #FFF0F5);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #FFD700;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .motivation-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Malen nach Zahlen */
+        .coloring-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            border: 3px dashed var(--accent);
+            text-align: center;
+        }
+
+        .coloring-section h4 {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .coloring-section p {
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .coloring-image {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .coloring-image svg {
+            max-width: 260px;
+            height: auto;
+        }
+
+        .color-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 2px solid #333;
+        }
+
+        /* Custom SVG Upload */
+        .custom-svg-upload {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #F8F8F8;
+            border-radius: 15px;
+            border: 2px dashed #DDD;
+        }
+
+        .custom-svg-upload.visible {
+            display: block;
+        }
+
+        .upload-area {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .upload-area button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .upload-hint {
+            font-size: 0.85rem !important;
+            color: #999 !important;
+        }
+
+        .svg-preview {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .svg-preview svg {
+            max-width: 200px;
+            max-height: 150px;
+        }
+
+        .color-mapping {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .color-mapping-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .color-mapping-item input[type="color"] {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .color-mapping-item input[type="text"] {
+            width: 80px;
+            padding: 5px 8px;
+            border: 2px solid #DDD;
+            border-radius: 5px;
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .app-container > *:not(.schreibteppich-container) {
+                display: none !important;
+            }
+
+            .schreibteppich-container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-controls, .print-hint {
+                display: none !important;
+            }
+
+            #schreibteppich {
+                border: 2px dashed var(--green) !important;
+                padding: 15px;
+            }
+
+            .teppich-header {
+                margin-bottom: 15px;
+            }
+
+            .teppich-title {
+                font-size: 1.5rem !important;
+            }
+
+            .writing-line {
+                height: 50px;
+            }
+
+            .writing-line.tall {
+                height: 65px;
+            }
+
+            .trace-text {
+                font-size: 2rem !important;
+            }
+
+            .letter-practice {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 10px;
+            }
+
+            .letter-large {
+                font-size: 2.2rem !important;
+            }
+
+            .coloring-image svg {
+                max-width: 180px !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .letter-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>✏️ Schreiblernwerkstatt ✏️</h1>
+            <p>Übe Buchstaben, Wörter und Sätze zu schreiben!</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-card">
+                <h3><span>📝</span> Was möchtest du üben?</h3>
+                <div class="mode-grid">
+                    <button class="mode-btn selected" onclick="setMode('letters', this)">
+                        <span class="emoji">🔤</span>
+                        Buchstaben
+                    </button>
+                    <button class="mode-btn" onclick="setMode('syllables', this)">
+                        <span class="emoji">🧩</span>
+                        Silben
+                    </button>
+                    <button class="mode-btn" onclick="setMode('words', this)">
+                        <span class="emoji">📖</span>
+                        Wörter
+                    </button>
+                    <button class="mode-btn" onclick="setMode('sentences', this)">
+                        <span class="emoji">📝</span>
+                        Sätze
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-card" id="letterSelectionCard">
+                <h3><span>🔤</span> Buchstaben auswählen</h3>
+                <div class="quick-select">
+                    <button class="quick-btn" onclick="selectAllLetters()">Alle</button>
+                    <button class="quick-btn" onclick="selectNoLetters()">Keine</button>
+                    <button class="quick-btn" onclick="selectVowels()">Vokale</button>
+                    <button class="quick-btn" onclick="selectEasyLetters()">Einfache</button>
+                </div>
+                <div class="letter-grid" id="letterGrid"></div>
+            </div>
+
+            <div class="control-card" id="themeCard" style="display: none;">
+                <h3><span>🎨</span> Thema wählen</h3>
+                <div class="theme-grid" id="themeGrid"></div>
+            </div>
+
+            <div class="control-card">
+                <h3><span>⚙️</span> Einstellungen</h3>
+                <div class="options-row">
+                    <div class="option-group">
+                        <label>Anzahl:</label>
+                        <input type="number" id="itemCount" value="8" min="2" max="20">
+                    </div>
+                    <div class="option-group">
+                        <label>Stil:</label>
+                        <select id="traceStyle">
+                            <option value="gray">Grau (nachspuren)</option>
+                            <option value="dotted">Gepunktet</option>
+                            <option value="empty">Leer (abschreiben)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <label>Schreiblinien:</label>
+                        <select id="lineStyle">
+                            <option value="normal">Normal</option>
+                            <option value="tall">Groß (Klasse 1)</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>Zeilen pro Übung:</label>
+                        <input type="number" id="linesPerItem" value="2" min="1" max="4">
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <input type="checkbox" id="includeTracker" checked>
+                        <label for="includeTracker">Übungs-Tracker</label>
+                    </div>
+                    <div class="option-group">
+                        <label>Wie oft:</label>
+                        <input type="number" id="practiceCount" value="3" min="1" max="5">
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <input type="checkbox" id="includeMotivation" checked>
+                        <label for="includeMotivation">💪 Mutmacher-Satz</label>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <input type="checkbox" id="includeColoring" checked>
+                        <label for="includeColoring">Malen-nach-Zahlen</label>
+                    </div>
+                    <div class="option-group">
+                        <label>Motiv:</label>
+                        <select id="coloringType" onchange="toggleCustomSvg()">
+                            <option value="random">🎲 Zufällig</option>
+                            <option value="custom">📤 Eigenes SVG</option>
+                            <option value="star">⭐ Stern</option>
+                            <option value="heart">❤️ Herz</option>
+                            <option value="fish">🐟 Fisch</option>
+                            <option value="butterfly">🦋 Schmetterling</option>
+                            <option value="rocket">🚀 Rakete</option>
+                            <option value="house">🏠 Haus</option>
+                            <option value="flower">🌸 Blume</option>
+                            <option value="cat">🐱 Katze</option>
+                            <option value="car">🚗 Auto</option>
+                            <option value="sun">☀️ Sonne</option>
+                            <option value="tree">🌳 Baum</option>
+                            <option value="snail">🐌 Schnecke</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="custom-svg-upload" id="customSvgUpload">
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="svgFileInput" accept=".svg" style="display: none;">
+                        <p>📤 SVG-Datei hierher ziehen oder <button type="button" onclick="document.getElementById('svgFileInput').click()">Datei auswählen</button></p>
+                        <p class="upload-hint">Das SVG sollte Zahlen (1, 2, 3...) enthalten</p>
+                    </div>
+                    <div class="svg-preview" id="svgPreview"></div>
+                    <div class="color-mapping" id="colorMapping"></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="generate-btn" onclick="generateSchreibteppich()">
+            ✨ Schreibteppich erstellen! ✨
+        </button>
+
+        <div class="schreibteppich-container" id="outputContainer" style="display: none;">
+            <div class="print-controls">
+                <button class="print-btn primary" onclick="window.print()">
+                    🖨️ Drucken / PDF speichern
+                </button>
+                <button class="print-btn secondary" onclick="generateSchreibteppich()">
+                    🔄 Neu generieren
+                </button>
+            </div>
+            <p class="print-hint">💡 <strong>Tipp:</strong> 6-8 Übungen passen optimal auf eine A4-Seite.</p>
+            <div id="schreibteppich"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modus
+        let currentMode = 'letters';
+        
+        // Buchstaben
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const vowels = ['A', 'E', 'I', 'O', 'U'];
+        const easyLetters = ['A', 'E', 'I', 'O', 'U', 'M', 'L', 'S', 'N', 'T'];
+        let selectedLetters = new Set(easyLetters);
+
+        // Silben
+        const syllables = [
+            'ma', 'me', 'mi', 'mo', 'mu',
+            'la', 'le', 'li', 'lo', 'lu',
+            'sa', 'se', 'si', 'so', 'su',
+            'na', 'ne', 'ni', 'no', 'nu',
+            'ra', 're', 'ri', 'ro', 'ru',
+            'ta', 'te', 'ti', 'to', 'tu',
+            'pa', 'pe', 'pi', 'po', 'pu',
+            'da', 'de', 'di', 'do', 'du',
+            'ba', 'be', 'bi', 'bo', 'bu',
+            'fa', 'fe', 'fi', 'fo', 'fu',
+            'ha', 'he', 'hi', 'ho', 'hu',
+            'wa', 'we', 'wi', 'wo',
+            'au', 'ei', 'ie', 'eu', 'ch', 'sch'
+        ];
+
+        // Themen
+        const themes = [
+            { id: 'animals', name: 'Tiere', icon: '🐾' },
+            { id: 'food', name: 'Essen', icon: '🍎' },
+            { id: 'nature', name: 'Natur', icon: '🌳' },
+            { id: 'home', name: 'Zuhause', icon: '🏠' },
+            { id: 'school', name: 'Schule', icon: '📚' },
+            { id: 'motivation', name: 'Mutmacher', icon: '💪' }
+        ];
+        let selectedTheme = 'animals';
+
+        // Wortlisten (einfache, kurze Wörter zum Schreiben)
+        const wordLists = {
+            animals: ['Hund', 'Katze', 'Maus', 'Vogel', 'Fisch', 'Hase', 'Pferd', 'Kuh', 'Schaf', 'Ente', 
+                      'Bär', 'Löwe', 'Tiger', 'Affe', 'Elefant', 'Frosch', 'Igel', 'Reh', 'Fuchs', 'Wolf'],
+            food: ['Apfel', 'Birne', 'Banane', 'Brot', 'Milch', 'Käse', 'Ei', 'Saft', 'Kuchen', 'Eis',
+                   'Tomate', 'Gurke', 'Salat', 'Suppe', 'Pizza', 'Nudel', 'Reis', 'Honig', 'Butter', 'Wurst'],
+            nature: ['Baum', 'Blume', 'Gras', 'Wald', 'Berg', 'See', 'Fluss', 'Sonne', 'Mond', 'Stern',
+                     'Wolke', 'Regen', 'Wind', 'Blatt', 'Stein', 'Sand', 'Wiese', 'Teich', 'Bach', 'Feld'],
+            home: ['Tisch', 'Stuhl', 'Bett', 'Sofa', 'Lampe', 'Tür', 'Fenster', 'Küche', 'Bad', 'Zimmer',
+                   'Haus', 'Garten', 'Treppe', 'Dach', 'Wand', 'Boden', 'Schrank', 'Regal', 'Uhr', 'Bild'],
+            school: ['Heft', 'Buch', 'Stift', 'Tafel', 'Tisch', 'Stuhl', 'Mappe', 'Schere', 'Kleber', 'Pinsel',
+                     'Farbe', 'Lineal', 'Ranzen', 'Pause', 'Klasse', 'Lehrer', 'Schüler', 'Sport', 'Kunst', 'Musik'],
+            motivation: ['Mut', 'Kraft', 'Stolz', 'Freude', 'Glück', 'Liebe', 'Stern', 'Held', 'Herz', 'Traum',
+                        'Sieg', 'Freund', 'Familie', 'Lachen', 'Sonne', 'Hoffnung', 'Erfolg', 'Ziel', 'Weg', 'Start']
+        };
+
+        // Satzlisten
+        const sentenceLists = {
+            animals: ['Der Hund bellt.', 'Die Katze schläft.', 'Der Vogel singt.', 'Der Fisch schwimmt.', 
+                      'Der Hase hüpft.', 'Die Maus ist klein.', 'Das Pferd galoppiert.', 'Die Kuh gibt Milch.'],
+            food: ['Der Apfel ist rot.', 'Die Milch ist kalt.', 'Das Brot ist frisch.', 'Der Kuchen schmeckt gut.',
+                   'Die Suppe ist heiß.', 'Das Eis ist süß.', 'Die Banane ist gelb.', 'Der Saft ist lecker.'],
+            nature: ['Die Sonne scheint.', 'Der Baum ist groß.', 'Die Blume blüht.', 'Der Wind weht.',
+                     'Der Regen fällt.', 'Der Mond leuchtet.', 'Die Wolke zieht.', 'Der Berg ist hoch.'],
+            home: ['Das Haus ist schön.', 'Der Tisch ist rund.', 'Das Bett ist weich.', 'Die Lampe leuchtet.',
+                   'Die Tür ist offen.', 'Das Fenster ist groß.', 'Der Garten blüht.', 'Die Küche ist sauber.'],
+            school: ['Das Heft ist neu.', 'Der Stift schreibt.', 'Die Tafel ist grün.', 'Das Buch ist dick.',
+                     'Die Pause ist kurz.', 'Die Schule ist schön.', 'Lernen macht Spaß.', 'Ich bin fleißig.'],
+            motivation: ['Du bist toll!', 'Du schaffst das!', 'Ich bin mutig.', 'Ich bin stark.',
+                        'Ich bin klug.', 'Ich kann das!', 'Ich gebe nicht auf.', 'Ich bin super!']
+        };
+
+        // Mutmacher-Sätze
+        const motivationSentences = [
+            'Du bist toll!', 'Du schaffst das!', 'Du bist stark.', 'Du bist mutig.', 
+            'Du kannst das!', 'Glaub an dich!', 'Du bist super!', 'Fehler sind okay.',
+            'Übung macht den Meister.', 'Gib nicht auf!', 'Du bist einzigartig.', 
+            'Du bist besonders.', 'Bleib dran!', 'Du machst das prima!', 'Sei stolz auf dich!'
+        ];
+
+        // Custom SVG
+        let customSvgData = null;
+        let customColors = [];
+        const defaultColors = [
+            { color: '#FF6B6B', name: 'Rot' },
+            { color: '#FF9F43', name: 'Orange' },
+            { color: '#FFE66D', name: 'Gelb' },
+            { color: '#7BC74D', name: 'Grün' },
+            { color: '#45B7D1', name: 'Blau' },
+            { color: '#A06CD5', name: 'Lila' }
+        ];
+
+        // Malen nach Zahlen Vorlagen
+        const coloringTemplates = {
+            star: {
+                name: 'Stern',
+                svg: `<svg viewBox="0 0 200 200" width="200" height="200">
+                    <polygon points="100,10 120,75 190,75 135,115 155,180 100,145 45,180 65,115 10,75 80,75" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}]
+            },
+            heart: {
+                name: 'Herz',
+                svg: `<svg viewBox="0 0 200 200" width="200" height="200">
+                    <path d="M100,180 C60,140 10,100 10,60 C10,30 40,10 70,10 C85,10 100,25 100,25 C100,25 115,10 130,10 C160,10 190,30 190,60 C190,100 140,140 100,180 Z" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}]
+            },
+            fish: {
+                name: 'Fisch',
+                svg: `<svg viewBox="0 0 220 140" width="220" height="140">
+                    <ellipse cx="100" cy="70" rx="60" ry="40" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="160,70 200,40 200,100" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="60" cy="60" r="8" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="100" y="80" text-anchor="middle" font-size="20" font-weight="bold">1</text>
+                    <text x="180" y="75" text-anchor="middle" font-size="16" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#45B7D1', name: 'Blau'}, {num: 2, color: '#FF9F43', name: 'Orange'}]
+            },
+            butterfly: {
+                name: 'Schmetterling',
+                svg: `<svg viewBox="0 0 200 150" width="200" height="150">
+                    <ellipse cx="100" cy="75" rx="6" ry="40" fill="white" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="55" cy="55" rx="40" ry="30" fill="white" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="145" cy="55" rx="40" ry="30" fill="white" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="50" cy="105" rx="30" ry="25" fill="white" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="150" cy="105" rx="30" ry="25" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="55" y="60" text-anchor="middle" font-size="16" font-weight="bold">1</text>
+                    <text x="145" y="60" text-anchor="middle" font-size="16" font-weight="bold">1</text>
+                    <text x="50" y="110" text-anchor="middle" font-size="14" font-weight="bold">2</text>
+                    <text x="150" y="110" text-anchor="middle" font-size="14" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#A06CD5', name: 'Lila'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
+            },
+            rocket: {
+                name: 'Rakete',
+                svg: `<svg viewBox="0 0 120 200" width="120" height="200">
+                    <path d="M60,10 L90,70 L90,140 L60,160 L30,140 L30,70 Z" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="30,110 10,150 30,130" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="90,110 110,150 90,130" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="45,160 60,200 75,160" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="60" y="100" text-anchor="middle" font-size="20" font-weight="bold">1</text>
+                    <text x="60" y="180" text-anchor="middle" font-size="14" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#E0E0E0', name: 'Silber'}, {num: 2, color: '#FF6B6B', name: 'Rot'}]
+            },
+            house: {
+                name: 'Haus',
+                svg: `<svg viewBox="0 0 180 180" width="180" height="180">
+                    <rect x="30" y="80" width="120" height="90" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="90,20 170,80 10,80" fill="white" stroke="#333" stroke-width="2"/>
+                    <rect x="70" y="120" width="40" height="50" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="90" y="65" text-anchor="middle" font-size="16" font-weight="bold">1</text>
+                    <text x="90" y="115" text-anchor="middle" font-size="16" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
+            },
+            flower: {
+                name: 'Blume',
+                svg: `<svg viewBox="0 0 160 200" width="160" height="200">
+                    <rect x="70" y="120" width="20" height="70" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="80" cy="80" r="25" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="50" cy="55" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="110" cy="55" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="45" cy="95" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="115" cy="95" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="80" cy="35" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="80" y="85" text-anchor="middle" font-size="16" font-weight="bold">1</text>
+                    <text x="80" y="50" text-anchor="middle" font-size="12" font-weight="bold">2</text>
+                    <text x="80" y="160" text-anchor="middle" font-size="14" font-weight="bold">3</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}, {num: 2, color: '#FF6B6B', name: 'Rosa'}, {num: 3, color: '#7BC74D', name: 'Grün'}]
+            },
+            cat: {
+                name: 'Katze',
+                svg: `<svg viewBox="0 0 160 180" width="160" height="180">
+                    <ellipse cx="80" cy="120" rx="45" ry="50" fill="white" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="80" cy="55" rx="35" ry="30" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="50,35 35,5 55,25" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="110,35 125,5 105,25" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="80" y="65" text-anchor="middle" font-size="16" font-weight="bold">1</text>
+                    <text x="80" y="130" text-anchor="middle" font-size="18" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FF9F43', name: 'Orange'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
+            },
+            car: {
+                name: 'Auto',
+                svg: `<svg viewBox="0 0 220 130" width="220" height="130">
+                    <path d="M20,80 L20,55 L55,55 L75,30 L155,30 L180,55 L200,55 L200,80 Z" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="55" cy="90" r="18" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="165" cy="90" r="18" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="115" y="65" text-anchor="middle" font-size="18" font-weight="bold">1</text>
+                    <text x="55" y="95" text-anchor="middle" font-size="12" font-weight="bold">2</text>
+                    <text x="165" y="95" text-anchor="middle" font-size="12" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}, {num: 2, color: '#2D3436', name: 'Schwarz'}]
+            },
+            sun: {
+                name: 'Sonne',
+                svg: `<svg viewBox="0 0 180 180" width="180" height="180">
+                    <circle cx="90" cy="90" r="35" fill="white" stroke="#333" stroke-width="2"/>
+                    <line x1="90" y1="15" x2="90" y2="40" stroke="#333" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="90" y1="140" x2="90" y2="165" stroke="#333" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="15" y1="90" x2="40" y2="90" stroke="#333" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="140" y1="90" x2="165" y2="90" stroke="#333" stroke-width="6" stroke-linecap="round"/>
+                    <text x="90" y="97" text-anchor="middle" font-size="20" font-weight="bold">1</text>
+                </svg>`,
+                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}]
+            },
+            tree: {
+                name: 'Baum',
+                svg: `<svg viewBox="0 0 160 200" width="160" height="200">
+                    <rect x="65" y="130" width="30" height="60" fill="white" stroke="#333" stroke-width="2"/>
+                    <polygon points="80,10 140,70 110,70 150,120 100,120 100,130 60,130 60,120 10,120 50,70 20,70" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="80" y="90" text-anchor="middle" font-size="20" font-weight="bold">1</text>
+                    <text x="80" y="165" text-anchor="middle" font-size="16" font-weight="bold">2</text>
+                </svg>`,
+                colors: [{num: 1, color: '#7BC74D', name: 'Grün'}, {num: 2, color: '#8B4513', name: 'Braun'}]
+            },
+            snail: {
+                name: 'Schnecke',
+                svg: `<svg viewBox="0 0 200 130" width="200" height="130">
+                    <ellipse cx="80" cy="100" rx="60" ry="25" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="110" cy="60" r="35" fill="white" stroke="#333" stroke-width="2"/>
+                    <circle cx="110" cy="60" r="20" fill="white" stroke="#333" stroke-width="1"/>
+                    <ellipse cx="35" cy="90" rx="12" ry="8" fill="white" stroke="#333" stroke-width="2"/>
+                    <text x="110" y="50" text-anchor="middle" font-size="14" font-weight="bold">1</text>
+                    <text x="110" y="70" text-anchor="middle" font-size="10" font-weight="bold">2</text>
+                    <text x="80" y="105" text-anchor="middle" font-size="14" font-weight="bold">3</text>
+                </svg>`,
+                colors: [{num: 1, color: '#A06CD5', name: 'Lila'}, {num: 2, color: '#FF6B6B', name: 'Rosa'}, {num: 3, color: '#FFE66D', name: 'Gelb'}]
+            }
+        };
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', function() {
+            renderLetterGrid();
+            renderThemeGrid();
+            setupSvgUpload();
+        });
+
+        function renderLetterGrid() {
+            const grid = document.getElementById('letterGrid');
+            grid.innerHTML = '';
+            letters.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn' + (selectedLetters.has(letter) ? ' selected' : '');
+                btn.textContent = letter;
+                btn.onclick = () => toggleLetter(letter, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderThemeGrid() {
+            const grid = document.getElementById('themeGrid');
+            grid.innerHTML = '';
+            themes.forEach(theme => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (selectedTheme === theme.id ? ' selected' : '');
+                btn.innerHTML = `${theme.icon} ${theme.name}`;
+                btn.onclick = () => {
+                    selectedTheme = theme.id;
+                    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function toggleLetter(letter, btn) {
+            if (selectedLetters.has(letter)) {
+                selectedLetters.delete(letter);
+                btn.classList.remove('selected');
+            } else {
+                selectedLetters.add(letter);
+                btn.classList.add('selected');
+            }
+        }
+
+        function selectAllLetters() {
+            selectedLetters = new Set(letters);
+            renderLetterGrid();
+        }
+
+        function selectNoLetters() {
+            selectedLetters = new Set();
+            renderLetterGrid();
+        }
+
+        function selectVowels() {
+            selectedLetters = new Set(vowels);
+            renderLetterGrid();
+        }
+
+        function selectEasyLetters() {
+            selectedLetters = new Set(easyLetters);
+            renderLetterGrid();
+        }
+
+        function setMode(mode, btn) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+
+            // UI anpassen
+            const letterCard = document.getElementById('letterSelectionCard');
+            const themeCard = document.getElementById('themeCard');
+
+            if (mode === 'letters') {
+                letterCard.style.display = 'block';
+                themeCard.style.display = 'none';
+            } else if (mode === 'syllables') {
+                letterCard.style.display = 'block';
+                themeCard.style.display = 'none';
+            } else {
+                letterCard.style.display = 'none';
+                themeCard.style.display = 'block';
+            }
+        }
+
+        function toggleCustomSvg() {
+            const coloringType = document.getElementById('coloringType').value;
+            const customUpload = document.getElementById('customSvgUpload');
+            customUpload.classList.toggle('visible', coloringType === 'custom');
+        }
+
+        function setupSvgUpload() {
+            document.getElementById('svgFileInput').addEventListener('change', handleSvgUpload);
+            
+            const uploadArea = document.getElementById('uploadArea');
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = '#F0FFF0';
+            });
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'white';
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'white';
+                const file = e.dataTransfer.files[0];
+                if (file && file.type === 'image/svg+xml') {
+                    processSvgFile(file);
+                }
+            });
+        }
+
+        function handleSvgUpload(e) {
+            const file = e.target.files[0];
+            if (file) processSvgFile(file);
+        }
+
+        function processSvgFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                customSvgData = e.target.result;
+                document.getElementById('svgPreview').innerHTML = customSvgData;
+                const numbers = findNumbersInSvg(customSvgData);
+                createColorMapping(numbers);
+            };
+            reader.readAsText(file);
+        }
+
+        function findNumbersInSvg(svgContent) {
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
+            const textElements = svgDoc.querySelectorAll('text');
+            const numbers = new Set();
+            textElements.forEach(el => {
+                const text = el.textContent.trim();
+                if (/^\d+$/.test(text)) numbers.add(parseInt(text));
+            });
+            return [...numbers].sort((a, b) => a - b);
+        }
+
+        function createColorMapping(numbers) {
+            const container = document.getElementById('colorMapping');
+            container.innerHTML = '<p style="width:100%; margin-bottom:10px; font-weight:600;">🎨 Farben:</p>';
+            customColors = [];
+            numbers.forEach((num, index) => {
+                const dc = defaultColors[index % defaultColors.length];
+                customColors.push({ num, color: dc.color, name: dc.name });
+                const item = document.createElement('div');
+                item.className = 'color-mapping-item';
+                item.innerHTML = `
+                    <label>${num} =</label>
+                    <input type="color" value="${dc.color}" onchange="customColors.find(c=>c.num===${num}).color=this.value">
+                    <input type="text" value="${dc.name}" onchange="customColors.find(c=>c.num===${num}).name=this.value">
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function generateTrackerCircles(count) {
+            return Array(count).fill('<span class="check-circle"></span>').join('');
+        }
+
+        function generateSchreibteppich() {
+            const itemCount = parseInt(document.getElementById('itemCount').value);
+            const traceStyle = document.getElementById('traceStyle').value;
+            const lineStyle = document.getElementById('lineStyle').value;
+            const linesPerItem = parseInt(document.getElementById('linesPerItem').value);
+            const includeTracker = document.getElementById('includeTracker').checked;
+            const practiceCount = parseInt(document.getElementById('practiceCount').value);
+            const includeMotivation = document.getElementById('includeMotivation').checked;
+            const includeColoring = document.getElementById('includeColoring').checked;
+            const coloringType = document.getElementById('coloringType').value;
+
+            const lineClass = lineStyle === 'tall' ? 'writing-line tall' : 'writing-line';
+            const traceClass = traceStyle === 'dotted' ? 'trace-text dotted' : 'trace-text';
+
+            let html = `
+                <div class="teppich-header">
+                    <div class="teppich-title">✏️ Meine Schreibübung ✏️</div>
+                    <div class="teppich-subtitle">${getModeSubtitle()}</div>
+                </div>
+            `;
+
+            if (includeTracker) {
+                html += `
+                    <div class="tracker-header">
+                        <p>📝 Male einen Kreis aus für jede Zeile, die du geschrieben hast!</p>
+                    </div>
+                `;
+            }
+
+            // Je nach Modus unterschiedliche Inhalte generieren
+            if (currentMode === 'letters') {
+                html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+            } else if (currentMode === 'syllables') {
+                html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+            } else if (currentMode === 'words') {
+                html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+            } else if (currentMode === 'sentences') {
+                html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem);
+            }
+
+            // Mutmacher-Satz
+            if (includeMotivation) {
+                const motivSentence = motivationSentences[Math.floor(Math.random() * motivationSentences.length)];
+                html += `
+                    <div class="motivation-box">
+                        <div class="motivation-text">💪 ${motivSentence}</div>
+                    </div>
+                `;
+            }
+
+            // Malen nach Zahlen
+            if (includeColoring) {
+                html += generateColoringSection(coloringType);
+            }
+
+            document.getElementById('schreibteppich').innerHTML = html;
+            document.getElementById('outputContainer').style.display = 'block';
+            document.getElementById('outputContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getModeSubtitle() {
+            switch(currentMode) {
+                case 'letters': return 'Übe die Buchstaben zu schreiben!';
+                case 'syllables': return 'Übe die Silben zu schreiben!';
+                case 'words': return 'Schreibe die Wörter ab!';
+                case 'sentences': return 'Schreibe die Sätze ab!';
+            }
+        }
+
+        function generateLetterPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+            const selected = [...selectedLetters];
+            if (selected.length === 0) {
+                return '<p style="color:red;">Bitte wähle mindestens einen Buchstaben aus!</p>';
+            }
+
+            const shuffled = selected.sort(() => Math.random() - 0.5).slice(0, count);
+            let html = '<div class="letter-practice">';
+
+            shuffled.forEach(letter => {
+                html += `
+                    <div class="letter-box">
+                        <div class="letter-large">${letter}</div>
+                        <div class="letter-small">${letter.toLowerCase()}</div>
+                        <div class="letter-practice-lines">
+                `;
+
+                for (let i = 0; i < linesPerItem; i++) {
+                    const traceContent = style !== 'empty' ? 
+                        `<span class="${traceClass.replace('trace-text', 'trace-letter')}">${letter} ${letter.toLowerCase()}</span>` : '';
+                    html += `<div class="mini-line">${traceContent}</div>`;
+                }
+
+                if (tracker) {
+                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
+                }
+
+                html += '</div></div>';
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateSyllablePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+            // Filter Silben nach ausgewählten Buchstaben
+            const filtered = syllables.filter(syl => {
+                return [...syl.toUpperCase()].some(c => selectedLetters.has(c));
+            });
+
+            if (filtered.length === 0) {
+                return '<p style="color:red;">Keine passenden Silben gefunden. Bitte mehr Buchstaben auswählen!</p>';
+            }
+
+            const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, count);
+            let html = '<div class="syllable-section">';
+            html += '<div class="syllable-row">';
+            
+            shuffled.forEach(syl => {
+                html += `<div class="syllable-box"><span class="syllable-text">${syl}</span></div>`;
+            });
+            
+            html += '</div>';
+
+            // Schreibzeilen
+            shuffled.forEach(syl => {
+                html += '<div class="writing-line-container">';
+                for (let i = 0; i < linesPerItem; i++) {
+                    const traceContent = style !== 'empty' ? 
+                        `<span class="${traceClass}">${syl}  ${syl}  ${syl}  ${syl}</span>` : '';
+                    html += `<div class="${lineClass}">${traceContent}</div>`;
+                }
+                if (tracker) {
+                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
+                }
+                html += '</div>';
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateWordPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+            const words = wordLists[selectedTheme] || wordLists.animals;
+            const shuffled = words.sort(() => Math.random() - 0.5).slice(0, count);
+
+            let html = '<div class="copy-section">';
+
+            shuffled.forEach(word => {
+                html += `
+                    <div class="copy-word"><span class="copy-word-text">${word}</span></div>
+                    <div class="writing-line-container">
+                `;
+
+                for (let i = 0; i < linesPerItem; i++) {
+                    const traceContent = style !== 'empty' ? 
+                        `<span class="${traceClass}">${word}</span>` : '';
+                    html += `<div class="${lineClass}">${traceContent}</div>`;
+                }
+
+                if (tracker) {
+                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
+                }
+
+                html += '</div>';
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateSentencePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem) {
+            const sentences = sentenceLists[selectedTheme] || sentenceLists.animals;
+            const shuffled = sentences.sort(() => Math.random() - 0.5).slice(0, Math.min(count, 6));
+
+            let html = '<div class="copy-section">';
+
+            shuffled.forEach(sentence => {
+                html += `
+                    <div class="copy-sentence"><span class="copy-sentence-text">${sentence}</span></div>
+                    <div class="writing-line-container">
+                `;
+
+                for (let i = 0; i < linesPerItem; i++) {
+                    const traceContent = style !== 'empty' ? 
+                        `<span class="${traceClass}" style="font-size:1.5rem; letter-spacing:5px;">${sentence}</span>` : '';
+                    html += `<div class="${lineClass}">${traceContent}</div>`;
+                }
+
+                if (tracker) {
+                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
+                }
+
+                html += '</div>';
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateColoringSection(type) {
+            let svgContent, colors;
+
+            if (type === 'custom' && customSvgData) {
+                svgContent = customSvgData;
+                colors = customColors;
+            } else if (type === 'random' || (type === 'custom' && !customSvgData)) {
+                const keys = Object.keys(coloringTemplates);
+                const randomKey = keys[Math.floor(Math.random() * keys.length)];
+                svgContent = coloringTemplates[randomKey].svg;
+                colors = coloringTemplates[randomKey].colors;
+            } else {
+                svgContent = coloringTemplates[type].svg;
+                colors = coloringTemplates[type].colors;
+            }
+
+            let html = `
+                <div class="coloring-section">
+                    <h4>🎨 Super! Male das Bild aus!</h4>
+                    <p>Wenn du fertig bist, darfst du ausmalen.</p>
+                    <div class="coloring-image">${svgContent}</div>
+                    <div class="color-legend">
+            `;
+
+            colors.forEach(c => {
+                html += `
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: ${c.color}"></div>
+                        <span>${c.num} = ${c.name}</span>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
+            return html;
+        }
+    </script>
+</body>
+</html>
