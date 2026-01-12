@@ -1,11 +1,11 @@
 {
-  "name": "Lernwerkstatt",
+  "name": "Die Lernwerkstatt",
   "short_name": "Lernwerkstatt",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FFF9F0",
-  "theme_color": "#4ECDC4",
-  "orientation": "portrait-primary",
+  "background_color": "#f4f7f6",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",

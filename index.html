@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="manifest" href="manifest.json">
+
+	<meta name="theme-color" content="#2c3e50">
+	<link rel="apple-touch-icon" href="icon-192.png">
     <title>Die Lernwerkstatt - Startseite</title>
     <style>
         :root {
@@ -111,5 +115,14 @@
         <p>&copy; 2026 Talwar85 | MIT License</p>
     </footer>
 
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker registriert!', reg))
+                .catch(err => console.log('Service Worker Fehler:', err));
+        });
+    }
+</script>
 </body>
 </html>
