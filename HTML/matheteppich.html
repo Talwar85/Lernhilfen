@@ -600,6 +600,28 @@
             border-radius: 5px;
             font-family: 'Fredoka', sans-serif;
         }
+		.nav-home-btn {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: #2c3e50; /* Deine App-Farbe */
+        color: white;
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        z-index: 9999; /* Immer obenauf liegen */
+        transition: background 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .nav-home-btn:hover {
+        background-color: #27ae60; /* Dein Akzent-Grün */
+    }
 
         /* Print Styles - A4 optimiert */
         @media print {
@@ -649,7 +671,9 @@
                 margin-bottom: 15px;
                 padding-bottom: 10px;
             }
-
+			.nav-home-btn {
+            display: none !important;
+        }
             .teppich-title {
                 font-size: 1.5rem !important;
             }
@@ -775,6 +799,7 @@
     </style>
 </head>
 <body>
+	<a href="../index.html" class="nav-home-btn">🏠 Zur Startseite</a>
     <div class="app-container">
         <header>
             <h1>🔢 Mathe-Abenteuer 🔢</h1>

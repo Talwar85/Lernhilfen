@@ -1121,6 +1121,31 @@
             border-radius: 10px;
         }
 
+
+		/* Design für den Button am Bildschirm */
+    .nav-home-btn {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: #2c3e50; /* Deine App-Farbe */
+        color: white;
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        z-index: 9999; /* Immer obenauf liegen */
+        transition: background 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .nav-home-btn:hover {
+        background-color: #27ae60; /* Dein Akzent-Grün */
+    }
+	
         /* Print Styles */
         @media print {
             @page {
@@ -1152,7 +1177,9 @@
             .print-controls, .print-hint {
                 display: none !important;
             }
-
+			.nav-home-btn {
+            display: none !important;
+			}
             #worksheet {
                 border: 1px dashed #999;
                 padding: 8px;
@@ -1654,6 +1681,7 @@
     </style>
 </head>
 <body>
+	<a href="../index.html" class="nav-home-btn">🏠 Zur Startseite</a>
     <div class="app-container">
         <header>
             <h1>🧩 Kreativ- & Logikwerkstatt 🧩</h1>
