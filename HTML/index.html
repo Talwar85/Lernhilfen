@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Die Lernwerkstatt - Startseite</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #27ae60;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        header {
+            margin-bottom: 40px;
+        }
+        h1 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .card h2 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+        .card p {
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌟 Die Lernwerkstatt</h1>
+        <p class="subtitle">Wähle einen Generator aus, um individuelle Übungsblätter für Mathe, Deutsch und Logik zu erstellen.</p>
+    </header>
+
+    <div class="grid">
+        <a href="HTML/leseteppich.html" class="card">
+            <div class="icon">📖</div>
+            <h2>Lese-Abenteuer</h2>
+            <p>Erstelle Leseteppiche mit Buchstaben und Silben zur Förderung der Leseflüssigkeit.</p>
+        </a>
+
+        <a href="HTML/schreibteppich.html" class="card">
+            <div class="icon">✏️</div>
+            <h2>Schreibwerkstatt</h2>
+            <p>Arbeitsblätter zum Nachspuren und Schönschreiben in verschiedenen Lineaturen.</p>
+        </a>
+
+        <a href="HTML/matheteppich.html" class="card">
+            <div class="icon">🔢</div>
+            <h2>Mathe-Abenteuer</h2>
+            <p>Rechenaufgaben für alle Grundrechenarten individuell konfigurieren.</p>
+        </a>
+
+        <a href="HTML/logikteppich.html" class="card">
+            <div class="icon">🧩</div>
+            <h2>Logikwerkstatt</h2>
+            <p>Knifflige Rätsel, Sudokus und Konzentrationsübungen generieren.</p>
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Talwar85 | MIT License</p>
+    </footer>
+
+</body>
+</html>
