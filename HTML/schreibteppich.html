@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✏️ Schreiblernwerkstatt</title>
+    <title>Schreiblernwerkstatt</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -84,7 +84,6 @@
             font-size: 1.5rem;
         }
 
-        /* Mode Selection */
         .mode-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -119,7 +118,6 @@
             margin-bottom: 5px;
         }
 
-        /* Letter Selection */
         .letter-grid {
             display: flex;
             flex-wrap: wrap;
@@ -175,7 +173,6 @@
             color: white;
         }
 
-        /* Theme Selection */
         .theme-grid {
             display: flex;
             flex-wrap: wrap;
@@ -256,7 +253,6 @@
             box-shadow: 0 12px 35px rgba(123, 199, 77, 0.5);
         }
 
-        /* Schreibteppich Output */
         .schreibteppich-container {
             background: white;
             border-radius: 25px;
@@ -334,85 +330,96 @@
             color: #888;
         }
 
-        /* Schreiblinien - 3 Größenstufen */
+        /* ===========================================
+           HAUPT-SCHREIBLINIEN (Wörter & Sätze)
+           ===========================================
+        */
         .writing-line-container {
             margin-bottom: 20px;
         }
 
-        /* NORMAL - Schreiblinien */
         .writing-line {
             position: relative;
-            height: 50px;
-            border-bottom: 2px solid #333;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: flex-end;
-            padding-bottom: 3px;
+            /* Standardhöhe (Normal) - Ratio ca 1:1:1 */
+            height: 60px; 
+            border-bottom: 2px solid #333; /* Grundlinie */
+            margin-bottom: 10px;
+            display: block; /* Wichtig für absolute Positionierung des Textes */
         }
 
         .writing-line::before {
+            /* Mittellinie (gestrichelt) */
             content: '';
             position: absolute;
-            bottom: 16px;
+            bottom: 20px; /* 1/3 der Höhe */
             left: 0;
             right: 0;
             border-bottom: 1px dashed #AAA;
+            z-index: 1;
         }
 
         .writing-line::after {
+            /* Oberlinie (grau) */
             content: '';
             position: absolute;
-            bottom: 32px;
+            bottom: 40px; /* 2/3 der Höhe */
             left: 0;
             right: 0;
             border-bottom: 1px solid #CCC;
+            z-index: 1;
         }
 
-        /* GROSS - Schreiblinien */
+        /* Large (Groß) - 1:1:1 Ratio Skalierung */
         .writing-line.large {
-            height: 70px;
+            height: 75px;
         }
-
         .writing-line.large::before {
-            bottom: 23px;
+            bottom: 25px;
         }
-
         .writing-line.large::after {
-            bottom: 46px;
+            bottom: 50px;
         }
 
-        /* SEHR GROSS - Schreiblinien */
+        /* XLarge (Klasse 1) - Exaktes 1:1:1 Ratio */
         .writing-line.xlarge {
             height: 90px;
         }
-
         .writing-line.xlarge::before {
-            bottom: 30px;
+            bottom: 30px; /* Exakt 1/3 */
         }
-
         .writing-line.xlarge::after {
-            bottom: 60px;
+            bottom: 60px; /* Exakt 2/3 */
         }
 
-        /* Vorgeschriebener Text (zum Nachspuren) - 3 Größen */
+        /* TEXT-ANPASSUNG
+           Die Schrift "Comic Neue" schwebt oft etwas hoch. 
+           'bottom' ist negativ, um sie auf die Linie zu ziehen.
+           'line-height: 1' verhindert unerwünschte Abstände.
+        */
         .trace-text {
             font-family: 'Comic Neue', cursive;
-            font-size: 2rem;
             font-weight: 700;
             color: #DDD;
             letter-spacing: 10px;
             position: absolute;
-            bottom: 3px;
             left: 10px;
+            z-index: 2;
+            line-height: 1; 
+            
+            /* Hier wird die vertikale Ausrichtung korrigiert */
+            bottom: -0.15em; 
+            font-size: 2.5rem; /* Passend für Normal */
         }
 
         .trace-text.large {
-            font-size: 2.5rem;
+            font-size: 3.1rem; /* Passend für Large */
+            bottom: -0.15em;
             letter-spacing: 12px;
         }
 
         .trace-text.xlarge {
-            font-size: 3.2rem;
+            font-size: 3.8rem; /* Passend für XLarge (ca 60px Cap-Height) */
+            bottom: -0.12em;
             letter-spacing: 15px;
         }
 
@@ -427,12 +434,11 @@
             text-stroke: 3px #CCC;
         }
 
-        /* Abschreibübung - 3 Größen */
+        /* COPY SECTION */
         .copy-section {
             margin-bottom: 25px;
         }
 
-        /* NORMAL - Wort-Vorlage */
         .copy-word {
             background: linear-gradient(135deg, #F5F5FF, #FFF5F5);
             padding: 12px 20px;
@@ -449,26 +455,12 @@
             color: var(--text);
         }
 
-        /* GROSS - Wort-Vorlage */
-        .copy-word.large {
-            padding: 15px 25px;
-        }
+        .copy-word.large { padding: 15px 25px; }
+        .copy-word.large .copy-word-text { font-size: 2.4rem; }
 
-        .copy-word.large .copy-word-text {
-            font-size: 2.4rem;
-        }
+        .copy-word.xlarge { padding: 18px 30px; border-width: 4px; }
+        .copy-word.xlarge .copy-word-text { font-size: 3.2rem; }
 
-        /* SEHR GROSS - Wort-Vorlage */
-        .copy-word.xlarge {
-            padding: 18px 30px;
-            border-width: 4px;
-        }
-
-        .copy-word.xlarge .copy-word-text {
-            font-size: 3.2rem;
-        }
-
-        /* NORMAL - Satz-Vorlage */
         .copy-sentence {
             background: linear-gradient(135deg, #E8F5E9, #FFF8E1);
             padding: 12px 18px;
@@ -484,26 +476,13 @@
             color: var(--text);
         }
 
-        /* GROSS - Satz-Vorlage */
-        .copy-sentence.large {
-            padding: 15px 22px;
-        }
+        .copy-sentence.large { padding: 15px 22px; }
+        .copy-sentence.large .copy-sentence-text { font-size: 1.8rem; }
 
-        .copy-sentence.large .copy-sentence-text {
-            font-size: 1.8rem;
-        }
+        .copy-sentence.xlarge { padding: 18px 25px; border-left-width: 6px; }
+        .copy-sentence.xlarge .copy-sentence-text { font-size: 2.4rem; }
 
-        /* SEHR GROSS - Satz-Vorlage */
-        .copy-sentence.xlarge {
-            padding: 18px 25px;
-            border-left-width: 6px;
-        }
-
-        .copy-sentence.xlarge .copy-sentence-text {
-            font-size: 2.4rem;
-        }
-
-        /* Buchstaben-Übung - 3 Größen */
+        /* LETTER PRACTICE */
         .letter-practice {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -529,16 +508,9 @@
             border: 3px solid var(--blue);
         }
 
-        .letter-box.large {
-            padding: 20px;
-        }
+        .letter-box.large { padding: 20px; }
+        .letter-box.xlarge { padding: 25px; border-width: 4px; }
 
-        .letter-box.xlarge {
-            padding: 25px;
-            border-width: 4px;
-        }
-
-        /* NORMAL - Buchstaben */
         .letter-large {
             font-family: 'Comic Neue', cursive;
             font-size: 3rem;
@@ -555,51 +527,43 @@
             margin-top: 5px;
         }
 
-        /* GROSS - Buchstaben */
-        .letter-box.large .letter-large {
-            font-size: 4rem;
-        }
+        .letter-box.large .letter-large { font-size: 4rem; }
+        .letter-box.large .letter-small { font-size: 2.8rem; margin-top: 8px; }
 
-        .letter-box.large .letter-small {
-            font-size: 2.8rem;
-            margin-top: 8px;
-        }
-
-        /* SEHR GROSS - Buchstaben */
-        .letter-box.xlarge .letter-large {
-            font-size: 5.5rem;
-        }
-
-        .letter-box.xlarge .letter-small {
-            font-size: 3.8rem;
-            margin-top: 10px;
-        }
+        .letter-box.xlarge .letter-large { font-size: 5.5rem; }
+        .letter-box.xlarge .letter-small { font-size: 3.8rem; margin-top: 10px; }
 
         .letter-practice-lines {
             margin-top: 10px;
         }
 
-        /* NORMAL - Mini-Linien */
+        /* ===========================================
+           MINI-LINIEN (in den Buchstaben-Boxen)
+           ===========================================
+        */
         .mini-line {
-            height: 28px;
+            /* Basis Höhe */
+            height: 30px; 
             border-bottom: 2px solid #333;
             position: relative;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
         .mini-line::before {
+            /* Mitte */
             content: '';
             position: absolute;
-            bottom: 9px;
+            bottom: 10px; /* 1/3 */
             left: 0;
             right: 0;
             border-bottom: 1px dashed #AAA;
         }
 
         .mini-line::after {
+            /* Oben */
             content: '';
             position: absolute;
-            bottom: 18px;
+            bottom: 20px; /* 2/3 */
             left: 0;
             right: 0;
             border-bottom: 1px solid #DDD;
@@ -607,57 +571,45 @@
 
         .mini-line .trace-letter {
             font-family: 'Comic Neue', cursive;
-            font-size: 1.3rem;
             font-weight: 700;
             color: #DDD;
             position: absolute;
-            bottom: 1px;
             left: 5px;
             letter-spacing: 3px;
+            line-height: 1;
+            
+            /* KORREKTUR: Schrift nach unten ziehen */
+            bottom: -0.15em; 
+            font-size: 1.3rem; 
         }
 
-        /* GROSS - Mini-Linien */
         .mini-line.large {
-            height: 55px;
-            margin-bottom: 8px;
-        }
-
-        .mini-line.large::before {
-            bottom: 18px;
-        }
-
-        .mini-line.large::after {
-            bottom: 36px;
-        }
-
-        .mini-line.large .trace-letter {
-            font-size: 2.5rem;
-            letter-spacing: 10px;
-            bottom: 3px;
-        }
-
-        /* SEHR GROSS - Mini-Linien */
-        .mini-line.xlarge {
-            height: 85px;
+            height: 60px; /* 20px pro Zone */
             margin-bottom: 10px;
+        }
+        .mini-line.large::before { bottom: 20px; }
+        .mini-line.large::after { bottom: 40px; }
+        
+        .mini-line.large .trace-letter {
+            font-size: 2.6rem;
+            letter-spacing: 10px;
+            bottom: -0.12em;
+        }
+
+        .mini-line.xlarge {
+            height: 90px; /* 30px pro Zone (Wie Lineatur 1) */
+            margin-bottom: 12px;
             border-bottom-width: 3px;
         }
-
-        .mini-line.xlarge::before {
-            bottom: 28px;
-        }
-
-        .mini-line.xlarge::after {
-            bottom: 56px;
-        }
+        .mini-line.xlarge::before { bottom: 30px; }
+        .mini-line.xlarge::after { bottom: 60px; }
 
         .mini-line.xlarge .trace-letter {
-            font-size: 4rem;
+            font-size: 3.9rem;
             letter-spacing: 15px;
-            bottom: 5px;
+            bottom: -0.12em;
         }
 
-        /* Dotted Style für alle Größen */
         .mini-line .trace-letter.dotted {
             color: transparent;
             -webkit-text-stroke: 1px #CCC;
@@ -674,10 +626,8 @@
             text-stroke: 2px #CCC;
         }
 
-        /* Silben - 3 Größen */
-        .syllable-section {
-            margin-bottom: 25px;
-        }
+        /* SILBEN */
+        .syllable-section { margin-bottom: 25px; }
 
         .syllable-row {
             display: flex;
@@ -686,15 +636,9 @@
             margin-bottom: 15px;
         }
 
-        .syllable-row.large {
-            gap: 15px;
-        }
+        .syllable-row.large { gap: 15px; }
+        .syllable-row.xlarge { gap: 18px; }
 
-        .syllable-row.xlarge {
-            gap: 18px;
-        }
-
-        /* NORMAL - Silbenbox */
         .syllable-box {
             background: linear-gradient(135deg, #FFF9E6, #FFF0F5);
             padding: 10px 16px;
@@ -709,26 +653,73 @@
             color: var(--text);
         }
 
-        /* GROSS - Silbenbox */
-        .syllable-box.large {
-            padding: 14px 22px;
+        .syllable-box.large { padding: 14px 22px; }
+        .syllable-box.large .syllable-text { font-size: 2.2rem; }
+
+        .syllable-box.xlarge { padding: 18px 28px; border-width: 4px; }
+        .syllable-box.xlarge .syllable-text { font-size: 3rem; }
+
+        /* SILBENSCHWÜNGE */
+        .swing-section { margin-bottom: 25px; }
+
+        .swing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .syllable-box.large .syllable-text {
-            font-size: 2.2rem;
+        .swing-grid.large {
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 20px;
         }
 
-        /* SEHR GROSS - Silbenbox */
-        .syllable-box.xlarge {
-            padding: 18px 28px;
-            border-width: 4px;
+        .swing-grid.xlarge {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 25px;
         }
 
-        .syllable-box.xlarge .syllable-text {
-            font-size: 3rem;
+        .swing-box {
+            background: linear-gradient(135deg, #FFE6F5, #E6F0FF);
+            padding: 12px;
+            border-radius: 12px;
+            border: 3px solid var(--purple);
+            text-align: center;
         }
 
-        /* Tracker */
+        .swing-box.large { padding: 15px; }
+        .swing-box.xlarge { padding: 20px; border-width: 4px; }
+
+        .swing-label {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 8px;
+        }
+
+        .swing-box.large .swing-label { font-size: 1.8rem; margin-bottom: 10px; }
+        .swing-box.xlarge .swing-label { font-size: 2.4rem; margin-bottom: 12px; }
+
+        .swing-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .swing-box.large .swing-lines { gap: 5px; }
+        .swing-box.xlarge .swing-lines { gap: 8px; }
+
+        .swing-line {
+            height: 20px;
+            border-bottom: 2px solid #999;
+            position: relative;
+        }
+
+        .swing-box.large .swing-line { height: 30px; border-bottom-width: 2px; }
+        .swing-box.xlarge .swing-line { height: 40px; border-bottom-width: 3px; }
+
+        /* TRACKER */
         .tracker-header {
             text-align: center;
             margin-bottom: 15px;
@@ -758,7 +749,7 @@
             display: inline-block;
         }
 
-        /* Motivation */
+        /* MOTIVATION */
         .motivation-box {
             background: linear-gradient(135deg, #FFF9E6, #FFF0F5);
             padding: 20px;
@@ -775,7 +766,7 @@
             color: var(--text);
         }
 
-        /* Malen nach Zahlen */
+        /* MALEN NACH ZAHLEN */
         .coloring-section {
             margin-top: 30px;
             padding: 30px;
@@ -831,89 +822,7 @@
             border: 2px solid #333;
         }
 
-        /* Custom SVG Upload */
-        .custom-svg-upload {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: #F8F8F8;
-            border-radius: 15px;
-            border: 2px dashed #DDD;
-        }
-
-        .custom-svg-upload.visible {
-            display: block;
-        }
-
-        .upload-area {
-            text-align: center;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .upload-area p {
-            margin: 5px 0;
-            color: #666;
-        }
-
-        .upload-area button {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        .upload-hint {
-            font-size: 0.85rem !important;
-            color: #999 !important;
-        }
-
-        .svg-preview {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .svg-preview svg {
-            max-width: 200px;
-            max-height: 150px;
-        }
-
-        .color-mapping {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .color-mapping-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .color-mapping-item input[type="color"] {
-            width: 35px;
-            height: 35px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .color-mapping-item input[type="text"] {
-            width: 80px;
-            padding: 5px 8px;
-            border: 2px solid #DDD;
-            border-radius: 5px;
-        }
-
-        /* Print Styles */
+        /* PRINT */
         @media print {
             @page {
                 size: A4 portrait;
@@ -957,217 +866,39 @@
             .teppich-title {
                 font-size: 1.5rem !important;
             }
-
-            /* NORMAL - Print */
-            .writing-line {
-                height: 45px !important;
-            }
-
-            .trace-text {
-                font-size: 1.8rem !important;
-            }
-
-            /* GROSS - Print */
-            .writing-line.large {
-                height: 60px !important;
-            }
-
-            .trace-text.large {
-                font-size: 2.2rem !important;
-            }
-
-            /* SEHR GROSS - Print */
-            .writing-line.xlarge {
-                height: 75px !important;
-            }
-
-            .trace-text.xlarge {
-                font-size: 2.8rem !important;
-            }
-
-            /* Letter Practice Grid - Print */
-            .letter-practice {
-                grid-template-columns: repeat(4, 1fr) !important;
-                gap: 12px !important;
-            }
-
-            .letter-practice.large {
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 15px !important;
-            }
-
-            .letter-practice.xlarge {
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 15px !important;
-            }
-
-            /* Letter Box - Print */
-            .letter-box {
-                padding: 10px !important;
-            }
-
-            .letter-large {
-                font-size: 2.2rem !important;
-            }
-
-            .letter-small {
-                font-size: 1.5rem !important;
-            }
-
-            .letter-box.large .letter-large {
-                font-size: 2.8rem !important;
-            }
-
-            .letter-box.large .letter-small {
-                font-size: 2rem !important;
-            }
-
-            .letter-box.xlarge .letter-large {
-                font-size: 3.5rem !important;
-            }
-
-            .letter-box.xlarge .letter-small {
-                font-size: 2.5rem !important;
-            }
-
-            /* Mini Lines - Print */
-            .mini-line {
-                height: 24px !important;
-                margin-bottom: 3px !important;
-            }
-
-            .mini-line .trace-letter {
-                font-size: 1.1rem !important;
-            }
-
-            .mini-line.large {
-                height: 40px !important;
-                margin-bottom: 5px !important;
-            }
-
-            .mini-line.large .trace-letter {
-                font-size: 1.8rem !important;
-            }
-
-            .mini-line.xlarge {
-                height: 55px !important;
-                margin-bottom: 6px !important;
-            }
-
-            .mini-line.xlarge .trace-letter {
-                font-size: 2.5rem !important;
-            }
-
-            /* Silben - Print */
-            .syllable-box {
-                padding: 8px 14px !important;
-            }
-
-            .syllable-text {
-                font-size: 1.4rem !important;
-            }
-
-            .syllable-box.large .syllable-text {
-                font-size: 1.8rem !important;
-            }
-
-            .syllable-box.xlarge .syllable-text {
-                font-size: 2.2rem !important;
-            }
-
-            /* Copy Word/Sentence - Print */
-            .copy-word {
-                padding: 10px 18px !important;
-            }
-
-            .copy-word-text {
-                font-size: 1.6rem !important;
-            }
-
-            .copy-word.large .copy-word-text {
-                font-size: 2rem !important;
-            }
-
-            .copy-word.xlarge .copy-word-text {
-                font-size: 2.4rem !important;
-            }
-
-            .copy-sentence {
-                padding: 10px 15px !important;
-            }
-
-            .copy-sentence-text {
-                font-size: 1.2rem !important;
-            }
-
-            .copy-sentence.large .copy-sentence-text {
-                font-size: 1.5rem !important;
-            }
-
-            .copy-sentence.xlarge .copy-sentence-text {
-                font-size: 1.8rem !important;
-            }
-
-            /* Ausmalbild - Print */
-            .coloring-section {
-                margin-top: 20px !important;
-                padding: 15px !important;
-            }
-
-            .coloring-image svg {
-                max-width: 160px !important;
-            }
-
-            /* Motivation - Print */
-            .motivation-box {
-                margin-top: 15px !important;
-                padding: 12px !important;
-            }
-
-            .motivation-text {
-                font-size: 1.2rem !important;
-            }
         }
 
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .letter-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
+            h1 { font-size: 2rem; }
+            .letter-btn { width: 35px; height: 35px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1>✏️ Schreiblernwerkstatt ✏️</h1>
-            <p>Übe Buchstaben, Wörter und Sätze zu schreiben!</p>
+            <h1>🎨 Schreiblernwerkstatt 🎨</h1>
+            <p>Helfe mir, Buchstaben, Wörter und Sätze zu schreiben!</p>
         </header>
 
         <div class="controls">
             <div class="control-card">
-                <h3><span>📝</span> Was möchtest du üben?</h3>
+                <h3><span>🎯</span> Was möchtest du üben?</h3>
                 <div class="mode-grid">
                     <button class="mode-btn selected" onclick="setMode('letters', this)">
-                        <span class="emoji">🔤</span>
-                        Buchstaben
+                        <span class="emoji">🔤</span> Buchstaben
                     </button>
                     <button class="mode-btn" onclick="setMode('syllables', this)">
-                        <span class="emoji">🧩</span>
-                        Silben
+                        <span class="emoji">📝</span> Silben
+                    </button>
+                    <button class="mode-btn" onclick="setMode('swings', this)">
+                        <span class="emoji">〰️</span> Schwünge
                     </button>
                     <button class="mode-btn" onclick="setMode('words', this)">
-                        <span class="emoji">📖</span>
-                        Wörter
+                        <span class="emoji">✏️</span> Wörter
                     </button>
                     <button class="mode-btn" onclick="setMode('sentences', this)">
-                        <span class="emoji">📝</span>
-                        Sätze
+                        <span class="emoji">📖</span> Sätze
                     </button>
                 </div>
             </div>
@@ -1184,7 +915,7 @@
             </div>
 
             <div class="control-card" id="themeCard" style="display: none;">
-                <h3><span>🎨</span> Thema wählen</h3>
+                <h3><span>🌍</span> Thema wählen</h3>
                 <div class="theme-grid" id="themeGrid"></div>
             </div>
 
@@ -1195,14 +926,6 @@
                         <label>Anzahl:</label>
                         <input type="number" id="itemCount" value="8" min="2" max="20">
                     </div>
-                    <div class="option-group">
-                        <label>Stil:</label>
-                        <select id="traceStyle">
-                            <option value="gray">Grau (nachspuren)</option>
-                            <option value="dotted">Gepunktet</option>
-                            <option value="empty">Leer (abschreiben)</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="options-row">
                     <div class="option-group">
@@ -1210,12 +933,22 @@
                         <select id="lineStyle">
                             <option value="normal">Normal</option>
                             <option value="large">Groß</option>
-                            <option value="xlarge" selected>Sehr groß (Klasse 1)</option>
+                            <option value="xlarge" selected>Sehr groß - Klasse 1</option>
                         </select>
                     </div>
                     <div class="option-group">
                         <label>Zeilen pro Übung:</label>
                         <input type="number" id="linesPerItem" value="2" min="1" max="4">
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="option-group">
+                        <label>Stil:</label>
+                        <select id="traceStyle">
+                            <option value="gray">Grau nachspuren</option>
+                            <option value="dotted">Gepunktet</option>
+                            <option value="empty">Leer abschreiben</option>
+                        </select>
                     </div>
                 </div>
                 <div class="options-row">
@@ -1231,7 +964,7 @@
                 <div class="options-row">
                     <div class="option-group">
                         <input type="checkbox" id="includeMotivation" checked>
-                        <label for="includeMotivation">💪 Mutmacher-Satz</label>
+                        <label for="includeMotivation">Mutmacher-Satz</label>
                     </div>
                 </div>
                 <div class="options-row">
@@ -1241,294 +974,86 @@
                     </div>
                     <div class="option-group">
                         <label>Motiv:</label>
-                        <select id="coloringType" onchange="toggleCustomSvg()">
-                            <option value="random">🎲 Zufällig</option>
-                            <option value="custom">📤 Eigenes SVG</option>
-                            <option value="star">⭐ Stern</option>
-                            <option value="heart">❤️ Herz</option>
-                            <option value="fish">🐟 Fisch</option>
-                            <option value="butterfly">🦋 Schmetterling</option>
-                            <option value="rocket">🚀 Rakete</option>
-                            <option value="house">🏠 Haus</option>
-                            <option value="flower">🌸 Blume</option>
-                            <option value="cat">🐱 Katze</option>
-                            <option value="car">🚗 Auto</option>
-                            <option value="sun">☀️ Sonne</option>
-                            <option value="tree">🌳 Baum</option>
-                            <option value="snail">🐌 Schnecke</option>
+                        <select id="coloringType">
+                            <option value="random">Zufällig</option>
+                            <option value="star">Stern</option>
+                            <option value="heart">Herz</option>
+                            <option value="fish">Fisch</option>
+                            <option value="butterfly">Schmetterling</option>
+                            <option value="rocket">Rakete</option>
+                            <option value="house">Haus</option>
+                            <option value="flower">Blume</option>
+                            <option value="cat">Katze</option>
+                            <option value="car">Auto</option>
+                            <option value="sun">Sonne</option>
+                            <option value="tree">Baum</option>
+                            <option value="snail">Schnecke</option>
                         </select>
                     </div>
-                </div>
-                
-                <div class="custom-svg-upload" id="customSvgUpload">
-                    <div class="upload-area" id="uploadArea">
-                        <input type="file" id="svgFileInput" accept=".svg" style="display: none;">
-                        <p>📤 SVG-Datei hierher ziehen oder <button type="button" onclick="document.getElementById('svgFileInput').click()">Datei auswählen</button></p>
-                        <p class="upload-hint">Das SVG sollte Zahlen (1, 2, 3...) enthalten</p>
-                    </div>
-                    <div class="svg-preview" id="svgPreview"></div>
-                    <div class="color-mapping" id="colorMapping"></div>
                 </div>
             </div>
         </div>
 
-        <button class="generate-btn" onclick="generateSchreibteppich()">
-            ✨ Schreibteppich erstellen! ✨
-        </button>
+        <button class="generate-btn" onclick="generateSchreibteppich()">🎨 Schreibteppich erstellen!</button>
 
         <div class="schreibteppich-container" id="outputContainer" style="display: none;">
             <div class="print-controls">
-                <button class="print-btn primary" onclick="window.print()">
-                    🖨️ Drucken / PDF speichern
-                </button>
-                <button class="print-btn secondary" onclick="generateSchreibteppich()">
-                    🔄 Neu generieren
-                </button>
+                <button class="print-btn primary" onclick="window.print();">🖨️ Drucken / PDF speichern</button>
+                <button class="print-btn secondary" onclick="generateSchreibteppich();">🔄 Neu generieren</button>
             </div>
-            <p class="print-hint">💡 <strong>Tipp:</strong> 6-8 Übungen passen optimal auf eine A4-Seite.</p>
+            <p class="print-hint"><strong>Tipp:</strong> 6-8 Übungen passen optimal auf eine A4-Seite.</p>
             <div id="schreibteppich"></div>
         </div>
     </div>
 
     <script>
-        // Modus
         let currentMode = 'letters';
-        
-        // Buchstaben
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         const vowels = ['A', 'E', 'I', 'O', 'U'];
         const easyLetters = ['A', 'E', 'I', 'O', 'U', 'M', 'L', 'S', 'N', 'T'];
         let selectedLetters = new Set(easyLetters);
 
-        // Silben
-        const syllables = [
-            'ma', 'me', 'mi', 'mo', 'mu',
-            'la', 'le', 'li', 'lo', 'lu',
-            'sa', 'se', 'si', 'so', 'su',
-            'na', 'ne', 'ni', 'no', 'nu',
-            'ra', 're', 'ri', 'ro', 'ru',
-            'ta', 'te', 'ti', 'to', 'tu',
-            'pa', 'pe', 'pi', 'po', 'pu',
-            'da', 'de', 'di', 'do', 'du',
-            'ba', 'be', 'bi', 'bo', 'bu',
-            'fa', 'fe', 'fi', 'fo', 'fu',
-            'ha', 'he', 'hi', 'ho', 'hu',
-            'wa', 'we', 'wi', 'wo',
-            'au', 'ei', 'ie', 'eu', 'ch', 'sch'
-        ];
+        const syllables = ['ma', 'me', 'mi', 'mo', 'mu', 'la', 'le', 'li', 'lo', 'lu', 'sa', 'se', 'si', 'so', 'su', 'na', 'ne', 'ni', 'no', 'nu', 'ra', 're', 'ri', 'ro', 'ru', 'ta', 'te', 'ti', 'to', 'tu', 'pa', 'pe', 'pi', 'po', 'pu', 'da', 'de', 'di', 'do', 'du', 'ba', 'be', 'bi', 'bo', 'bu', 'fa', 'fe', 'fi', 'fo', 'fu', 'ha', 'he', 'hi', 'ho', 'hu', 'wa', 'we', 'wi', 'wo'];
+        const swings = ['〰️', '∿', '～', '≈'];
 
-        // Themen
         const themes = [
-            { id: 'animals', name: 'Tiere', icon: '🐾' },
+            { id: 'animals', name: 'Tiere', icon: '🦁' },
             { id: 'food', name: 'Essen', icon: '🍎' },
             { id: 'nature', name: 'Natur', icon: '🌳' },
             { id: 'home', name: 'Zuhause', icon: '🏠' },
-            { id: 'school', name: 'Schule', icon: '📚' },
-            { id: 'motivation', name: 'Mutmacher', icon: '💪' }
+            { id: 'school', name: 'Schule', icon: '📚' }
         ];
+
         let selectedTheme = 'animals';
 
-        // Wortlisten (einfache, kurze Wörter zum Schreiben)
         const wordLists = {
-            animals: ['Hund', 'Katze', 'Maus', 'Vogel', 'Fisch', 'Hase', 'Pferd', 'Kuh', 'Schaf', 'Ente', 
-                      'Bär', 'Löwe', 'Tiger', 'Affe', 'Elefant', 'Frosch', 'Igel', 'Reh', 'Fuchs', 'Wolf'],
-            food: ['Apfel', 'Birne', 'Banane', 'Brot', 'Milch', 'Käse', 'Ei', 'Saft', 'Kuchen', 'Eis',
-                   'Tomate', 'Gurke', 'Salat', 'Suppe', 'Pizza', 'Nudel', 'Reis', 'Honig', 'Butter', 'Wurst'],
-            nature: ['Baum', 'Blume', 'Gras', 'Wald', 'Berg', 'See', 'Fluss', 'Sonne', 'Mond', 'Stern',
-                     'Wolke', 'Regen', 'Wind', 'Blatt', 'Stein', 'Sand', 'Wiese', 'Teich', 'Bach', 'Feld'],
-            home: ['Tisch', 'Stuhl', 'Bett', 'Sofa', 'Lampe', 'Tür', 'Fenster', 'Küche', 'Bad', 'Zimmer',
-                   'Haus', 'Garten', 'Treppe', 'Dach', 'Wand', 'Boden', 'Schrank', 'Regal', 'Uhr', 'Bild'],
-            school: ['Heft', 'Buch', 'Stift', 'Tafel', 'Tisch', 'Stuhl', 'Mappe', 'Schere', 'Kleber', 'Pinsel',
-                     'Farbe', 'Lineal', 'Ranzen', 'Pause', 'Klasse', 'Lehrer', 'Schüler', 'Sport', 'Kunst', 'Musik'],
-            motivation: ['Mut', 'Kraft', 'Stolz', 'Freude', 'Glück', 'Liebe', 'Stern', 'Held', 'Herz', 'Traum',
-                        'Sieg', 'Freund', 'Familie', 'Lachen', 'Sonne', 'Hoffnung', 'Erfolg', 'Ziel', 'Weg', 'Start']
+            animals: ['Hund', 'Katze', 'Maus', 'Vogel', 'Fisch', 'Hase', 'Pferd'],
+            food: ['Apfel', 'Birne', 'Banane', 'Brot', 'Milch', 'Käse', 'Kuchen'],
+            nature: ['Baum', 'Blume', 'Gras', 'Wald', 'Berg', 'See', 'Mond'],
+            home: ['Tisch', 'Stuhl', 'Bett', 'Sofa', 'Lampe', 'Tür', 'Fenster'],
+            school: ['Heft', 'Buch', 'Stift', 'Tafel', 'Mappe', 'Pinsel', 'Farbe']
         };
 
-        // Satzlisten
         const sentenceLists = {
-            animals: ['Der Hund bellt.', 'Die Katze schläft.', 'Der Vogel singt.', 'Der Fisch schwimmt.', 
-                      'Der Hase hüpft.', 'Die Maus ist klein.', 'Das Pferd galoppiert.', 'Die Kuh gibt Milch.'],
-            food: ['Der Apfel ist rot.', 'Die Milch ist kalt.', 'Das Brot ist frisch.', 'Der Kuchen schmeckt gut.',
-                   'Die Suppe ist heiß.', 'Das Eis ist süß.', 'Die Banane ist gelb.', 'Der Saft ist lecker.'],
-            nature: ['Die Sonne scheint.', 'Der Baum ist groß.', 'Die Blume blüht.', 'Der Wind weht.',
-                     'Der Regen fällt.', 'Der Mond leuchtet.', 'Die Wolke zieht.', 'Der Berg ist hoch.'],
-            home: ['Das Haus ist schön.', 'Der Tisch ist rund.', 'Das Bett ist weich.', 'Die Lampe leuchtet.',
-                   'Die Tür ist offen.', 'Das Fenster ist groß.', 'Der Garten blüht.', 'Die Küche ist sauber.'],
-            school: ['Das Heft ist neu.', 'Der Stift schreibt.', 'Die Tafel ist grün.', 'Das Buch ist dick.',
-                     'Die Pause ist kurz.', 'Die Schule ist schön.', 'Lernen macht Spaß.', 'Ich bin fleißig.'],
-            motivation: ['Du bist toll!', 'Du schaffst das!', 'Ich bin mutig.', 'Ich bin stark.',
-                        'Ich bin klug.', 'Ich kann das!', 'Ich gebe nicht auf.', 'Ich bin super!']
+            animals: ['Der Hund bellt.', 'Die Katze schläft.', 'Der Vogel singt.', 'Der Fisch schwimmt.'],
+            food: ['Der Apfel ist rot.', 'Die Milch ist kalt.', 'Das Brot ist frisch.', 'Der Kuchen schmeckt gut.'],
+            nature: ['Die Sonne scheint.', 'Der Baum ist groß.', 'Die Blume blüht.', 'Der Mond leuchtet.'],
+            home: ['Das Haus ist schön.', 'Der Tisch ist rund.', 'Das Bett ist weich.', 'Die Lampe leuchtet.'],
+            school: ['Das Heft ist neu.', 'Der Stift schreibt.', 'Die Tafel ist grün.', 'Das Buch ist dick.']
         };
 
-        // Mutmacher-Sätze
-        const motivationSentences = [
-            'Du bist toll!', 'Du schaffst das!', 'Du bist stark.', 'Du bist mutig.', 
-            'Du kannst das!', 'Glaub an dich!', 'Du bist super!', 'Fehler sind okay.',
-            'Übung macht den Meister.', 'Gib nicht auf!', 'Du bist einzigartig.', 
-            'Du bist besonders.', 'Bleib dran!', 'Du machst das prima!', 'Sei stolz auf dich!'
-        ];
+        const motivationSentences = ['Du bist toll!', 'Du schaffst das!', 'Du bist stark.', 'Du bist mutig.', 'Glaub an dich!', 'Du bist super!'];
 
-        // Custom SVG
-        let customSvgData = null;
-        let customColors = [];
-        const defaultColors = [
-            { color: '#FF6B6B', name: 'Rot' },
-            { color: '#FF9F43', name: 'Orange' },
-            { color: '#FFE66D', name: 'Gelb' },
-            { color: '#7BC74D', name: 'Grün' },
-            { color: '#45B7D1', name: 'Blau' },
-            { color: '#A06CD5', name: 'Lila' }
-        ];
-
-        // Malen nach Zahlen Vorlagen
         const coloringTemplates = {
-            star: {
-                name: 'Stern',
-                svg: `<svg viewBox="0 0 200 200" width="200" height="200">
-                    <polygon points="100,10 120,75 190,75 135,115 155,180 100,145 45,180 65,115 10,75 80,75" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}]
-            },
-            heart: {
-                name: 'Herz',
-                svg: `<svg viewBox="0 0 200 200" width="200" height="200">
-                    <path d="M100,180 C60,140 10,100 10,60 C10,30 40,10 70,10 C85,10 100,25 100,25 C100,25 115,10 130,10 C160,10 190,30 190,60 C190,100 140,140 100,180 Z" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}]
-            },
-            fish: {
-                name: 'Fisch',
-                svg: `<svg viewBox="0 0 220 140" width="220" height="140">
-                    <ellipse cx="100" cy="70" rx="60" ry="40" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="160,70 200,40 200,100" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="60" cy="60" r="8" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="100" y="80" text-anchor="middle" font-size="20" font-weight="bold">1</text>
-                    <text x="180" y="75" text-anchor="middle" font-size="16" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#45B7D1', name: 'Blau'}, {num: 2, color: '#FF9F43', name: 'Orange'}]
-            },
-            butterfly: {
-                name: 'Schmetterling',
-                svg: `<svg viewBox="0 0 200 150" width="200" height="150">
-                    <ellipse cx="100" cy="75" rx="6" ry="40" fill="white" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="55" cy="55" rx="40" ry="30" fill="white" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="145" cy="55" rx="40" ry="30" fill="white" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="50" cy="105" rx="30" ry="25" fill="white" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="150" cy="105" rx="30" ry="25" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="55" y="60" text-anchor="middle" font-size="16" font-weight="bold">1</text>
-                    <text x="145" y="60" text-anchor="middle" font-size="16" font-weight="bold">1</text>
-                    <text x="50" y="110" text-anchor="middle" font-size="14" font-weight="bold">2</text>
-                    <text x="150" y="110" text-anchor="middle" font-size="14" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#A06CD5', name: 'Lila'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
-            },
-            rocket: {
-                name: 'Rakete',
-                svg: `<svg viewBox="0 0 120 200" width="120" height="200">
-                    <path d="M60,10 L90,70 L90,140 L60,160 L30,140 L30,70 Z" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="30,110 10,150 30,130" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="90,110 110,150 90,130" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="45,160 60,200 75,160" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="60" y="100" text-anchor="middle" font-size="20" font-weight="bold">1</text>
-                    <text x="60" y="180" text-anchor="middle" font-size="14" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#E0E0E0', name: 'Silber'}, {num: 2, color: '#FF6B6B', name: 'Rot'}]
-            },
-            house: {
-                name: 'Haus',
-                svg: `<svg viewBox="0 0 180 180" width="180" height="180">
-                    <rect x="30" y="80" width="120" height="90" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="90,20 170,80 10,80" fill="white" stroke="#333" stroke-width="2"/>
-                    <rect x="70" y="120" width="40" height="50" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="90" y="65" text-anchor="middle" font-size="16" font-weight="bold">1</text>
-                    <text x="90" y="115" text-anchor="middle" font-size="16" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
-            },
-            flower: {
-                name: 'Blume',
-                svg: `<svg viewBox="0 0 160 200" width="160" height="200">
-                    <rect x="70" y="120" width="20" height="70" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="80" cy="80" r="25" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="50" cy="55" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="110" cy="55" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="45" cy="95" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="115" cy="95" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="80" cy="35" rx="20" ry="20" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="80" y="85" text-anchor="middle" font-size="16" font-weight="bold">1</text>
-                    <text x="80" y="50" text-anchor="middle" font-size="12" font-weight="bold">2</text>
-                    <text x="80" y="160" text-anchor="middle" font-size="14" font-weight="bold">3</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}, {num: 2, color: '#FF6B6B', name: 'Rosa'}, {num: 3, color: '#7BC74D', name: 'Grün'}]
-            },
-            cat: {
-                name: 'Katze',
-                svg: `<svg viewBox="0 0 160 180" width="160" height="180">
-                    <ellipse cx="80" cy="120" rx="45" ry="50" fill="white" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="80" cy="55" rx="35" ry="30" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="50,35 35,5 55,25" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="110,35 125,5 105,25" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="80" y="65" text-anchor="middle" font-size="16" font-weight="bold">1</text>
-                    <text x="80" y="130" text-anchor="middle" font-size="18" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FF9F43', name: 'Orange'}, {num: 2, color: '#FFE66D', name: 'Gelb'}]
-            },
-            car: {
-                name: 'Auto',
-                svg: `<svg viewBox="0 0 220 130" width="220" height="130">
-                    <path d="M20,80 L20,55 L55,55 L75,30 L155,30 L180,55 L200,55 L200,80 Z" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="55" cy="90" r="18" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="165" cy="90" r="18" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="115" y="65" text-anchor="middle" font-size="18" font-weight="bold">1</text>
-                    <text x="55" y="95" text-anchor="middle" font-size="12" font-weight="bold">2</text>
-                    <text x="165" y="95" text-anchor="middle" font-size="12" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FF6B6B', name: 'Rot'}, {num: 2, color: '#2D3436', name: 'Schwarz'}]
-            },
-            sun: {
-                name: 'Sonne',
-                svg: `<svg viewBox="0 0 180 180" width="180" height="180">
-                    <circle cx="90" cy="90" r="35" fill="white" stroke="#333" stroke-width="2"/>
-                    <line x1="90" y1="15" x2="90" y2="40" stroke="#333" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="90" y1="140" x2="90" y2="165" stroke="#333" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="15" y1="90" x2="40" y2="90" stroke="#333" stroke-width="6" stroke-linecap="round"/>
-                    <line x1="140" y1="90" x2="165" y2="90" stroke="#333" stroke-width="6" stroke-linecap="round"/>
-                    <text x="90" y="97" text-anchor="middle" font-size="20" font-weight="bold">1</text>
-                </svg>`,
-                colors: [{num: 1, color: '#FFE66D', name: 'Gelb'}]
-            },
-            tree: {
-                name: 'Baum',
-                svg: `<svg viewBox="0 0 160 200" width="160" height="200">
-                    <rect x="65" y="130" width="30" height="60" fill="white" stroke="#333" stroke-width="2"/>
-                    <polygon points="80,10 140,70 110,70 150,120 100,120 100,130 60,130 60,120 10,120 50,70 20,70" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="80" y="90" text-anchor="middle" font-size="20" font-weight="bold">1</text>
-                    <text x="80" y="165" text-anchor="middle" font-size="16" font-weight="bold">2</text>
-                </svg>`,
-                colors: [{num: 1, color: '#7BC74D', name: 'Grün'}, {num: 2, color: '#8B4513', name: 'Braun'}]
-            },
-            snail: {
-                name: 'Schnecke',
-                svg: `<svg viewBox="0 0 200 130" width="200" height="130">
-                    <ellipse cx="80" cy="100" rx="60" ry="25" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="110" cy="60" r="35" fill="white" stroke="#333" stroke-width="2"/>
-                    <circle cx="110" cy="60" r="20" fill="white" stroke="#333" stroke-width="1"/>
-                    <ellipse cx="35" cy="90" rx="12" ry="8" fill="white" stroke="#333" stroke-width="2"/>
-                    <text x="110" y="50" text-anchor="middle" font-size="14" font-weight="bold">1</text>
-                    <text x="110" y="70" text-anchor="middle" font-size="10" font-weight="bold">2</text>
-                    <text x="80" y="105" text-anchor="middle" font-size="14" font-weight="bold">3</text>
-                </svg>`,
-                colors: [{num: 1, color: '#A06CD5', name: 'Lila'}, {num: 2, color: '#FF6B6B', name: 'Rosa'}, {num: 3, color: '#FFE66D', name: 'Gelb'}]
-            }
+            star: { name: 'Stern', svg: '<svg viewBox="0 0 200 200"><polygon points="100,10 120,75 190,75 135,115 155,180 100,145 45,180 65,115 10,75 80,75" fill="white" stroke="#333" stroke-width="2"/><text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text></svg>', colors: [{ num: 1, color: '#FFE66D', name: 'Gelb' }] },
+            heart: { name: 'Herz', svg: '<svg viewBox="0 0 200 200"><path d="M100,180 C60,140 10,100 10,60 C10,30 40,10 70,10 C85,10 100,25 100,25 C100,25 115,10 130,10 C160,10 190,30 190,60 C190,100 140,140 100,180 Z" fill="white" stroke="#333" stroke-width="2"/><text x="100" y="100" text-anchor="middle" font-size="24" font-weight="bold">1</text></svg>', colors: [{ num: 1, color: '#FF6B6B', name: 'Rot' }] },
+            flower: { name: 'Blume', svg: '<svg viewBox="0 0 160 200"><rect x="70" y="120" width="20" height="70" fill="white" stroke="#333" stroke-width="2"/><circle cx="80" cy="80" r="25" fill="white" stroke="#333" stroke-width="2"/><circle cx="50" cy="55" r="20" fill="white" stroke="#333" stroke-width="2"/><circle cx="110" cy="55" r="20" fill="white" stroke="#333" stroke-width="2"/><circle cx="45" cy="95" r="20" fill="white" stroke="#333" stroke-width="2"/><circle cx="115" cy="95" r="20" fill="white" stroke="#333" stroke-width="2"/><circle cx="80" cy="35" r="20" fill="white" stroke="#333" stroke-width="2"/><text x="80" y="85" text-anchor="middle" font-size="16" font-weight="bold">1</text><text x="80" y="160" text-anchor="middle" font-size="14" font-weight="bold">2</text></svg>', colors: [{ num: 1, color: '#FFE66D', name: 'Gelb' }, { num: 2, color: '#7BC74D', name: 'Grün' }] },
+            sun: { name: 'Sonne', svg: '<svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="35" fill="white" stroke="#333" stroke-width="2"/><line x1="90" y1="15" x2="90" y2="40" stroke="#333" stroke-width="6"/><line x1="90" y1="140" x2="90" y2="165" stroke="#333" stroke-width="6"/><line x1="15" y1="90" x2="40" y2="90" stroke="#333" stroke-width="6"/><line x1="140" y1="90" x2="165" y2="90" stroke="#333" stroke-width="6"/><text x="90" y="97" text-anchor="middle" font-size="20" font-weight="bold">1</text></svg>', colors: [{ num: 1, color: '#FFE66D', name: 'Gelb' }] }
         };
 
-        // Initialisierung
         document.addEventListener('DOMContentLoaded', function() {
             renderLetterGrid();
             renderThemeGrid();
-            setupSvgUpload();
         });
 
         function renderLetterGrid() {
@@ -1549,12 +1074,8 @@
             themes.forEach(theme => {
                 const btn = document.createElement('button');
                 btn.className = 'theme-btn' + (selectedTheme === theme.id ? ' selected' : '');
-                btn.innerHTML = `${theme.icon} ${theme.name}`;
-                btn.onclick = () => {
-                    selectedTheme = theme.id;
-                    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                };
+                btn.innerHTML = theme.icon + ' ' + theme.name;
+                btn.onclick = () => { selectedTheme = theme.id; renderThemeGrid(); };
                 grid.appendChild(btn);
             });
         }
@@ -1569,119 +1090,17 @@
             }
         }
 
-        function selectAllLetters() {
-            selectedLetters = new Set(letters);
-            renderLetterGrid();
-        }
-
-        function selectNoLetters() {
-            selectedLetters = new Set();
-            renderLetterGrid();
-        }
-
-        function selectVowels() {
-            selectedLetters = new Set(vowels);
-            renderLetterGrid();
-        }
-
-        function selectEasyLetters() {
-            selectedLetters = new Set(easyLetters);
-            renderLetterGrid();
-        }
+        function selectAllLetters() { selectedLetters = new Set(letters); renderLetterGrid(); }
+        function selectNoLetters() { selectedLetters = new Set(); renderLetterGrid(); }
+        function selectVowels() { selectedLetters = new Set(vowels); renderLetterGrid(); }
+        function selectEasyLetters() { selectedLetters = new Set(easyLetters); renderLetterGrid(); }
 
         function setMode(mode, btn) {
             currentMode = mode;
             document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
-
-            // UI anpassen
-            const letterCard = document.getElementById('letterSelectionCard');
-            const themeCard = document.getElementById('themeCard');
-
-            if (mode === 'letters') {
-                letterCard.style.display = 'block';
-                themeCard.style.display = 'none';
-            } else if (mode === 'syllables') {
-                letterCard.style.display = 'block';
-                themeCard.style.display = 'none';
-            } else {
-                letterCard.style.display = 'none';
-                themeCard.style.display = 'block';
-            }
-        }
-
-        function toggleCustomSvg() {
-            const coloringType = document.getElementById('coloringType').value;
-            const customUpload = document.getElementById('customSvgUpload');
-            customUpload.classList.toggle('visible', coloringType === 'custom');
-        }
-
-        function setupSvgUpload() {
-            document.getElementById('svgFileInput').addEventListener('change', handleSvgUpload);
-            
-            const uploadArea = document.getElementById('uploadArea');
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.style.background = '#F0FFF0';
-            });
-            uploadArea.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                uploadArea.style.background = 'white';
-            });
-            uploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadArea.style.background = 'white';
-                const file = e.dataTransfer.files[0];
-                if (file && file.type === 'image/svg+xml') {
-                    processSvgFile(file);
-                }
-            });
-        }
-
-        function handleSvgUpload(e) {
-            const file = e.target.files[0];
-            if (file) processSvgFile(file);
-        }
-
-        function processSvgFile(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                customSvgData = e.target.result;
-                document.getElementById('svgPreview').innerHTML = customSvgData;
-                const numbers = findNumbersInSvg(customSvgData);
-                createColorMapping(numbers);
-            };
-            reader.readAsText(file);
-        }
-
-        function findNumbersInSvg(svgContent) {
-            const parser = new DOMParser();
-            const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
-            const textElements = svgDoc.querySelectorAll('text');
-            const numbers = new Set();
-            textElements.forEach(el => {
-                const text = el.textContent.trim();
-                if (/^\d+$/.test(text)) numbers.add(parseInt(text));
-            });
-            return [...numbers].sort((a, b) => a - b);
-        }
-
-        function createColorMapping(numbers) {
-            const container = document.getElementById('colorMapping');
-            container.innerHTML = '<p style="width:100%; margin-bottom:10px; font-weight:600;">🎨 Farben:</p>';
-            customColors = [];
-            numbers.forEach((num, index) => {
-                const dc = defaultColors[index % defaultColors.length];
-                customColors.push({ num, color: dc.color, name: dc.name });
-                const item = document.createElement('div');
-                item.className = 'color-mapping-item';
-                item.innerHTML = `
-                    <label>${num} =</label>
-                    <input type="color" value="${dc.color}" onchange="customColors.find(c=>c.num===${num}).color=this.value">
-                    <input type="text" value="${dc.name}" onchange="customColors.find(c=>c.num===${num}).name=this.value">
-                `;
-                container.appendChild(item);
-            });
+            document.getElementById('letterSelectionCard').style.display = (mode === 'words' || mode === 'sentences') ? 'none' : 'block';
+            document.getElementById('themeCard').style.display = (mode === 'words' || mode === 'sentences') ? 'block' : 'none';
         }
 
         function generateTrackerCircles(count) {
@@ -1699,61 +1118,24 @@
             const includeColoring = document.getElementById('includeColoring').checked;
             const coloringType = document.getElementById('coloringType').value;
 
-            // 3 Größen: normal, large, xlarge
             let lineClass = 'writing-line';
             let sizeClass = '';
-            if (lineStyle === 'large') {
-                lineClass = 'writing-line large';
-                sizeClass = 'large';
-            } else if (lineStyle === 'xlarge') {
-                lineClass = 'writing-line xlarge';
-                sizeClass = 'xlarge';
-            }
-            
-            let traceClass = 'trace-text';
-            if (traceStyle === 'dotted') traceClass += ' dotted';
-            if (sizeClass) traceClass += ' ' + sizeClass;
+            if (lineStyle === 'large') { lineClass = 'writing-line large'; sizeClass = 'large'; }
+            else if (lineStyle === 'xlarge') { lineClass = 'writing-line xlarge'; sizeClass = 'xlarge'; }
 
-            let html = `
-                <div class="teppich-header">
-                    <div class="teppich-title">✏️ Meine Schreibübung ✏️</div>
-                    <div class="teppich-subtitle">${getModeSubtitle()}</div>
-                </div>
-            `;
+            let traceClass = 'trace-text' + (traceStyle === 'dotted' ? ' dotted' : '') + (sizeClass ? ' ' + sizeClass : '');
 
-            if (includeTracker) {
-                html += `
-                    <div class="tracker-header">
-                        <p>📝 Male einen Kreis aus für jede Zeile, die du geschrieben hast!</p>
-                    </div>
-                `;
-            }
+            let html = `<div class="teppich-header"><div class="teppich-title">📝 Meine Schreibübung 📝</div><div class="teppich-subtitle">${getModeSubtitle()}</div></div>`;
+            if (includeTracker) html += `<div class="tracker-header"><p>☑️ Male einen Kreis aus für jede Zeile, die du geschrieben hast!</p></div>`;
 
-            // Je nach Modus unterschiedliche Inhalte generieren
-            if (currentMode === 'letters') {
-                html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            } else if (currentMode === 'syllables') {
-                html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            } else if (currentMode === 'words') {
-                html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            } else if (currentMode === 'sentences') {
-                html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            }
+            if (currentMode === 'letters') html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
+            else if (currentMode === 'syllables') html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
+            else if (currentMode === 'swings') html += generateSwingPractice(itemCount, sizeClass, includeTracker, practiceCount);
+            else if (currentMode === 'words') html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
+            else if (currentMode === 'sentences') html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
 
-            // Mutmacher-Satz
-            if (includeMotivation) {
-                const motivSentence = motivationSentences[Math.floor(Math.random() * motivationSentences.length)];
-                html += `
-                    <div class="motivation-box">
-                        <div class="motivation-text">💪 ${motivSentence}</div>
-                    </div>
-                `;
-            }
-
-            // Malen nach Zahlen
-            if (includeColoring) {
-                html += generateColoringSection(coloringType);
-            }
+            if (includeMotivation) html += `<div class="motivation-box"><div class="motivation-text">👏 ${motivationSentences[Math.floor(Math.random() * motivationSentences.length)]} 👏</div></div>`;
+            if (includeColoring) html += generateColoringSection(coloringType);
 
             document.getElementById('schreibteppich').innerHTML = html;
             document.getElementById('outputContainer').style.display = 'block';
@@ -1761,200 +1143,103 @@
         }
 
         function getModeSubtitle() {
-            switch(currentMode) {
-                case 'letters': return 'Übe die Buchstaben zu schreiben!';
-                case 'syllables': return 'Übe die Silben zu schreiben!';
-                case 'words': return 'Schreibe die Wörter ab!';
-                case 'sentences': return 'Schreibe die Sätze ab!';
+            switch (currentMode) {
+                case 'letters': return '🎯 Übe die Buchstaben zu schreiben!';
+                case 'syllables': return '🎯 Übe die Silben zu schreiben!';
+                case 'swings': return '〰️ Übe die Schreibschwünge!';
+                case 'words': return '✏️ Schreibe die Wörter ab!';
+                case 'sentences': return '📖 Schreibe die Sätze ab!';
             }
         }
 
         function generateLetterPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             const selected = [...selectedLetters];
-            if (selected.length === 0) {
-                return '<p style="color:red;">Bitte wähle mindestens einen Buchstaben aus!</p>';
-            }
-
+            if (!selected.length) return '<p style="color:red">Bitte wähle Buchstaben aus!</p>';
             const shuffled = selected.sort(() => Math.random() - 0.5).slice(0, count);
             const practiceClass = sizeClass ? `letter-practice ${sizeClass}` : 'letter-practice';
             let html = `<div class="${practiceClass}">`;
-
             shuffled.forEach(letter => {
                 const boxClass = sizeClass ? `letter-box ${sizeClass}` : 'letter-box';
                 const miniLineClass = sizeClass ? `mini-line ${sizeClass}` : 'mini-line';
                 const traceLetterClass = style === 'dotted' ? 'trace-letter dotted' : 'trace-letter';
-                
-                html += `
-                    <div class="${boxClass}">
-                        <div class="letter-large">${letter}</div>
-                        <div class="letter-small">${letter.toLowerCase()}</div>
-                        <div class="letter-practice-lines">
-                `;
-
+                html += `<div class="${boxClass}"><div class="letter-large">${letter}</div><div class="letter-small">${letter.toLowerCase()}</div><div class="letter-practice-lines">`;
                 for (let i = 0; i < linesPerItem; i++) {
-                    const traceContent = style !== 'empty' ? 
-                        `<span class="${traceLetterClass}">${letter} ${letter.toLowerCase()}</span>` : '';
+                    const traceContent = style !== 'empty' ? `<span class="${traceLetterClass}">${letter} ${letter.toLowerCase()}</span>` : '';
                     html += `<div class="${miniLineClass}">${traceContent}</div>`;
                 }
-
-                if (tracker) {
-                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
-                }
-
-                html += '</div></div>';
+                html += `</div>${tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : ''}</div>`;
             });
-
-            html += '</div>';
-            return html;
+            return html + '</div>';
         }
 
         function generateSyllablePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
-            // Filter Silben nach ausgewählten Buchstaben
-            const filtered = syllables.filter(syl => {
-                return [...syl.toUpperCase()].some(c => selectedLetters.has(c));
-            });
-
-            if (filtered.length === 0) {
-                return '<p style="color:red;">Keine passenden Silben gefunden. Bitte mehr Buchstaben auswählen!</p>';
-            }
-
+            const filtered = syllables.filter(s => [...s.toUpperCase()].some(c => selectedLetters.has(c)));
+            if (!filtered.length) return '<p style="color:red">Keine Silben!</p>';
             const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, count);
             const rowClass = sizeClass ? `syllable-row ${sizeClass}` : 'syllable-row';
             const boxClass = sizeClass ? `syllable-box ${sizeClass}` : 'syllable-box';
-            
-            let html = '<div class="syllable-section">';
-            html += `<div class="${rowClass}">`;
-            
+            let html = `<div class="syllable-section"><div class="${rowClass}">`;
+            shuffled.forEach(syl => html += `<div class="${boxClass}"><span class="syllable-text">${syl}</span></div>`);
+            html += `</div><div class="writing-line-container">`;
             shuffled.forEach(syl => {
-                html += `<div class="${boxClass}"><span class="syllable-text">${syl}</span></div>`;
-            });
-            
-            html += '</div>';
-
-            // Schreibzeilen
-            shuffled.forEach(syl => {
-                html += '<div class="writing-line-container">';
                 for (let i = 0; i < linesPerItem; i++) {
-                    const traceContent = style !== 'empty' ? 
-                        `<span class="${traceClass}">${syl}  ${syl}  ${syl}  ${syl}</span>` : '';
+                    const traceContent = style !== 'empty' ? `<span class="${traceClass}">${syl}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
-                if (tracker) {
-                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
-                }
-                html += '</div>';
+                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : '';
             });
+            return html + '</div></div>';
+        }
 
-            html += '</div>';
-            return html;
+        function generateSwingPractice(count, sizeClass, tracker, trackerCount) {
+            const swingGridClass = sizeClass ? `swing-grid ${sizeClass}` : 'swing-grid';
+            let html = `<div class="swing-section"><div class="${swingGridClass}">`;
+            for (let i = 0; i < count; i++) {
+                const swingBoxClass = sizeClass ? `swing-box ${sizeClass}` : 'swing-box';
+                html += `<div class="${swingBoxClass}"><div class="swing-label">${swings[i % swings.length]}</div><div class="swing-lines"><div class="swing-line"></div><div class="swing-line"></div><div class="swing-line"></div></div>${tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : ''}</div>`;
+            }
+            return html + '</div></div>';
         }
 
         function generateWordPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             const words = wordLists[selectedTheme] || wordLists.animals;
             const shuffled = words.sort(() => Math.random() - 0.5).slice(0, count);
             const wordClass = sizeClass ? `copy-word ${sizeClass}` : 'copy-word';
-
             let html = '<div class="copy-section">';
-
             shuffled.forEach(word => {
-                html += `
-                    <div class="${wordClass}"><span class="copy-word-text">${word}</span></div>
-                    <div class="writing-line-container">
-                `;
-
+                html += `<div class="${wordClass}"><span class="copy-word-text">${word}</span></div><div class="writing-line-container">`;
                 for (let i = 0; i < linesPerItem; i++) {
-                    const traceContent = style !== 'empty' ? 
-                        `<span class="${traceClass}">${word}</span>` : '';
+                    const traceContent = style !== 'empty' ? `<span class="${traceClass}">${word}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
-
-                if (tracker) {
-                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
-                }
-
+                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : '';
                 html += '</div>';
             });
-
-            html += '</div>';
-            return html;
+            return html + '</div>';
         }
 
         function generateSentencePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
             const sentences = sentenceLists[selectedTheme] || sentenceLists.animals;
             const shuffled = sentences.sort(() => Math.random() - 0.5).slice(0, Math.min(count, 6));
             const sentenceClass = sizeClass ? `copy-sentence ${sizeClass}` : 'copy-sentence';
-            
-            // Dynamische Schriftgröße für Trace-Text bei Sätzen
-            let traceFontSize = '1.5rem';
-            let traceLetterSpacing = '5px';
-            if (sizeClass === 'large') {
-                traceFontSize = '2rem';
-                traceLetterSpacing = '8px';
-            } else if (sizeClass === 'xlarge') {
-                traceFontSize = '2.5rem';
-                traceLetterSpacing = '10px';
-            }
-
             let html = '<div class="copy-section">';
-
             shuffled.forEach(sentence => {
-                html += `
-                    <div class="${sentenceClass}"><span class="copy-sentence-text">${sentence}</span></div>
-                    <div class="writing-line-container">
-                `;
-
+                html += `<div class="${sentenceClass}"><span class="copy-sentence-text">${sentence}</span></div><div class="writing-line-container">`;
                 for (let i = 0; i < linesPerItem; i++) {
-                    const traceContent = style !== 'empty' ? 
-                        `<span class="${traceClass}" style="font-size:${traceFontSize}; letter-spacing:${traceLetterSpacing};">${sentence}</span>` : '';
+                    const traceContent = style !== 'empty' ? `<span class="${traceClass}">${sentence}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
-
-                if (tracker) {
-                    html += `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>`;
-                }
-
+                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : '';
                 html += '</div>';
             });
-
-            html += '</div>';
-            return html;
+            return html + '</div>';
         }
 
         function generateColoringSection(type) {
-            let svgContent, colors;
-
-            if (type === 'custom' && customSvgData) {
-                svgContent = customSvgData;
-                colors = customColors;
-            } else if (type === 'random' || (type === 'custom' && !customSvgData)) {
-                const keys = Object.keys(coloringTemplates);
-                const randomKey = keys[Math.floor(Math.random() * keys.length)];
-                svgContent = coloringTemplates[randomKey].svg;
-                colors = coloringTemplates[randomKey].colors;
-            } else {
-                svgContent = coloringTemplates[type].svg;
-                colors = coloringTemplates[type].colors;
-            }
-
-            let html = `
-                <div class="coloring-section">
-                    <h4>🎨 Super! Male das Bild aus!</h4>
-                    <p>Wenn du fertig bist, darfst du ausmalen.</p>
-                    <div class="coloring-image">${svgContent}</div>
-                    <div class="color-legend">
-            `;
-
-            colors.forEach(c => {
-                html += `
-                    <div class="color-item">
-                        <div class="color-swatch" style="background: ${c.color}"></div>
-                        <span>${c.num} = ${c.name}</span>
-                    </div>
-                `;
-            });
-
-            html += '</div></div>';
-            return html;
+            const template = coloringTemplates[type] || coloringTemplates.star;
+            let html = `<div class="coloring-section"><h4>🎨 Super! Male das Bild aus!</h4><div class="coloring-image">${template.svg}</div><div class="color-legend">`;
+            template.colors.forEach(c => html += `<div class="color-item"><div class="color-swatch" style="background:${c.color}"></div>${c.num} = ${c.name}</div>`);
+            return html + '</div></div>';
         }
     </script>
 </body>

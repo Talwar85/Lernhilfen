@@ -10,10 +10,10 @@ Ein Paket aus vier interaktiven Web-Tools, mit denen Eltern und Lehrkräfte in S
 
 ## 🚀 Live-Generatoren (Direkt im Browser starten)
 
-* 📖 [Lese-Abenteuer](https://Talwar85.github.io/Lernhilfen/leseteppich.html)
-* ✏️ [Schreiblernwerkstatt](https://Talwar85.github.io/Lernhilfen/schreibteppich.html)
-* 🔢 [Mathe-Abenteuer](https://Talwar85.github.io/Lernhilfen/matheteppich.html)
-* 🧩 [Logikwerkstatt](https://Talwar85.github.io/Lernhilfen/logikteppich.html)
+* 📖 [Lese-Abenteuer](https://Talwar85.github.io/Lernhilfen/HTML/leseteppich.html)
+* ✏️ [Schreiblernwerkstatt](https://Talwar85.github.io/Lernhilfen/HTML/schreibteppich.html)
+* 🔢 [Mathe-Abenteuer](https://Talwar85.github.io/Lernhilfen/HTML/matheteppich.html)
+* 🧩 [Logikwerkstatt](https://Talwar85.github.io/Lernhilfen/HTML/logikteppich.html)
 
 ---
 
