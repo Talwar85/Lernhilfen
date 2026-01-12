@@ -848,8 +848,8 @@
         /* PRINT */
         @media print {
             @page {
-                size: A4 portrait;
-                margin: 10mm;
+                size: A4 landscape;
+                margin: 5mm;
             }
 
             * {
@@ -862,9 +862,11 @@
                 padding: 0;
                 margin: 0;
             }
-			.nav-home-btn {
-            display: none !important;
-        }
+
+            .nav-home-btn {
+                display: none !important;
+            }
+
             .app-container > *:not(.schreibteppich-container) {
                 display: none !important;
             }
@@ -873,6 +875,7 @@
                 box-shadow: none;
                 padding: 0;
                 margin: 0;
+                border-radius: 0;
             }
 
             .print-controls, .print-hint {
@@ -880,16 +883,242 @@
             }
 
             #schreibteppich {
-                border: 2px dashed var(--green) !important;
-                padding: 15px;
+                border: none !important;
+                padding: 2px;
             }
 
+            /* HEADER STARK REDUZIERT */
             .teppich-header {
-                margin-bottom: 15px;
+                margin-bottom: 3px !important;
+                padding-bottom: 2px !important;
+                border-bottom: 1px dotted var(--accent) !important;
             }
 
             .teppich-title {
+                font-size: 0.9rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            .teppich-subtitle {
+                font-size: 0.75rem !important;
+                display: none !important;
+            }
+
+            .tracker-header {
+                margin-bottom: 3px !important;
+                padding: 2px 5px !important;
+                background: none !important;
+            }
+
+            .tracker-header p {
+                font-size: 0.7rem !important;
+                margin: 0 !important;
+            }
+
+            /* KRITISCH: Verhindere Seitenumbruch mitten in einer Box */
+            .letter-box {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                -webkit-column-break-inside: avoid !important;
+            }
+
+            .swing-box {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .copy-word,
+            .copy-sentence,
+            .writing-line-container {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            /* Letter-Practice Grid: 4x2 = 8 Kästen pro Seite */
+            .letter-practice {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 8px !important;
+            }
+
+            .letter-practice.large {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 8px !important;
+            }
+
+            .letter-practice.xlarge {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 6px !important;
+            }
+
+            /* Kompaktere Buchstaben-Boxen im Druck */
+            .letter-box {
+                padding: 4px !important;
+                border-width: 2px !important;
+                border-radius: 8px !important;
+            }
+
+            .letter-box.large {
+                padding: 5px !important;
+            }
+
+            .letter-box.xlarge {
+                padding: 5px !important;
+                border-width: 2px !important;
+            }
+
+            .letter-large {
+                font-size: 1.8rem !important;
+                line-height: 1 !important;
+            }
+
+            .letter-small {
+                font-size: 1.2rem !important;
+                margin-top: 1px !important;
+                line-height: 1 !important;
+            }
+
+            .letter-box.large .letter-large {
+                font-size: 2.2rem !important;
+            }
+
+            .letter-box.large .letter-small {
                 font-size: 1.5rem !important;
+            }
+
+            .letter-box.xlarge .letter-large {
+                font-size: 2.4rem !important;
+            }
+
+            .letter-box.xlarge .letter-small {
+                font-size: 1.6rem !important;
+            }
+
+            /* Mini-Linien kompakter für 8 Kästen */
+            .mini-line {
+                height: 18px !important;
+                margin-bottom: 2px !important;
+                border-bottom-width: 1.5px !important;
+            }
+
+            .mini-line::before {
+                bottom: 6px !important;
+            }
+
+            .mini-line::after {
+                bottom: 12px !important;
+            }
+
+            .mini-line .trace-letter {
+                font-size: 0.85rem !important;
+                letter-spacing: 2px !important;
+            }
+
+            .mini-line.large {
+                height: 28px !important;
+                margin-bottom: 3px !important;
+            }
+
+            .mini-line.large::before {
+                bottom: 9px !important;
+            }
+
+            .mini-line.large::after {
+                bottom: 18px !important;
+            }
+
+            .mini-line.large .trace-letter {
+                font-size: 1.3rem !important;
+                letter-spacing: 4px !important;
+            }
+
+            .mini-line.xlarge {
+                height: 38px !important;
+                margin-bottom: 3px !important;
+                border-bottom-width: 2px !important;
+            }
+
+            .mini-line.xlarge::before {
+                bottom: 12px !important;
+            }
+
+            .mini-line.xlarge::after {
+                bottom: 25px !important;
+            }
+
+            .mini-line.xlarge .trace-letter {
+                font-size: 1.7rem !important;
+                letter-spacing: 6px !important;
+            }
+
+            .letter-practice-lines {
+                margin-top: 3px !important;
+            }
+
+            /* Tracker kompakter */
+            .item-tracker {
+                margin-top: 2px !important;
+                gap: 2px !important;
+            }
+
+            .check-circle {
+                width: 10px !important;
+                height: 10px !important;
+                border-width: 1.5px !important;
+            }
+
+            /* Motivation Box */
+            .motivation-box {
+                padding: 5px !important;
+                margin-top: 5px !important;
+                break-inside: avoid !important;
+            }
+
+            .motivation-text {
+                font-size: 0.9rem !important;
+            }
+
+            /* Coloring Section im Druck */
+            .coloring-section {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                padding: 10px !important;
+                margin-top: 5px !important;
+            }
+
+            .coloring-section h4 {
+                font-size: 1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .coloring-image svg {
+                max-width: 180px !important;
+            }
+
+            .color-legend {
+                gap: 8px !important;
+                margin-top: 8px !important;
+            }
+
+            .color-item {
+                font-size: 0.85rem !important;
+            }
+
+            .color-swatch {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* Swing Grid für Querformat */
+            .swing-grid {
+                grid-template-columns: repeat(6, 1fr) !important;
+            }
+
+            .swing-grid.large {
+                grid-template-columns: repeat(5, 1fr) !important;
+            }
+
+            .swing-grid.xlarge {
+                grid-template-columns: repeat(4, 1fr) !important;
             }
         }
 
@@ -980,11 +1209,7 @@
                 <div class="options-row">
                     <div class="option-group">
                         <input type="checkbox" id="includeTracker" checked>
-                        <label for="includeTracker">Übungs-Tracker</label>
-                    </div>
-                    <div class="option-group">
-                        <label>Wie oft:</label>
-                        <input type="number" id="practiceCount" value="3" min="1" max="5">
+                        <label for="includeTracker">Übungs-Tracker (Kreise = Zeilen)</label>
                     </div>
                 </div>
                 <div class="options-row">
@@ -1027,7 +1252,7 @@
                 <button class="print-btn primary" onclick="window.print();">🖨️ Drucken / PDF speichern</button>
                 <button class="print-btn secondary" onclick="generateSchreibteppich();">🔄 Neu generieren</button>
             </div>
-            <p class="print-hint"><strong>Tipp:</strong> 6-8 Übungen passen optimal auf eine A4-Seite.</p>
+            <p class="print-hint"><strong>Tipp:</strong> Im Querformat passen 6-8 Buchstaben mit 2-3 Zeilen optimal auf eine A4-Seite. Bei größerer Schriftgröße entsprechend weniger.</p>
             <div id="schreibteppich"></div>
         </div>
     </div>
@@ -1139,7 +1364,6 @@
             const lineStyle = document.getElementById('lineStyle').value;
             const linesPerItem = parseInt(document.getElementById('linesPerItem').value);
             const includeTracker = document.getElementById('includeTracker').checked;
-            const practiceCount = parseInt(document.getElementById('practiceCount').value);
             const includeMotivation = document.getElementById('includeMotivation').checked;
             const includeColoring = document.getElementById('includeColoring').checked;
             const coloringType = document.getElementById('coloringType').value;
@@ -1154,11 +1378,11 @@
             let html = `<div class="teppich-header"><div class="teppich-title">📝 Meine Schreibübung 📝</div><div class="teppich-subtitle">${getModeSubtitle()}</div></div>`;
             if (includeTracker) html += `<div class="tracker-header"><p>☑️ Male einen Kreis aus für jede Zeile, die du geschrieben hast!</p></div>`;
 
-            if (currentMode === 'letters') html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            else if (currentMode === 'syllables') html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            else if (currentMode === 'swings') html += generateSwingPractice(itemCount, sizeClass, includeTracker, practiceCount);
-            else if (currentMode === 'words') html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
-            else if (currentMode === 'sentences') html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, practiceCount, linesPerItem, sizeClass);
+            if (currentMode === 'letters') html += generateLetterPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, linesPerItem, sizeClass);
+            else if (currentMode === 'syllables') html += generateSyllablePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, linesPerItem, sizeClass);
+            else if (currentMode === 'swings') html += generateSwingPractice(itemCount, sizeClass, includeTracker);
+            else if (currentMode === 'words') html += generateWordPractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, linesPerItem, sizeClass);
+            else if (currentMode === 'sentences') html += generateSentencePractice(itemCount, traceStyle, lineClass, traceClass, includeTracker, linesPerItem, sizeClass);
 
             if (includeMotivation) html += `<div class="motivation-box"><div class="motivation-text">👏 ${motivationSentences[Math.floor(Math.random() * motivationSentences.length)]} 👏</div></div>`;
             if (includeColoring) html += generateColoringSection(coloringType);
@@ -1178,7 +1402,7 @@
             }
         }
 
-        function generateLetterPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
+        function generateLetterPractice(count, style, lineClass, traceClass, tracker, linesPerItem, sizeClass) {
             const selected = [...selectedLetters];
             if (!selected.length) return '<p style="color:red">Bitte wähle Buchstaben aus!</p>';
             const shuffled = selected.sort(() => Math.random() - 0.5).slice(0, count);
@@ -1193,12 +1417,12 @@
                     const traceContent = style !== 'empty' ? `<span class="${traceLetterClass}">${letter} ${letter.toLowerCase()}</span>` : '';
                     html += `<div class="${miniLineClass}">${traceContent}</div>`;
                 }
-                html += `</div>${tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : ''}</div>`;
+                html += `</div>${tracker ? `<div class="item-tracker">${generateTrackerCircles(linesPerItem)}</div>` : ''}</div>`;
             });
             return html + '</div>';
         }
 
-        function generateSyllablePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
+        function generateSyllablePractice(count, style, lineClass, traceClass, tracker, linesPerItem, sizeClass) {
             const filtered = syllables.filter(s => [...s.toUpperCase()].some(c => selectedLetters.has(c)));
             if (!filtered.length) return '<p style="color:red">Keine Silben!</p>';
             const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, count);
@@ -1212,22 +1436,22 @@
                     const traceContent = style !== 'empty' ? `<span class="${traceClass}">${syl}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
-                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : '';
+                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(linesPerItem)}</div>` : '';
             });
             return html + '</div></div>';
         }
 
-        function generateSwingPractice(count, sizeClass, tracker, trackerCount) {
+        function generateSwingPractice(count, sizeClass, tracker) {
             const swingGridClass = sizeClass ? `swing-grid ${sizeClass}` : 'swing-grid';
             let html = `<div class="swing-section"><div class="${swingGridClass}">`;
             for (let i = 0; i < count; i++) {
                 const swingBoxClass = sizeClass ? `swing-box ${sizeClass}` : 'swing-box';
-                html += `<div class="${swingBoxClass}"><div class="swing-label">${swings[i % swings.length]}</div><div class="swing-lines"><div class="swing-line"></div><div class="swing-line"></div><div class="swing-line"></div></div>${tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : ''}</div>`;
+                html += `<div class="${swingBoxClass}"><div class="swing-label">${swings[i % swings.length]}</div><div class="swing-lines"><div class="swing-line"></div><div class="swing-line"></div><div class="swing-line"></div></div>${tracker ? `<div class="item-tracker">${generateTrackerCircles(3)}</div>` : ''}</div>`;
             }
             return html + '</div></div>';
         }
 
-        function generateWordPractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
+        function generateWordPractice(count, style, lineClass, traceClass, tracker, linesPerItem, sizeClass) {
             const words = wordLists[selectedTheme] || wordLists.animals;
             const shuffled = words.sort(() => Math.random() - 0.5).slice(0, count);
             const wordClass = sizeClass ? `copy-word ${sizeClass}` : 'copy-word';
@@ -1238,13 +1462,13 @@
                     const traceContent = style !== 'empty' ? `<span class="${traceClass}">${word}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
-                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : '';
+                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(linesPerItem)}</div>` : '';
                 html += '</div>';
             });
             return html + '</div>';
         }
 
-        function generateSentencePractice(count, style, lineClass, traceClass, tracker, trackerCount, linesPerItem, sizeClass) {
+        function generateSentencePractice(count, style, lineClass, traceClass, tracker, linesPerItem, sizeClass) {
             const sentences = sentenceLists[selectedTheme] || sentenceLists.animals;
             const shuffled = sentences.sort(() => Math.random() - 0.5).slice(0, Math.min(count, 6));
             const sentenceClass = sizeClass ? `copy-sentence ${sizeClass}` : 'copy-sentence';
@@ -1255,7 +1479,7 @@
                     const traceContent = style !== 'empty' ? `<span class="${traceClass}">${sentence}</span>` : '';
                     html += `<div class="${lineClass}">${traceContent}</div>`;
                 }
-                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(trackerCount)}</div>` : '';
+                html += tracker ? `<div class="item-tracker">${generateTrackerCircles(linesPerItem)}</div>` : '';
                 html += '</div>';
             });
             return html + '</div>';
